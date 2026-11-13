@@ -1,0 +1,22 @@
+{
+  "name": "novalis-comunica",
+  "version": "0.1.0",
+  "private": true,
+  "description": "App de aprendizaje sobre comunicación con los pacientes: temas con texto y audio, exámenes y profesor particular con IA.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "audio": "node scripts/generar-audio.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
+    "dompurify": "^3.4.17",
+    "express": "^5.3.0",
+    "marked": "^18.2.0"
+  }
+}

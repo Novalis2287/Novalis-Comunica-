@@ -1,0 +1,37 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { separarCabecera, textoParaNarrar, listarTemas } from "../lib/contenido.js";
+import { trocear } from "../scripts/generar-audio.mjs";
+
+test("separa la cabecera del tema", () => {
+  const { datos, cuerpo } = separarCabecera("---\ntitulo: Tema: uno\nresumen: Hola\n---\n\n## Texto\n");
+  assert.equal(datos.titulo, "Tema: uno");
+  assert.equal(datos.resumen, "Hola");
+  assert.equal(cuerpo.trim(), "## Texto");
+});
+
+test("el texto narrado no lleva marcas de formato", () => {
+  const t = textoParaNarrar("## Título\n\n- **Uno.** Texto con [enlace](http://x).\n- Dos\n\n> Cita");
+  assert.equal(t, "Título.\n\nUno. Texto con enlace.\nDos\n\nCita");
+});
+
+test("trocea sin perder texto ni pasarse del máximo", () => {
+  const texto = Array.from({ length: 30 }, (_, i) => `Párrafo ${i}. ${"Frase de relleno. ".repeat(12)}`.trim()).join("\n\n");
+  const trozos = trocear(texto, 800);
+  assert.ok(trozos.length > 1);
+  assert.ok(trozos.every((t) => t.length <= 800));
+  assert.equal(trozos.join("\n\n").replace(/\s+/g, " "), texto.replace(/\s+/g, " "));
+});
+
+test("los exámenes de todos los temas están bien formados", () => {
+  for (const tema of listarTemas()) {
+    for (const p of tema.preguntas) {
+      assert.ok(p.enunciado, `${tema.id}: pregunta sin enunciado`);
+      if (p.tipo === "test") {
+        assert.ok(Number.isInteger(p.correcta) && p.correcta >= 0 && p.correcta < p.opciones.length, `${tema.id}: respuesta correcta fuera de rango`);
+      } else {
+        assert.equal(p.tipo, "desarrollo", `${tema.id}: tipo de pregunta desconocido`);
+      }
+    }
+  }
+});

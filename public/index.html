@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Novalis Comunica</title>
+<meta name="theme-color" content="#0e4f57">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<header class="cabecera">
+  <div class="ancho cabecera-int">
+    <a class="marca" href="#/">Novalis <span>Comunica</span></a>
+    <nav aria-label="Secciones">
+      <a href="#/" data-nav="temas">Temas</a>
+      <a href="#/profesor" data-nav="profesor">Profesor</a>
+    </nav>
+  </div>
+</header>
+<main id="vista" class="ancho" tabindex="-1"></main>
+
+<dialog id="dialogo-codigo">
+  <form method="dialog" id="form-codigo">
+    <h2>Código de acceso</h2>
+    <p>Esta app está protegida. Escribe el código para usar el profesor con IA.</p>
+    <input id="campo-codigo" type="password" autocomplete="current-password" required aria-label="Código de acceso">
+    <div class="fila">
+      <button type="button" class="boton secundario" id="cancelar-codigo">Cancelar</button>
+      <button class="boton">Entrar</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="vendor/marked.js"></script>
+<script src="vendor/purify.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
