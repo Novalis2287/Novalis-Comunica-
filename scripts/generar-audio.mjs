@@ -5,11 +5,15 @@
 //   npm run audio -- 01-tema   -> solo ese tema
 //   npm run audio -- --forzar  -> regenera aunque el texto no haya cambiado
 //
-// Proveedor por defecto: ElevenLabs (voz masculina de España, elegida con
-// ELEVENLABS_VOICE_ID). Alternativa: Azure Speech (es-ES-AlvaroNeural).
+// Proveedores (TTS_PROVEEDOR):
+//   piper       gratuito y local; necesita `pip install piper-tts`, ffmpeg y un
+//               modelo de voz .onnx en PIPER_MODELO
+//   elevenlabs  voz elegida con ELEVENLABS_VOICE_ID (por defecto)
+//   azure       Azure Speech, voz es-ES-AlvaroNeural
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { listarTemas, textoParaNarrar } from "../lib/contenido.js";
 
@@ -53,7 +57,48 @@ async function pedir(url, opciones) {
   }
 }
 
+// Ejecuta una orden pasándole datos por la entrada y devuelve su salida.
+function ejecutar(orden, args, entrada) {
+  return new Promise((resolver, rechazar) => {
+    const proceso = spawn(orden, args, { stdio: ["pipe", "pipe", "pipe"] });
+    const salida = [];
+    let errores = "";
+    proceso.stdout.on("data", (d) => salida.push(d));
+    proceso.stderr.on("data", (d) => (errores += d));
+    proceso.on("error", (e) => rechazar(new Error(`No se pudo ejecutar ${orden}: ${e.message}`)));
+    proceso.on("close", (codigo) =>
+      codigo === 0 ? resolver(Buffer.concat(salida)) : rechazar(new Error(`${orden} terminó con error: ${errores.slice(-300)}`)),
+    );
+    proceso.stdin.on("error", () => {});
+    proceso.stdin.end(entrada);
+  });
+}
+
 const proveedores = {
+  piper: {
+    firma: () => `piper:${path.basename(process.env.PIPER_MODELO || "")}:${process.env.PIPER_HABLANTE || 0}:${process.env.PIPER_RITMO || "1.05"}`,
+    comprobar() {
+      if (!process.env.PIPER_MODELO || !fs.existsSync(process.env.PIPER_MODELO)) {
+        throw new Error("Falta PIPER_MODELO (ruta al archivo .onnx de la voz).");
+      }
+    },
+    // Piper lee un párrafo por línea y devuelve audio sin comprimir; ffmpeg lo pasa a mp3.
+    async sintetizarTodo(texto) {
+      const modelo = process.env.PIPER_MODELO;
+      const config = JSON.parse(fs.readFileSync(`${modelo}.json`, "utf8"));
+      const lineas = texto.split(/\n+/).map((l) => l.trim()).filter(Boolean).join("\n") + "\n";
+      const pcm = await ejecutar(process.env.PIPER_PYTHON || "python3", [
+        "-m", "piper", "-m", modelo, "--output-raw",
+        "-s", String(process.env.PIPER_HABLANTE || 0),
+        "--length-scale", process.env.PIPER_RITMO || "1.05",
+        "--sentence-silence", "0.45",
+      ], lineas);
+      return ejecutar("ffmpeg", [
+        "-loglevel", "error", "-f", "s16le", "-ar", String(config.audio.sample_rate), "-ac", "1", "-i", "-",
+        "-codec:a", "libmp3lame", "-b:a", "64k", "-f", "mp3", "-",
+      ], pcm);
+    },
+  },
   elevenlabs: {
     firma: () => `elevenlabs:${process.env.ELEVENLABS_VOICE_ID}:${process.env.ELEVENLABS_MODEL || "eleven_multilingual_v2"}`,
     comprobar() {
@@ -121,12 +166,17 @@ async function principal() {
       console.log(`= ${tema.id}: audio al día`);
       continue;
     }
-    const trozos = trocear(texto);
-    console.log(`> ${tema.id}: ${texto.length} caracteres en ${trozos.length} trozo(s)`);
     const partes = [];
-    for (let i = 0; i < trozos.length; i++) {
-      partes.push(await proveedor.sintetizar(trozos[i], trozos[i - 1]?.slice(-300), trozos[i + 1]?.slice(0, 300)));
-      console.log(`  trozo ${i + 1}/${trozos.length}`);
+    if (proveedor.sintetizarTodo) {
+      console.log(`> ${tema.id}: ${texto.length} caracteres`);
+      partes.push(await proveedor.sintetizarTodo(texto));
+    } else {
+      const trozos = trocear(texto);
+      console.log(`> ${tema.id}: ${texto.length} caracteres en ${trozos.length} trozo(s)`);
+      for (let i = 0; i < trozos.length; i++) {
+        partes.push(await proveedor.sintetizar(trozos[i], trozos[i - 1]?.slice(-300), trozos[i + 1]?.slice(0, 300)));
+        console.log(`  trozo ${i + 1}/${trozos.length}`);
+      }
     }
     fs.writeFileSync(path.join(tema.dir, "audio.mp3"), Buffer.concat(partes));
     fs.writeFileSync(rutaHuella, huella + "\n");
