@@ -33,6 +33,7 @@ css = css.replace(".cabecera { ", ".cabecera { top: env(safe-area-inset-top, 0px
 
 const app = fs
   .readFileSync(path.join(raiz, "public/app.js"), "utf8")
+  .replace(/^import \{ observarProfesor[^\n]+\n/m, "")
   .replace(/import \{ iniciarCuenta \} from "\.\/cuenta\.js";\r?\nwindow\.novalisAutorizado = await iniciarCuenta\(\);/, 'window.novalisAutorizado = true; document.body.classList.remove("sin-sesion");')
   .replace("src: `/api/temas/${tema.id}/audio`", "src: `audio/${tema.id}.mp3`");
 
