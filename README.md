@@ -47,6 +47,12 @@ La versión web exige registro con correo y contraseña, confirmación del corre
 inicio de sesión. Los contenidos y audios también comprueban la sesión en el
 servidor. La recuperación de contraseña se solicita desde la pantalla de acceso.
 
+En **Ajustes → Usuarios y permisos**, el administrador autoriza previamente los
+correos que pueden registrarse. El alta se comprueba también en el trigger de
+Supabase, por lo que no se puede eludir usando directamente la API. Se puede
+retirar una autorización pendiente; las cuentas ya creadas se bloquean con
+**Desactivar acceso**. Autorizar un correo no envía una invitación automáticamente.
+
 El administrador ve las cuentas y puede activar o desactivar usuarios. Los roles
 no se leen de metadatos editables. El correo reservado para el administrador se
 configura en `private.ajustes_acceso`, nunca en el código público. El registro
@@ -62,6 +68,10 @@ update private.ajustes_acceso set email_admin = lower('correo-del-administrador'
 -- Si la cuenta ya existía, asigna el rol a ese perfil concreto:
 update public.perfiles set rol = 'admin' where email = (select email_admin from private.ajustes_acceso where unico);
 ```
+
+Después ejecuta `supabase/migrations/20261114161915_correos_autorizados.sql` para
+exigir autorización previa a cada nuevo registro. El correo reservado para el
+administrador puede crear la cuenta inicial sin autorización de otra persona.
 
 El servicio usa las variables configuradas en Render. `render.yaml` queda como
 plantilla para despliegues nuevos; el servicio actual se creó desde el panel.

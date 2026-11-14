@@ -71,6 +71,34 @@ app.get("/api/admin/usuarios", exigirAdministrador, async (req, res) => {
   if (error) return res.status(503).json({ error: "No se pudieron cargar los usuarios." });
   res.json({ usuarios: data, total: count, pagina });
 });
+app.get("/api/admin/correos", exigirAdministrador, async (req, res) => {
+  const pagina = Math.max(0, Math.min(10000, Number.parseInt(req.query.pagina, 10) || 0));
+  const { data, count, error } = await req.cuenta.cliente.from("correos_autorizados")
+    .select("email,autorizado_el", { count: "exact" }).order("autorizado_el", { ascending: false }).range(pagina * 50, pagina * 50 + 49);
+  if (error) return res.status(503).json({ error: "No se pudieron cargar los correos autorizados." });
+  const registrados = data.length ? await req.cuenta.cliente.from("perfiles").select("email").in("email", data.map((x) => x.email)) : { data: [] };
+  if (registrados.error) return res.status(503).json({ error: "No se pudieron comprobar los registros." });
+  const emails = new Set(registrados.data.map((x) => x.email));
+  res.json({ correos: data.map((x) => ({ ...x, registrado: emails.has(x.email) })), total: count, pagina });
+});
+app.post("/api/admin/correos", exigirAdministrador, async (req, res) => {
+  const email = typeof req.body?.email === "string" ? req.body.email.trim().toLowerCase() : "";
+  if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: "Escribe un correo electrónico válido." });
+  const { error } = await req.cuenta.cliente.from("correos_autorizados").insert({ email, autorizado_por: req.cuenta.perfil.id });
+  if (error?.code === "23505") return res.status(409).json({ error: "Este correo ya está autorizado." });
+  if (error) return res.status(503).json({ error: "No se pudo autorizar este correo." });
+  res.status(201).json({ email });
+});
+app.delete("/api/admin/correos/:email", exigirAdministrador, async (req, res) => {
+  const email = req.params.email.trim().toLowerCase();
+  const registrado = await req.cuenta.cliente.from("perfiles").select("id").eq("email", email).limit(1);
+  if (registrado.error) return res.status(503).json({ error: "No se pudo comprobar este correo." });
+  if (registrado.data.length) return res.status(409).json({ error: "Esta cuenta ya está creada. Usa «Desactivar acceso» para bloquearla." });
+  const { data, error } = await req.cuenta.cliente.from("correos_autorizados").delete().eq("email", email).select("email");
+  if (error) return res.status(503).json({ error: "No se pudo retirar la autorización." });
+  if (!data.length) return res.status(404).json({ error: "Correo no encontrado." });
+  res.json({ email });
+});
 app.patch("/api/admin/usuarios/:id", exigirAdministrador, async (req, res) => {
   if (!/^[0-9a-f-]{36}$/i.test(req.params.id) || typeof req.body?.activo !== "boolean") return res.status(400).json({ error: "Datos no válidos." });
   if (req.params.id === req.cuenta.perfil.id) return res.status(400).json({ error: "No puedes desactivar tu propia cuenta." });
