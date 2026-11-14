@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 // Genera una versión de la app en una sola página, sin servidor: temas, audios
-// y exámenes tipo test. El profesor con IA no está disponible en ella.
+// exámenes, flujo de visita y seguimiento. Publicada como página de Claude,
+// el profesor usa la cuenta de quien la abre y los datos se guardan en su base de datos.
 //
 //   node scripts/exportar-pagina.mjs <carpeta-de-salida>
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { listarTemas, temaComoHtml, listarFuentes, obtenerFlujo } from "../lib/contenido.js";
+import { INSTRUCCIONES } from "../lib/tutor.js";
 
 const raiz = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const salida = path.resolve(process.argv[2] || "pagina");
@@ -16,7 +18,7 @@ const temas = listarTemas().map((t) => {
   if (t.tieneAudio) fs.copyFileSync(path.join(t.dir, "audio.mp3"), path.join(salida, "audio", `${t.id}.mp3`));
   return {
     id: t.id, titulo: t.titulo, resumen: t.resumen, ejemplo: t.ejemplo, tieneAudio: t.tieneAudio,
-    numPreguntas: t.preguntas.length, html: temaComoHtml(t), preguntas: t.preguntas,
+    numPreguntas: t.preguntas.length, html: temaComoHtml(t), preguntas: t.preguntas, texto: t.markdown,
   };
 });
 const datos = { temas, fuentes: listarFuentes().map((f) => f.nombre), flujo: obtenerFlujo() };
@@ -31,18 +33,13 @@ const app = fs
   .readFileSync(path.join(raiz, "public/app.js"), "utf8")
   .replace("src: `/api/temas/${tema.id}/audio`", "src: `audio/${tema.id}.mp3`");
 
-// Sustituye las llamadas al servidor por los datos incluidos en la página.
-const sinServidor = `
-const DATOS = ${JSON.stringify(datos).replace(/</g, "\\u003c")};
-const responder = (cuerpo, estado = 200) => new Response(JSON.stringify(cuerpo), { status: estado, headers: { "Content-Type": "application/json" } });
-window.fetch = async (ruta) => {
-  if (ruta === "/api/estado") return responder({ tutor: false, pideCodigo: false, fuentes: DATOS.fuentes });
-  if (ruta === "/api/flujo") return responder(DATOS.flujo);
-  if (ruta === "/api/temas") return responder(DATOS.temas.map(({ html, preguntas, ...resto }) => resto));
-  const tema = DATOS.temas.find((t) => ruta === "/api/temas/" + t.id);
-  if (tema) return responder(tema);
-  return responder({ error: "El profesor con IA no está disponible en esta versión de prueba." }, 503);
-};`;
+// El profesor y el guardado en la nube usan las capacidades de la página (ver pagina-sin-servidor.js).
+const progreso = fs.readFileSync(path.join(raiz, "lib/progreso.js"), "utf8").replace(/^export /gm, "");
+const sinServidor = fs
+  .readFileSync(path.join(raiz, "scripts/pagina-sin-servidor.js"), "utf8")
+  .replace("__DATOS__", () => JSON.stringify(datos).replace(/</g, "\\u003c"))
+  .replace("__INSTRUCCIONES__", () => JSON.stringify(INSTRUCCIONES).replace(/</g, "\\u003c"))
+  .replace("__PROGRESO__", () => progreso);
 
 const cuerpo = fs.readFileSync(path.join(raiz, "public/index.html"), "utf8").match(/<body>([\s\S]*?)<script/)[1];
 const pagina = `<title>Novalis Comunica</title>
@@ -57,6 +54,8 @@ ${cuerpo}
 <script>
 (() => {
 ${sinServidor}
+})();
+(() => {
 ${app}
 })();
 </script>

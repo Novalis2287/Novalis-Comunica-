@@ -65,6 +65,18 @@ Es un servidor Node sin paso de compilación: sirve en cualquier alojamiento que
 ejecute `npm start` (Render, Railway, Fly.io…). Define allí las variables de
 `.env.example` y pon un `CODIGO_ACCESO` para que solo tú puedas usar el profesor.
 
+## Versión como página de Claude
+
+`node scripts/exportar-pagina.mjs <carpeta>` genera la app en una sola página,
+sin servidor, para publicarla como artefacto privado de Claude con las
+capacidades `sample`, `db` y `user`. En esa versión:
+
+- El profesor responde con la cuenta de Claude de quien abre la página; no hace
+  falta clave de API ni alojamiento.
+- Las visitas, las notas de examen y la valoración se guardan en la carpeta
+  privada del usuario en la base de datos de la página, y se ven en todos sus
+  dispositivos.
+
 ## Pruebas
 
 ```bash

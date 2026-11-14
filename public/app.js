@@ -32,6 +32,8 @@ const almacen = {
     } catch {
       /* sin almacenamiento: la app sigue funcionando */
     }
+    // Permite que la versión de una sola página copie el dato a su base de datos.
+    window.dispatchEvent(new CustomEvent("novalis:guardado", { detail: { clave, valor } }));
   },
 };
 
@@ -44,7 +46,11 @@ function barajar(lista) {
 }
 
 function markdownSeguro(texto) {
-  return DOMPurify.sanitize(marked.parse(texto));
+  if (window.marked && window.DOMPurify) return DOMPurify.sanitize(marked.parse(texto));
+  // Sin las librerías de formato se muestra el texto tal cual, escapado.
+  const caja = document.createElement("div");
+  caja.textContent = texto;
+  return caja.innerHTML.replace(/\n/g, "<br>");
 }
 
 // Pide el código de acceso cuando el servidor lo exige.
@@ -780,4 +786,5 @@ async function pintar() {
 }
 
 window.addEventListener("hashchange", pintar);
+window.addEventListener("novalis:sincronizado", pintar);
 pintar();
