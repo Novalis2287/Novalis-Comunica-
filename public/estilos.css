@@ -216,11 +216,11 @@ a.chip { text-decoration: none; }
 }
 .ancho { max-width: 1080px; padding-inline: max(24px, env(safe-area-inset-left, 0px)); }
 .cabecera { background: #058bc0; border: 0; box-shadow: 0 3px 18px #12445b15; }
-.cabecera-int { min-height: 106px; padding-block: 6px; }
+.cabecera-int { max-width: none; margin-inline: 0; padding-inline: max(12px, env(safe-area-inset-left, 0px)); min-height: 106px; padding-block: 6px; }
 .marca { display: flex; gap: 16px; align-items: center; color: white; }
-.logo-novalis { display: block; width: 120px; height: 62px; overflow: hidden; position: relative; }
-.logo-novalis img { position: absolute; width: 194px; max-width: none; height: auto; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-.marca .marca-producto { color: white; font-size: 0.9rem; font-weight: 800; letter-spacing: 0.14em; border-left: 1px solid #ffffff66; padding-left: 18px; }
+.logo-novalis { display: block; width: 84px; height: 43.4px; overflow: hidden; position: relative; }
+.logo-novalis img { position: absolute; width: 135.8px; max-width: none; height: auto; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.marca .marca-producto { color: white; font-size: 1.08rem; font-weight: 800; letter-spacing: 0.14em; border-left: 1px solid #ffffff66; padding-left: 18px; }
 .marca-producto span { display: block; color: #e0f6ff; font-size: 0.66rem; font-weight: 500; letter-spacing: 0; margin-top: 5px; }
 .cabecera nav a { color: #fff; min-height: 44px; display: flex; align-items: center; font-size: 0.88rem; }
 .cabecera nav a:hover { background: #ffffff1a; }
@@ -267,10 +267,10 @@ main { flex: 1; padding-block: 32px 48px; }
 .panel-admin { min-width: 0; }
 @media (max-width: 700px) {
   .ancho { padding-inline: max(18px, env(safe-area-inset-left, 0px)); }
-  .cabecera-int { justify-content: center; row-gap: 0; padding-bottom: 10px; }
-  .logo-novalis { height: 50px; width: 100px; }
-  .logo-novalis img { width: 161px; }
-  .marca .marca-producto { font-size: 0.8rem; padding-left: 14px; }
+  .cabecera-int { justify-content: flex-start; padding-inline: max(12px, env(safe-area-inset-left, 0px)); row-gap: 0; padding-bottom: 10px; }
+  .logo-novalis { height: 35px; width: 70px; }
+  .logo-novalis img { width: 112.7px; }
+  .marca .marca-producto { font-size: 0.96rem; padding-left: 14px; }
   .marca-producto span { font-size: 0.6rem; }
   .cabecera nav { width: 100%; justify-content: space-between; flex-wrap: nowrap; gap: 2px; overflow-x: auto; }
   .cabecera nav a { font-size: 0.76rem; padding: 8px 10px; flex-shrink: 0; }
