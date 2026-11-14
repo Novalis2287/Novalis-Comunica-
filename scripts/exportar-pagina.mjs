@@ -33,7 +33,7 @@ css = css.replace(".cabecera { ", ".cabecera { top: env(safe-area-inset-top, 0px
 
 const app = fs
   .readFileSync(path.join(raiz, "public/app.js"), "utf8")
-  .replace('import { iniciarCuenta } from "./cuenta.js";\nawait iniciarCuenta();', '')
+  .replace(/import \{ iniciarCuenta \} from "\.\/cuenta\.js";\r?\nwindow\.novalisAutorizado = await iniciarCuenta\(\);/, 'window.novalisAutorizado = true; document.body.classList.remove("sin-sesion");')
   .replace("src: `/api/temas/${tema.id}/audio`", "src: `audio/${tema.id}.mp3`");
 
 // El profesor y el guardado en la nube usan las capacidades de la página (ver pagina-sin-servidor.js).
@@ -44,8 +44,8 @@ const sinServidor = fs
   .replace("__INSTRUCCIONES__", () => JSON.stringify(INSTRUCCIONES).replace(/</g, "\\u003c"))
   .replace("__PROGRESO__", () => progreso);
 
-const cuerpo = fs.readFileSync(path.join(raiz, "public/index.html"), "utf8").match(/<body>([\s\S]*?)<script/)[1];
-const pagina = `<title>Novalis Comunica</title>
+const cuerpo = fs.readFileSync(path.join(raiz, "public/index.html"), "utf8").match(/<body[^>]*>([\s\S]*?)<script/)[1];
+const pagina = `<title>Novalis Aprende</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
 <style>
