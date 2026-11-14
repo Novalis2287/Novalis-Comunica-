@@ -1,7 +1,9 @@
-// Interfaz de Novalis Comunica: temas, examen y profesor con IA.
+// Interfaz de Novalis Aprende: temas, examen y profesor con IA.
 import { iniciarCuenta } from "./cuenta.js";
-await iniciarCuenta();
+window.novalisAutorizado = await iniciarCuenta();
 const vista = document.getElementById("vista");
+const enlaceAdmin = document.getElementById("enlace-admin");
+if (enlaceAdmin) enlaceAdmin.hidden = window.novalisPerfil?.rol !== "admin";
 
 // ---------- utilidades ----------
 function h(etiqueta, attrs = {}, ...hijos) {
@@ -71,14 +73,22 @@ function pedirCodigo() {
 
 async function api(ruta, opciones = {}) {
   for (;;) {
+    const token = await window.novalisToken?.();
     const r = await fetch(ruta, {
       ...opciones,
       headers: {
         ...(opciones.body ? { "Content-Type": "application/json" } : {}),
         "x-codigo-acceso": almacen.leer("codigo", ""),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
     });
     if (r.status === 401) {
+      const causa = await r.clone().json().catch(() => ({}));
+      if (causa.requiereSesion || !causa.pideCodigo) {
+        window.novalisAutorizado = false;
+        location.reload();
+        throw new Error("Inicia sesión para continuar.");
+      }
       const codigo = await pedirCodigo();
       if (codigo == null) throw new Error("Hace falta el código de acceso.");
       almacen.guardar("codigo", codigo);
@@ -761,17 +771,20 @@ async function vistaSeguimiento() {
 
 // ---------- rutas ----------
 async function pintar() {
+  if (!window.novalisAutorizado) return;
   if ("speechSynthesis" in window) speechSynthesis.cancel();
   const [, seccion = "", id] = location.hash.replace(/^#/, "").split("/");
   document.querySelectorAll("[data-nav]").forEach((a) => {
-    const activa = a.dataset.nav === (["profesor", "visita", "seguimiento"].includes(seccion) ? seccion : "temas");
+    const activa = a.dataset.nav === (["profesor", "visita", "seguimiento", "admin"].includes(seccion) ? seccion : "temas");
     if (activa) a.setAttribute("aria-current", "page");
     else a.removeAttribute("aria-current");
   });
   try {
     estado = await apiJson("/api/estado");
     const contenido =
-      seccion === "tema" && id
+      seccion === "admin"
+        ? await (await import("./administracion.js")).vistaAdministracion({ apiJson, h })
+        : seccion === "tema" && id
         ? await vistaTema(id)
         : seccion === "examen" && id
           ? await vistaExamen(id)
