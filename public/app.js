@@ -1,4 +1,5 @@
 // Interfaz de Novalis Aprende: temas, examen y profesor con IA.
+import { observarProfesor, prepararProfesor, detenerProfesor, peticionProfesor } from "./profesor-local.js";
 import { iniciarCuenta } from "./cuenta.js";
 window.novalisAutorizado = await iniciarCuenta();
 const vista = document.getElementById("vista");
@@ -70,6 +71,11 @@ function pedirCodigo() {
 }
 
 async function api(ruta, opciones = {}) {
+  if (estado.tutorModo === "local" && ["/api/chat", "/api/corregir", "/api/progreso"].includes(ruta)) {
+    // Se valida la cuenta antes de cada generación, también si el material ya está en memoria.
+    await apiJson("/api/profesor/material");
+    return peticionProfesor(ruta, JSON.parse(opciones.body || "{}"), apiJson);
+  }
   for (;;) {
     const token = await window.novalisToken?.();
     const r = await fetch(ruta, {
@@ -240,8 +246,7 @@ async function vistaExamen(id) {
     boton.disabled = true;
     boton.textContent = "Corrigiendo…";
     const notas = [];
-    await Promise.all(
-      preguntas.map(async (p, i) => {
+    const corregirPregunta = async (p, i) => {
         const campo = campos[i];
         const correccion = campo.querySelector(".correccion");
         correccion.hidden = false;
@@ -277,7 +282,7 @@ async function vistaExamen(id) {
           const c = await apiJson("/api/corregir", { method: "POST", body: JSON.stringify({ temaId: id, indice: i, respuesta }) });
           notas[i] = c.nota;
           correccion.replaceChildren(
-            h("p", {}, h("strong", {}, `Nota: ${c.nota}/10`)),
+            h("p", {}, h("strong", {}, `Nota orientativa: ${c.nota}/10`)),
             h("p", {}, h("strong", {}, "Aciertos. "), c.aciertos),
             h("p", {}, h("strong", {}, "A mejorar. "), c.mejoras),
             h("p", {}, h("strong", {}, "Respuesta modelo. "), c.respuesta_modelo),
@@ -286,8 +291,8 @@ async function vistaExamen(id) {
           notas[i] = null;
           correccion.replaceChildren(h("p", { class: "error" }, `No se ha podido corregir: ${error.message} Esta pregunta no puntúa.`));
         }
-      }),
-    );
+      };
+    for (let i = 0; i < preguntas.length; i++) await corregirPregunta(preguntas[i], i);
     const puntuadas = notas.filter((n) => n != null);
     const nota = puntuadas.length ? puntuadas.reduce((a, b) => a + b, 0) / puntuadas.length : 0;
     const res = resultados();
@@ -317,7 +322,7 @@ async function vistaExamen(id) {
   return [
     h("a", { class: "volver", href: `#/tema/${id}` }, `← ${tema.titulo}`),
     h("h1", {}, "Examen"),
-    h("p", { class: "entrada" }, `${preguntas.length} preguntas. Las de desarrollo las corrige el profesor con IA.`),
+    h("p", { class: "entrada" }, `${preguntas.length} preguntas. Las de desarrollo reciben una corrección orientativa. Prepara primero el modelo en Profesor.`),
     zonaNota,
     h("form", { class: "examen", onsubmit: entregar }, campos, h("div", {}, boton)),
   ];
@@ -339,6 +344,24 @@ async function vistaProfesor(temaId) {
     temas.map((t) => h("option", { value: t.id, selected: t.id === temaId }, t.titulo)),
   );
   const enviarBtn = h("button", { class: "boton" }, "Enviar");
+  const estadoLocal = h("p", { role: "status" });
+  const progresoLocal = h("progress", { max: 1, value: 0, "aria-label": "Preparación del profesor" });
+  const preparar = h("button", { class: "boton", type: "button", onclick: async () => {
+    try { await prepararProfesor(); } catch { /* El estado muestra el error y permite reintentar. */ }
+  } }, "Descargar y preparar profesor");
+  const detener = h("button", { class: "boton secundario", type: "button", onclick: detenerProfesor }, "Detener respuesta");
+  let listo = estado.tutorModo !== "local";
+  let desobservar = () => {};
+  if (estado.tutorModo === "local") desobservar = observarProfesor((s) => {
+    listo = s.fase === "listo";
+    estadoLocal.textContent = s.texto;
+    progresoLocal.value = s.progreso;
+    progresoLocal.hidden = s.fase !== "cargando";
+    preparar.disabled = s.fase === "cargando" || listo;
+    preparar.textContent = listo ? "Profesor preparado" : s.fase === "error" ? "Volver a preparar profesor" : "Descargar y preparar profesor";
+    enviarBtn.disabled = !listo || ocupado;
+  });
+  window.addEventListener("hashchange", desobservar, { once: true });
   const sugerencias = h(
     "div",
     { class: "sugerencias" },
@@ -360,6 +383,7 @@ async function vistaProfesor(temaId) {
   async function enviar(texto) {
     texto = texto.trim();
     if (!texto || ocupado) return;
+    if (!listo) { errorEl.textContent = "Prepara el profesor en este dispositivo antes de enviar una pregunta."; errorEl.hidden = false; return; }
     ocupado = true;
     enviarBtn.disabled = true;
     errorEl.hidden = true;
@@ -405,7 +429,7 @@ async function vistaProfesor(temaId) {
     almacen.guardar("chat", mensajes);
     repintar();
     ocupado = false;
-    enviarBtn.disabled = false;
+    enviarBtn.disabled = !listo;
   }
 
   campo.addEventListener("keydown", (e) => {
@@ -425,7 +449,11 @@ async function vistaProfesor(temaId) {
         ? `Conoce las ${estado.fuentes.length} fuentes del curso. Pregunta, debate o pídele que te examine.`
         : "Pregunta, debate o pídele que te examine. Aún no hay fuentes cargadas.",
     ),
-    !estado.tutor && h("p", { class: "aviso" }, "El profesor con IA aún no está configurado en el servidor (falta la clave de IA)."),
+    estado.tutorModo === "local" && h("section", { class: "profesor-preparacion", "aria-label": "Profesor en este dispositivo" },
+      h("h2", {}, "Profesor en tu dispositivo · Prueba"),
+      h("p", {}, "Sin claves de API ni cuentas de otros servicios de IA. El modelo se descarga desde Hugging Face y MLC; las preguntas se procesan en tu dispositivo. Usa Wi-Fi: la descarga es grande. El navegador puede borrar la copia guardada y volver a descargarla."),
+      h("p", {}, "Las respuestas y las notas de desarrollo son orientativas. Esta prueba necesita Safari actualizado y memoria disponible; todavía debe validarse en tu iPhone y iPad."),
+      estadoLocal, progresoLocal, h("div", { class: "fila" }, preparar, detener)),
     lista,
     sugerencias,
     errorEl,
@@ -758,7 +786,7 @@ async function vistaSeguimiento() {
       }),
     ),
     h("h2", {}, "El profesor"),
-    !estado.tutor && h("p", { class: "aviso" }, "El profesor con IA aún no está configurado. Cuando lo esté, valorará este registro y te aconsejará según tus avances."),
+    estado.tutorModo === "local" && h("p", { class: "aviso" }, "La valoración es orientativa. Prepara primero el modelo desde la sección Profesor en este dispositivo."),
     h("div", {}, pedir),
     valoracion,
     h("h2", {}, "Visitas"),

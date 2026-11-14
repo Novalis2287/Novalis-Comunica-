@@ -290,3 +290,6 @@ main { flex: 1; padding-block: 32px 48px; }
 @media (prefers-color-scheme: dark) {
   :root { --fondo: #0c202e; --panel: #142f40; --tinta: #e8f5fc; --tinta-suave: #aec5d3; --linea: #2a475a; --acento: #68d4fa; --acento-tinta: #082637; --acento-suave: #173f55; color-scheme: dark; }
 }
+
+.profesor-preparacion { border: 1px solid var(--borde, #b9dce8); border-radius: 16px; padding: 20px; margin-block: 20px; }
+.profesor-preparacion progress { width: 100%; margin-bottom: 16px; accent-color: #058bc0; }
