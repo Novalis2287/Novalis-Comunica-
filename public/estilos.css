@@ -272,8 +272,8 @@ main { flex: 1; padding-block: 32px 48px; }
   .logo-novalis img { width: 161px; }
   .marca .marca-producto { font-size: 0.8rem; padding-left: 14px; }
   .marca-producto span { font-size: 0.6rem; }
-  .cabecera nav { width: 100%; justify-content: space-between; flex-wrap: nowrap; gap: 2px; }
-  .cabecera nav a { font-size: 0.76rem; padding: 8px 10px; }
+  .cabecera nav { width: 100%; justify-content: space-between; flex-wrap: nowrap; gap: 2px; overflow-x: auto; }
+  .cabecera nav a { font-size: 0.76rem; padding: 8px 10px; flex-shrink: 0; }
   main { padding-top: 20px; }
   .bienvenida { padding: 26px 22px; border-radius: 20px; }
   .bienvenida .sobrelinea { font-size: 0.6rem; }

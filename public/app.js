@@ -2,8 +2,6 @@
 import { iniciarCuenta } from "./cuenta.js";
 window.novalisAutorizado = await iniciarCuenta();
 const vista = document.getElementById("vista");
-const enlaceAdmin = document.getElementById("enlace-admin");
-if (enlaceAdmin) enlaceAdmin.hidden = window.novalisPerfil?.rol !== "admin";
 
 // ---------- utilidades ----------
 function h(etiqueta, attrs = {}, ...hijos) {
@@ -775,15 +773,17 @@ async function pintar() {
   if ("speechSynthesis" in window) speechSynthesis.cancel();
   const [, seccion = "", id] = location.hash.replace(/^#/, "").split("/");
   document.querySelectorAll("[data-nav]").forEach((a) => {
-    const activa = a.dataset.nav === (["profesor", "visita", "seguimiento", "admin"].includes(seccion) ? seccion : "temas");
+    const activa = a.dataset.nav === (["profesor", "visita", "seguimiento", "ajustes"].includes(seccion) ? seccion : seccion === "admin" ? "ajustes" : "temas");
     if (activa) a.setAttribute("aria-current", "page");
     else a.removeAttribute("aria-current");
   });
   try {
     estado = await apiJson("/api/estado");
     const contenido =
-      seccion === "admin"
-        ? await (await import("./administracion.js")).vistaAdministracion({ apiJson, h })
+      ["admin", "ajustes"].includes(seccion)
+        ? window.novalisPerfil?.rol === "admin"
+          ? await (await import("./administracion.js")).vistaAdministracion({ apiJson, h })
+          : [h("h1", {}, "Ajustes"), h("p", {}, `Tu cuenta: ${window.novalisPerfil?.email || ""}`), h("p", {}, "Tu progreso se guarda en tu cuenta. Puedes sincronizar o cerrar la sesión desde la sección de cuenta.")]
         : seccion === "tema" && id
         ? await vistaTema(id)
         : seccion === "examen" && id

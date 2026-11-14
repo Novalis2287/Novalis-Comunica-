@@ -2,6 +2,38 @@ export async function vistaAdministracion({ apiJson, h }) {
   const contenido = h("div", { class: "panel-admin" });
   const aviso = h("p", { role: "status", "aria-live": "polite" });
   let pagina = 0;
+  let paginaCorreos = 0;
+  const autorizados = h("div", { class: "panel-admin" });
+  async function cargarCorreos() {
+    const datos = await apiJson(`/api/admin/correos?pagina=${paginaCorreos}`);
+    const ir = async (n) => { paginaCorreos = n; try { await cargarCorreos(); } catch (error) { aviso.textContent = error.message; } };
+    const lista = h("ul", { class: "usuarios-admin" }, datos.correos.map((c) => {
+      const retirar = h("button", { type: "button", class: "boton secundario", disabled: c.registrado, onclick: async () => {
+        retirar.disabled = true;
+        try {
+          await apiJson(`/api/admin/correos/${encodeURIComponent(c.email)}`, { method: "DELETE" });
+          aviso.textContent = "Autorización retirada. Este correo ya no puede crear una cuenta.";
+          await cargarCorreos();
+        } catch (error) { aviso.textContent = error.message; retirar.disabled = false; }
+      } }, c.registrado ? "Cuenta ya creada" : "Retirar autorización");
+      return h("li", {}, h("strong", {}, c.email), h("span", { class: "chip gris" }, c.registrado ? "Registrado" : "Pendiente de registrarse"), retirar);
+    }));
+    autorizados.replaceChildren(h("p", {}, `${datos.total} correos autorizados`), lista,
+      h("div", { class: "fila" }, h("button", { class: "boton secundario", disabled: paginaCorreos === 0, onclick: () => ir(paginaCorreos - 1) }, "Correos anteriores"),
+        h("button", { class: "boton secundario", disabled: (paginaCorreos + 1) * 50 >= datos.total, onclick: () => ir(paginaCorreos + 1) }, "Más correos")));
+  }
+  const email = h("input", { type: "email", required: true, autocomplete: "off", maxlength: "254", placeholder: "Correo que quieres autorizar", "aria-label": "Correo que quieres autorizar" });
+  const permitir = h("button", { type: "submit", class: "boton" }, "Autorizar correo");
+  const form = h("form", { class: "form-cuenta", onsubmit: async (e) => {
+    e.preventDefault(); permitir.disabled = true;
+    try {
+      await apiJson("/api/admin/correos", { method: "POST", body: JSON.stringify({ email: email.value.trim() }) });
+      email.value = "";
+      aviso.textContent = "Correo autorizado. Esa persona ya puede pulsar «Crear cuenta» y elegir su contraseña.";
+      paginaCorreos = 0; await cargarCorreos();
+    } catch (error) { aviso.textContent = error.message; }
+    finally { permitir.disabled = false; }
+  } }, email, permitir);
   async function cargar() {
     const datos = await apiJson(`/api/admin/usuarios?pagina=${pagina}`);
     const buscar = h("input", { type: "search", placeholder: "Filtrar esta página por correo…", "aria-label": "Filtrar usuarios" });
@@ -30,6 +62,8 @@ export async function vistaAdministracion({ apiJson, h }) {
       h("div", { class: "fila" }, h("button", { class: "boton secundario", disabled: pagina === 0, onclick: () => navegar(pagina - 1) }, "Anterior"),
         h("button", { class: "boton secundario", disabled: (pagina + 1) * 50 >= datos.total, onclick: () => navegar(pagina + 1) }, "Siguiente")));
   }
-  await cargar();
-  return [h("h1", {}, "Administración"), h("p", { class: "entrada" }, "Gestiona quién puede acceder a Novalis Aprende. Las cuentas nuevas se activan al confirmar el correo."), aviso, contenido];
+  await Promise.all([cargar(), cargarCorreos()]);
+  return [h("h1", {}, "Ajustes"), h("h2", {}, "Usuarios y permisos"),
+    h("p", { class: "entrada" }, "Autoriza primero el correo de cada persona. Después podrá crear su cuenta y elegir una contraseña. Las cuentas registradas se pueden activar o desactivar desde aquí."),
+    aviso, h("h2", {}, "Autorizar un correo"), form, autorizados, h("h2", {}, "Cuentas registradas"), contenido];
 }

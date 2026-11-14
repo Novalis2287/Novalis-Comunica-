@@ -76,7 +76,7 @@ export async function iniciarCuenta() {
       olvide.onclick = () => formulario("recuperar");
       form.append(correo);
       if (!recuperar) form.append(clave);
-      if (alta) form.append(repetir, elemento("p", "Confirma tu correo para activar la cuenta. Usa al menos 12 caracteres en tu contraseña.", { class: "ayuda-acceso" }));
+      if (alta) form.append(repetir, elemento("p", "Solo puedes registrarte si el administrador ha autorizado antes tu correo. Usa al menos 12 caracteres y confirma el correo para activar la cuenta.", { class: "ayuda-acceso" }));
       form.append(entrar);
       if (!alta && !recuperar) form.append(olvide);
       form.onsubmit = async (e) => {
@@ -94,7 +94,7 @@ export async function iniciarCuenta() {
           else if (alta && !resultado.data?.session) estado.textContent = "Revisa tu correo y confirma la cuenta antes de iniciar sesión. Si ya tienes cuenta, entra o recupera tu contraseña.";
           else location.reload();
         } catch (error) {
-          estado.textContent = error.code === "email_not_confirmed" ? "Confirma primero tu correo electrónico." : error.code === "over_email_send_rate_limit" ? "Espera unos minutos antes de solicitar otro correo." : alta ? "No se pudo crear la cuenta. Revisa el correo y usa una contraseña de al menos 12 caracteres." : recuperar ? "No se pudo enviar el enlace. Inténtalo más tarde." : "No se pudo entrar. Comprueba el correo y la contraseña.";
+          estado.textContent = error.code === "email_not_confirmed" ? "Confirma primero tu correo electrónico." : error.code === "over_email_send_rate_limit" ? "Espera unos minutos antes de solicitar otro correo." : alta ? "No se pudo crear la cuenta. Comprueba que el administrador haya autorizado tu correo y usa al menos 12 caracteres en la contraseña." : recuperar ? "No se pudo enviar el enlace. Inténtalo más tarde." : "No se pudo entrar. Comprueba el correo y la contraseña.";
         } finally { entrar.disabled = false; }
       };
       contenido.replaceChildren(form);
