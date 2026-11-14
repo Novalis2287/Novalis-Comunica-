@@ -1,7 +1,93 @@
-{"preguntas":[
-{"tipo":"test","enunciado":"¿Cuál es la función de la vocecita?","opciones":["Hacernos felices","Ayudarnos a cumplir objetivos","Protegernos del daño físico y emocional","Recordarnos lo aprendido"],"correcta":2,"explicacion":"Su función es protegernos, sobre todo del daño emocional y de la desaprobación de los demás."},
-{"tipo":"test","enunciado":"¿Qué propone el formador responderle a la vocecita?","opciones":["«Tienes razón, mejor espero»","«Gracias por tu opinión, pero paso»","«Cállate»","Nada: hay que ignorarla"],"correcta":1,"explicacion":"Se le agradece la opinión y se sigue adelante: «Gracias por tu opinión, pero paso»."},
-{"tipo":"test","enunciado":"Cuando Jorge desapareció, el equipo pensó que iba por precio. ¿Qué idea ilustra eso?","opciones":["Que el precio era excesivo","Que lo que el ser humano no sabe, se lo inventa","Que hay que llamar al paciente a los dos días","Que el plan estaba mal explicado"],"correcta":1,"explicacion":"Nadie sabía por qué se había ido; la explicación fue una película montada por la vocecita."},
-{"tipo":"test","enunciado":"¿Qué dijo Jorge al volver?","opciones":["Que había encontrado el mismo precio en otra clínica","Que aceptaba si le hacían descuento","Que eran los más caros y no sabía explicar por qué, pero se lo hacía allí","Que su mujer le había convencido de volver"],"correcta":2,"explicacion":"Eran los más caros y su mujer se oponía; aun así decidió hacérselo allí sin saber explicar el motivo."},
-{"tipo":"desarrollo","enunciado":"¿Qué demuestra el caso de Jorge sobre cómo decide un paciente? Relaciónalo con la confianza y la autoridad.","criterios":"Debe explicar que la decisión no fue racional ni por precio (era la opción más cara y con la oposición de su mujer), que la confianza y la autoridad operan a nivel subconsciente y pesan más que lo consciente, y que el paciente no sabía verbalizar el porqué."}
-]}
+{
+ "preguntas": [
+  {
+   "tipo": "test",
+   "enunciado": "¿Cuál es la función de la vocecita?",
+   "opciones": [
+    "Hacernos felices",
+    "Ayudarnos a cumplir objetivos",
+    "Protegernos del daño físico y emocional",
+    "Recordarnos lo aprendido"
+   ],
+   "correcta": 2,
+   "explicacion": "Su función es protegernos, sobre todo del daño emocional y de la desaprobación de los demás."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué propone el formador responderle a la vocecita?",
+   "opciones": [
+    "«Tienes razón, mejor espero»",
+    "«Gracias por tu opinión, pero paso»",
+    "«Cállate»",
+    "Nada: hay que ignorarla"
+   ],
+   "correcta": 1,
+   "explicacion": "Se le agradece la opinión y se sigue adelante: «Gracias por tu opinión, pero paso»."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "Cuando Jorge desapareció, el equipo pensó que iba por precio. ¿Qué idea ilustra eso?",
+   "opciones": [
+    "Que el precio era excesivo",
+    "Que lo que el ser humano no sabe, se lo inventa",
+    "Que hay que llamar al paciente a los dos días",
+    "Que el plan estaba mal explicado"
+   ],
+   "correcta": 1,
+   "explicacion": "Nadie sabía por qué se había ido; la explicación fue una película montada por la vocecita."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué dijo Jorge al volver?",
+   "opciones": [
+    "Que había encontrado el mismo precio en otra clínica",
+    "Que aceptaba si le hacían descuento",
+    "Que eran los más caros y no sabía explicar por qué, pero se lo hacía allí",
+    "Que su mujer le había convencido de volver"
+   ],
+   "correcta": 2,
+   "explicacion": "Eran los más caros y su mujer se oponía; aun así decidió hacérselo allí sin saber explicar el motivo."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué traía Jorge cuando volvió a la clínica?",
+   "opciones": [
+    "A su mujer",
+    "Una carpeta con los presupuestos de otras clínicas",
+    "Un anticipo",
+    "Una queja"
+   ],
+   "correcta": 1,
+   "explicacion": "Había comparado varias clínicas."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué consiguió en menos de un mes la clínica con 42 años de trayectoria?",
+   "opciones": [
+    "Duplicar las primeras visitas",
+    "Tres pronto pagos",
+    "Contratar personal",
+    "Cobrar la primera visita"
+   ],
+   "correcta": 1,
+   "explicacion": "Yendo día a día, un pasito más."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Cómo debe decirse «o te haces esto, o no te trato»?",
+   "opciones": [
+    "Como amenaza",
+    "Como una línea en la arena, con firmeza",
+    "En broma",
+    "Por escrito"
+   ],
+   "correcta": 1,
+   "explicacion": "No es lo que se dice, es cómo se dice."
+  },
+  {
+   "tipo": "desarrollo",
+   "enunciado": "¿Qué demuestra el caso de Jorge sobre cómo decide un paciente? Relaciónalo con la confianza y la autoridad.",
+   "criterios": "Debe explicar que la decisión no fue racional ni por precio (era la opción más cara y con la oposición de su mujer), que la confianza y la autoridad operan a nivel subconsciente y pesan más que lo consciente, y que el paciente no sabía verbalizar el porqué."
+  }
+ ]
+}

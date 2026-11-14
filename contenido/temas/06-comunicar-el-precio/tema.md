@@ -1,62 +1,92 @@
 ---
 titulo: Comunicar el precio y las formas de pago
-resumen: Por qué el precio lo dice el doctor, cómo se pasa el relevo al equipo y cómo se estructura el pago.
+resumen: Por qué el precio lo dice el doctor, el relevo al equipo, las tres vías de pago, el pago por acto, la financiación y la desconfianza en los anticipos.
 ---
 
-## El precio lo dice el doctor
+## La primera vez del ponente
 
-El ponente critica el esquema en que el doctor deja toda la conversación económica a otra persona y la cifra se retrasa hasta el final.
+El ponente narra su primera experiencia después de formarse. Aplicó el sistema en una primera visita y anunció él mismo un presupuesto de unos 3.000 o 4.000 euros. Contra lo que temía, el paciente no respondió con insultos ni con agresividad.
 
-Cuenta su primera vez: anunció un presupuesto de tres o cuatro mil euros esperando una mala reacción, y no pasó nada. Ahí se le rompió la creencia de que hablar de dinero desprestigia al dentista.
+Interpreta esa experiencia como la ruptura de una creencia: la de que hablar de precios desprestigia al odontólogo.
 
-## Cómo se dice
+## El doctor comunica los honorarios
 
-Sin teatro y sin vergüenza. Se da la cifra total, se hace una pausa y se pregunta: «¿Qué te parece?». Y se deja reaccionar.
+Critica el esquema en el que el doctor deja toda la conversación económica a una asesora, sobre todo cuando la cifra se oculta o se retrasa hasta el final de una demostración comercial.
 
-Una aceptación solo puede valorarse en serio cuando las dos partes conocen el precio.
+Defiende dar el importe sin teatralidad ni vergüenza, haciendo una pausa y permitiendo la reacción del paciente.
 
-## El relevo al equipo
+Sostiene que la venta o la aceptación solo pueden evaluarse en serio cuando las partes conocen el precio.
 
-El doctor no tramita la financiación, pero tampoco le deja al equipo una «patata caliente». No puede ocurrir que el paciente asienta delante del doctor y plantee todas sus dudas por primera vez en el despacho.
+## Pagar compromete
 
-El doctor transmite con claridad qué tratamiento se propone, cuánto cuesta y qué queda por resolver. Ese pase forma parte del tratamiento.
+El ponente afirma que pagar una formación favorece su puesta en práctica, por el compromiso económico adquirido. Lo usa para motivar a los asistentes a probar el protocolo el lunes siguiente. El documento anota que no hay pruebas en el material de que la implicación dependa necesariamente de haber pagado.
 
-## Tres formas de pago
+## El traspaso al equipo
 
-1. **Pronto pago**, con descuento por anticipar.
-2. **Financiación**, con intereses que la clínica puede asumir en parte.
-3. **Tres pagos**: al inicio, a mitad y antes de terminar.
+El doctor comunica el total y pregunta: «¿Qué te parece?». Abre entonces el marco de las formas de pago.
 
-Los porcentajes que da el ponente son los de su clínica, no una regla.
+El personal administrativo continúa con la gestión práctica. Pero el médico no debe dejarle una «patata caliente», ni permitir que el paciente asienta delante de él y plantee todas sus dudas por primera vez en el despacho.
 
-## Contra el pago por acto
+El doctor no tiene que gestionar personalmente los trámites de financiación. Sí debe dar al equipo una transición ordenada y transmitir con claridad qué tratamiento se propone, qué importe tiene y qué cuestiones quedan por resolver.
 
-El ponente se opone a cobrar cada procedimiento suelto de un plan complejo. Sus razones:
+Para el formador, el pase entre profesionales es parte del tratamiento y de la experiencia del paciente.
 
-- El paciente pospone fases esenciales y falta a citas.
-- Juzga cada pago por lo que ha durado o molestado la última visita, y no por el proceso completo. El ejemplo es la revisión de ortodoncia de cinco minutos que se paga al salir.
+## Las tres vías de pago
 
-El anticipo, en cambio, favorece la asistencia y el compromiso.
+1. **Pronto pago**, con descuento por anticipar una cantidad.
+2. **Financiación**, con posibles intereses asumidos parcialmente por la clínica.
+3. **Acuerdo de tres pagos**: al inicio, en un punto intermedio y antes de terminar el tratamiento. También con un posible descuento según el modelo económico.
 
-## «Es mucho dinero» no es «no puedo»
+El ponente distingue los tratamientos pequeños, de unos cientos de euros, de los planes extensos, para los que propone esta estructura.
 
-Hay que separar dos cosas:
+Los porcentajes y umbrales que menciona son ejemplos de su clínica o del curso. No se trasladan como condiciones automáticas de Novalis.
 
-- **Valor percibido:** le parece caro para lo que ha entendido.
-- **Límite real:** no puede asumirlo.
+## Por qué se opone al pago por acto
 
-Se pregunta qué quiere decir «mucho». Si es dinero, se estudian cuotas viables. Si es información, se vuelve al diagnóstico y al pronóstico.
+El ponente se opone a abonar cada procedimiento aislado de un plan complejo. Le atribuye abandono, problemas de agenda y malas experiencias.
 
-Algunas personas dicen que sí a todo durante la visita por afinidad o por incomodidad, y las reservas aparecen después. Un «sí» no se da por definitivo.
+Sostiene que, si el paciente paga una pequeña parte en cada visita, puede posponer fases esenciales, faltar a citas y evaluar cada desembolso por la molestia o la duración de la última intervención, en lugar de por el proceso completo.
 
-## La desconfianza en pagar por adelantado
+Lo ejemplifica con una revisión de ortodoncia breve por la que el paciente paga al salir: eso favorece comparaciones injustas entre minutos y honorarios.
 
-El ponente reconoce que los cierres de clínicas han dejado desconfianza hacia los anticipos y anuncia garantías para dar tranquilidad. El material no las detalla.
+Argumenta que el anticipo favorece la asistencia y el compromiso, y menciona un documento en el que el paciente tiene reconocido su dinero.
 
-## Financiación
+## «Es mucho dinero» frente a «no puedo permitírmelo»
 
-Desaconseja ofrecer financiaciones «sin intereses» que esconden comisiones de apertura altas. Propone que la clínica cubra los intereses en plazos de hasta veinticuatro meses y piense en la rentabilidad total, no en ese coste.
+Propone separar dos cosas:
 
-## El matiz del Documento Maestro
+- Una objeción de **valor percibido**: el paciente considera excesivo el precio para lo que comprende o espera.
+- Una **limitación financiera real**.
 
-Un anticipo no anula el derecho a reembolso, y la seguridad económica del paciente es una preocupación legítima.
+Sugiere preguntar qué quiere decir exactamente «mucho»: si no puede asumirlo o si no ve correspondencia entre el valor y el precio.
+
+Si es un problema de dinero, se exploran condiciones y cuotas viables. Si es de información, se revisan el diagnóstico, el pronóstico y la propuesta.
+
+## El sí que no es un sí
+
+El ponente advierte de que algunas personas responden afirmativamente durante toda la visita, por afinidad o por incomodidad, y después expresan sus reservas.
+
+Recomienda preguntar, sin dar por supuesto que un «sí» es una aceptación definitiva.
+
+## La desconfianza en los anticipos
+
+Reconoce que los cierres de clínicas y los problemas de algunos operadores dentales pueden haber generado desconfianza hacia los pagos anticipados.
+
+Promete hablar de mecanismos de garantía que ofrezcan tranquilidad. El fragmento disponible no precisa los documentos ni sus términos.
+
+## Financiación y cifras
+
+Afirma que, mientras los equipos están aprendiendo, resulta contraproducente ofrecer financiación supuestamente sin intereses con comisiones de apertura elevadas, y pone el ejemplo de un 9 %.
+
+Propone que, para plazos de hasta 24 meses, la clínica cubra los intereses, que sitúa cerca del 8 %, y que para plazos más largos se estudien otras condiciones.
+
+Insiste en pensar en la rentabilidad total y en el volumen de aceptación, no solo en el coste inmediato de los intereses.
+
+Da cifras ilustrativas de su actividad: empastes de unos 55 o 60 euros, un importe de implante que la transcripción recoge de forma ambigua, y una clínica que superó un 22 % de rentabilidad en un año. Cita posibles financieras, pero varios nombres quedaron mal transcritos.
+
+## Los matices del Documento Maestro
+
+- Un anticipo no equivale a renunciar al reembolso ni permite desatender tratamientos. La seguridad financiera del paciente es una consideración legítima.
+- Una reserva económica puede reflejar prioridades, prevención frente a la deuda o preferencias razonables, y no necesariamente falta de comprensión.
+- Las cifras de rentabilidad, financiación y aceptación son afirmaciones del formador, no cuentas auditadas ni datos trasladables a otra clínica.
+- Los mecanismos de garantía no se reconstruyen como si fueran un modelo de contrato, porque el material no los detalla.

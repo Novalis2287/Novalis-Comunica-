@@ -1,7 +1,93 @@
-{"preguntas":[
-{"tipo":"test","enunciado":"¿Qué ocurre cuando a un niño se le repite que es tímido?","opciones":["Que se esfuerza por dejar de serlo","Que asume la etiqueta como identidad y actúa según ella","Nada, si se dice con cariño","Que gana confianza por contraste"],"correcta":1,"explicacion":"La etiqueta se convierte en identidad y la persona se comporta conforme a ella."},
-{"tipo":"test","enunciado":"¿En qué consiste aplicar el efecto Pigmalión a la confianza?","opciones":["En corregir cada gesto de timidez","En reforzar y celebrar el mínimo gesto de confianza","En exponer a la persona a situaciones difíciles","En no intervenir nunca"],"correcta":1,"explicacion":"Se calla la etiqueta negativa y se refuerza cualquier gesto de confianza, por pequeño que sea."},
-{"tipo":"test","enunciado":"¿Qué frase propone la formación en lugar de «no tengo confianza»?","opciones":["«Soy así»","«No he entrenado la confianza»","«Ya la tendré con los años»","«No la necesito»"],"correcta":1,"explicacion":"La confianza es una habilidad: no se tiene o no se tiene, se entrena."},
-{"tipo":"test","enunciado":"¿Qué consecuencia tiene la etiqueta de pesetero en el equipo?","opciones":["Que sube los precios","Que le da vergüenza hablar de dinero y presentar planes grandes","Que cobra la primera visita","Que rechaza pacientes"],"correcta":1,"explicacion":"Al tenerla interiorizada, el equipo se avergüenza de sus precios y tiende a recortar el plan."},
-{"tipo":"desarrollo","enunciado":"Explica por qué el paradigma de éxito o fracaso afecta más al dentista que a otros especialistas y qué propone la formación para salir de él.","criterios":"Debe mencionar que el dentista está operando todo el día y por tanto expuesto continuamente a éxito o fracaso (también al entregar el plan), que la palabra «fracaso» se usa con ligereza, y que la propuesta es eliminarla y preguntarse qué enseña lo ocurrido para aprender y corregir."}
-]}
+{
+ "preguntas": [
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué ocurre cuando a un niño se le repite que es tímido?",
+   "opciones": [
+    "Que se esfuerza por dejar de serlo",
+    "Que asume la etiqueta como identidad y actúa según ella",
+    "Nada, si se dice con cariño",
+    "Que gana confianza por contraste"
+   ],
+   "correcta": 1,
+   "explicacion": "La etiqueta se convierte en identidad y la persona se comporta conforme a ella."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿En qué consiste aplicar el efecto Pigmalión a la confianza?",
+   "opciones": [
+    "En corregir cada gesto de timidez",
+    "En reforzar y celebrar el mínimo gesto de confianza",
+    "En exponer a la persona a situaciones difíciles",
+    "En no intervenir nunca"
+   ],
+   "correcta": 1,
+   "explicacion": "Se calla la etiqueta negativa y se refuerza cualquier gesto de confianza, por pequeño que sea."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué frase propone la formación en lugar de «no tengo confianza»?",
+   "opciones": [
+    "«Soy así»",
+    "«No he entrenado la confianza»",
+    "«Ya la tendré con los años»",
+    "«No la necesito»"
+   ],
+   "correcta": 1,
+   "explicacion": "La confianza es una habilidad: no se tiene o no se tiene, se entrena."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué consecuencia tiene la etiqueta de pesetero en el equipo?",
+   "opciones": [
+    "Que sube los precios",
+    "Que le da vergüenza hablar de dinero y presentar planes grandes",
+    "Que cobra la primera visita",
+    "Que rechaza pacientes"
+   ],
+   "correcta": 1,
+   "explicacion": "Al tenerla interiorizada, el equipo se avergüenza de sus precios y tiende a recortar el plan."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "Completa la frase: «Si no cobras lo que vales…»",
+   "opciones": [
+    "pierdes pacientes",
+    "acabas valiendo lo que cobras",
+    "no puedes invertir",
+    "nadie te respeta"
+   ],
+   "correcta": 1,
+   "explicacion": "Es la respuesta a la vergüenza por los precios."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué diferencia al dermatólogo en consulta del dentista?",
+   "opciones": [
+    "Cobra más",
+    "En consulta no vive el paradigma de éxito o fracaso; el dentista opera todo el día",
+    "Tiene menos pacientes",
+    "No da presupuestos"
+   ],
+   "correcta": 1,
+   "explicacion": "El dentista está expuesto constantemente a que cada acto salga bien o mal."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué pensamiento suele estar detrás de la falta de confianza?",
+   "opciones": [
+    "«No tengo tiempo»",
+    "«Yo no soy lo suficientemente bueno»",
+    "«Los pacientes no pagan»",
+    "«El equipo no ayuda»"
+   ],
+   "correcta": 1,
+   "explicacion": "Y lleva a vivir en un círculo de potencial restringido."
+  },
+  {
+   "tipo": "desarrollo",
+   "enunciado": "Explica por qué el paradigma de éxito o fracaso afecta más al dentista que a otros especialistas y qué propone la formación para salir de él.",
+   "criterios": "Debe mencionar que el dentista está operando todo el día y por tanto expuesto continuamente a éxito o fracaso (también al entregar el plan), que la palabra «fracaso» se usa con ligereza, y que la propuesta es eliminarla y preguntarse qué enseña lo ocurrido para aprender y corregir."
+  }
+ ]
+}

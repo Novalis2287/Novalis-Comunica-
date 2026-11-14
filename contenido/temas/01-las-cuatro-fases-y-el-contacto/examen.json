@@ -1,7 +1,93 @@
-{"preguntas":[
-{"tipo":"test","enunciado":"¿Cuál es el orden de las cuatro fases del método?","opciones":["Problema, contacto, objeciones, solución","Contacto, problema, solución, objeciones","Contacto, solución, problema, objeciones","Solución, contacto, problema, objeciones"],"correcta":1,"explicacion":"Contacto, hacer comprensible el problema, explicar la solución y manejar las objeciones."},
-{"tipo":"test","enunciado":"¿Cuál es la prioridad de la fase de contacto?","opciones":["Detectar la capacidad económica","Crear confianza","Presentar el plan","Hacer la exploración cuanto antes"],"correcta":1,"explicacion":"En el contacto la prioridad no es vender, sino crear confianza."},
-{"tipo":"test","enunciado":"¿En qué consiste el mirroring?","opciones":["En imitar todos los gestos del paciente","En repetir ocasionalmente sus últimas palabras significativas","En mirarle fijamente a los ojos","En resumir su historia clínica"],"correcta":1,"explicacion":"Se recuperan con naturalidad las últimas palabras significativas para invitarle a ampliar."},
-{"tipo":"test","enunciado":"¿Qué impide escuchar de verdad, según el ponente?","opciones":["El ruido del gabinete","Preparar la respuesta mientras el otro habla","La falta de tiempo","La presencia del acompañante"],"correcta":1,"explicacion":"Mientras el paciente habla, el profesional suele estar adelantando la exploración o el presupuesto."},
-{"tipo":"desarrollo","enunciado":"Un paciente llega diciendo: «Yo solo vengo por esta muela, no quiero que me hablen de implantes». Explica cómo aplicarías la realidad compartida y el mirroring en los primeros minutos.","criterios":"No debe discutir ni contradecir de entrada; debe aceptar la preocupación inicial y buscar un punto de acuerdo. Debe usar el mirroring repitiendo palabras del paciente para que amplíe, y mantenerse en escucha sin adelantar diagnóstico ni presupuesto."}
-]}
+{
+ "preguntas": [
+  {
+   "tipo": "test",
+   "enunciado": "¿Cuál es el orden de las cuatro fases del método?",
+   "opciones": [
+    "Problema, contacto, objeciones, solución",
+    "Contacto, problema, solución, objeciones",
+    "Contacto, solución, problema, objeciones",
+    "Solución, contacto, problema, objeciones"
+   ],
+   "correcta": 1,
+   "explicacion": "Contacto, hacer comprensible el problema, explicar la solución y manejar las objeciones."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Cuál es la prioridad de la fase de contacto?",
+   "opciones": [
+    "Detectar la capacidad económica",
+    "Crear confianza",
+    "Presentar el plan",
+    "Hacer la exploración cuanto antes"
+   ],
+   "correcta": 1,
+   "explicacion": "En el contacto la prioridad no es vender, sino crear confianza."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿En qué consiste el mirroring?",
+   "opciones": [
+    "En imitar todos los gestos del paciente",
+    "En repetir ocasionalmente sus últimas palabras significativas",
+    "En mirarle fijamente a los ojos",
+    "En resumir su historia clínica"
+   ],
+   "correcta": 1,
+   "explicacion": "Se recuperan con naturalidad las últimas palabras significativas para invitarle a ampliar."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué impide escuchar de verdad, según el ponente?",
+   "opciones": [
+    "El ruido del gabinete",
+    "Preparar la respuesta mientras el otro habla",
+    "La falta de tiempo",
+    "La presencia del acompañante"
+   ],
+   "correcta": 1,
+   "explicacion": "Mientras el paciente habla, el profesional suele estar adelantando la exploración o el presupuesto."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Cuánto dura aproximadamente una primera visita con este método?",
+   "opciones": [
+    "Cinco minutos",
+    "Entre veinte y treinta minutos",
+    "Una hora y media",
+    "Dos visitas completas"
+   ],
+   "correcta": 1,
+   "explicacion": "Entre veinte y treinta minutos según el caso; enseñarla lleva más porque se descompone paso a paso."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "Según la secuencia operativa, ¿qué no debe asumirse cuando el paciente responde «sí» a la pregunta clave?",
+   "opciones": [
+    "Que quiere conservar sus dientes",
+    "Que es un consentimiento terapéutico",
+    "Que ha escuchado la pregunta",
+    "Que hay que seguir explicando"
+   ],
+   "correcta": 1,
+   "explicacion": "Un sí abre la conversación; no equivale a consentir un tratamiento."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué reacción critica el ponente al empezar la fase de contacto?",
+   "opciones": [
+    "«No tengo tiempo»",
+    "«Esto ya lo sé, esto ya lo hago»",
+    "«Es muy caro»",
+    "«No me atrevo»"
+   ],
+   "correcta": 1,
+   "explicacion": "Los pasos de contacto no pueden omitirse solo porque parezcan conocidos."
+  },
+  {
+   "tipo": "desarrollo",
+   "enunciado": "Un paciente llega diciendo: «Yo solo vengo por esta muela, no quiero que me hablen de implantes». Explica cómo aplicarías la realidad compartida y el mirroring en los primeros minutos.",
+   "criterios": "No debe discutir ni contradecir de entrada; debe aceptar la preocupación inicial y buscar un punto de acuerdo. Debe usar el mirroring repitiendo palabras del paciente para que amplíe, y mantenerse en escucha sin adelantar diagnóstico ni presupuesto."
+  }
+ ]
+}

@@ -1,42 +1,70 @@
 ---
 titulo: Necesidad frente a deseo: hacer comprensible el problema
-resumen: Por qué una lista de tratamientos no convence y qué mueve de verdad a decidir.
+resumen: Por qué una lista de tratamientos no convence, qué mueve a decidir y cómo se ayuda al paciente a reconocer su situación.
 ---
 
-## El presupuesto que no funciona
+## Después del contacto: reconocer la situación clínica
 
-El ponente representa una primera visita habitual. El doctor explora y dicta a la auxiliar una lista: endodoncia, poste y corona, implante, reconstrucciones, férula. Unos diez mil euros. Explica deprisa «necesita esto, necesita aquello» y deja la parte económica a otra persona.
+La segunda fase del método se presenta con una expresión coloquial y deliberadamente provocadora: «hacerle ver su ruina».
 
-El paciente asiente sin haber entendido el plan. La auxiliar intenta abaratarlo quitando partidas y troceando el tratamiento. El paciente dice que es caro y que lo tiene que pensar.
+El ponente la explica con una analogía comercial: antes de vender una escalera, el cliente tiene que saber que está en un hoyo. Y aclara que los profesionales sanitarios no tienen que inventar un problema, porque la situación clínica ya existe. Su trabajo es hacerla comprensible.
 
-El fallo no está en el precio. Se ha presentado una solución a un problema que el paciente no comprende.
+Una persona puede convivir durante años con enfermedad periodontal, caries, dientes ausentes, restauraciones antiguas o desgaste sin percibirlos como urgentes. La progresión lenta normaliza el deterioro. El odontólogo ve un cuadro complejo; el paciente puede haber acudido solo por una pieza y estar pensando en un gasto mucho menor.
 
-## Saber no es hacer
+## La escena del presupuesto que no funciona
 
-El ponente pide que levante la mano quien sabe que debería comer mejor, hacer ejercicio o usar menos el móvil. Todos. Saberlo no nos hace actuar.
+El ponente representa una primera visita habitual.
 
-Lo que una persona necesita y lo que quiere son cosas distintas. Compramos coches, bolsos o teléfonos más caros de lo que la función exige.
+El doctor explora y dicta a una auxiliar una lista de tratamientos: endodoncia en un molar, poste y corona, implante en una zona posterior, reconstrucciones estéticas, férula de descarga. El presupuesto del ejemplo asciende a unos 10.000 euros.
+
+El doctor explica con rapidez «necesita esto, necesita aquello» y deja la negociación económica a otra persona de la clínica.
+
+En la dramatización, el paciente asiente sin haber integrado el significado del plan. La auxiliar intenta abaratar la propuesta quitando prestaciones y fragmentando el tratamiento. Después comunica que la persona considera alto el coste y quiere pensarlo.
+
+El ponente atribuye el fallo a haber presentado una lista de necesidades y soluciones sin que el paciente comprenda su problema ni la finalidad global.
+
+## Necesidad frente a deseo
+
+El ponente contrapone lo que una persona necesita a lo que quiere.
+
+Para mostrarlo pide que levanten la mano quienes saben que conviene comer mejor, hacer ejercicio, beber menos alcohol, no fumar o usar menos el móvil. Saberlo no equivale a actuar.
+
+Lo ilustra también con las compras de coches, bolsos y teléfonos: las personas desean con frecuencia objetos aunque exista una alternativa más barata que cubre la misma función.
+
+La mera lista técnica de endodoncia, corona, implante, reconstrucción y férula, acompañada de un presupuesto elevado, rara vez consigue por sí sola una decisión.
 
 ## Emoción y razón
 
-La frase del tema: la gente compra por emoción y lo justifica con la razón.
+El ponente defiende la frase «la gente compra por emoción y lo justifica por razón».
 
-Hay dos motores: alejarse del dolor y acercarse al placer. El ponente sostiene que evitar el dolor pesa más, y que en la consulta ese dolor suele ser emocional: vergüenza por un diente roto, no sonreír, limitaciones al comer, miedo al deterioro.
+Habla de dos motores: alejarse del dolor y acercarse al placer. Sostiene que evitar el dolor emocional suele pesar especialmente.
 
-## El hoyo y la escalera
+Distingue el dolor físico del dolor emocional: vergüenza, frustración, limitaciones al comer, temor al deterioro, no sonreír, sentirse incómodo. En odontología puede manifestarse como vergüenza por un diente visible roto, como dificultad social o como el deseo de volver a comer y sonreír sin preocupación.
 
-Antes de vender una escalera, el cliente tiene que saber que está en un hoyo. El ponente lo llama, de forma provocadora, «hacerle ver su ruina».
+Lo que motiva la acción, argumenta, es la relevancia personal.
 
-El profesional sanitario no tiene que cavar el hoyo: la situación clínica ya existe. Su trabajo es hacerla comprensible. Una persona puede convivir años con periodontitis, caries o ausencias sin sentirlas urgentes, porque el deterioro lento se normaliza.
+El Documento Maestro pide entender esto como una hipótesis de conversación y no como un hecho universal: algunos pacientes deciden deliberadamente por razones prácticas, valores, presupuesto o prioridades distintas.
 
-## Tres ejemplos comerciales
+## Tres ejemplos de cómo el comercio activa un problema
 
-- La aerolínea de bajo coste que enseña lo incómodo que será el vuelo para que pagues por elegir asiento.
-- Los vendedores de excursiones a la Estatua de la Libertad, que preguntan «¿a qué hora es su reserva?» y convierten no tenerla en un problema.
-- El embarque por grupos, que te hace pasar junto a primera clase.
+**El asiento de avión.** Una aerolínea de bajo coste muestra escenarios incómodos para incentivar el pago por elegir un asiento concreto.
 
-La conclusión: una oferta pesa más cuando el cliente percibe un problema concreto. El propio ponente avisa de que esto no se copia tal cual en odontología.
+**La Estatua de la Libertad.** En Nueva York, los vendedores de excursiones privadas preguntan a los turistas «¿a qué hora es su reserva?» y convierten la falta de reserva en motivo para comprar.
 
-## El límite
+**El embarque de Delta.** El ponente relata los embarques sucesivos por categorías, la sensación de ser de los últimos y el paso por delante de los asientos superiores, con atención de lujo, que le despierta el deseo de viajar en primera clase.
 
-El Documento Maestro lo marca con claridad: la relevancia del problema se descubre, no se fabrica ni se exagera. Solo se explican hallazgos reales.
+Su conclusión es que una oferta pesa más cuando el cliente percibe un problema concreto.
+
+El propio ponente anuncia que esta técnica no debe reproducirse literalmente así en odontología. La lección que quiere trasladar es que el paciente debe reconocer la relevancia personal de su situación antes de recibir una solución costosa.
+
+## El valor percibido del problema
+
+El ponente emplea una cifra ilustrativa: si el paciente percibe su situación como un problema de 100 euros, no entenderá una propuesta de 10.000.
+
+Sostiene que rechazar un plan no siempre significa no poder pagarlo. También puede expresar que todavía no cree necesario lo propuesto, que no entiende su alcance o que no confía en su eficacia.
+
+## Los límites que marca el Documento Maestro
+
+- La relevancia del problema debe descubrirse, no fabricarse ni exagerarse. En salud no debe crearse sufrimiento ni inflarse un riesgo clínico para provocar la compra.
+- La explicación no debe dirigirse a «hacer parecer» más caro el problema, sino a transmitir de forma fiel su gravedad y las opciones reales.
+- Describir una técnica de ventas expuesta en la formación no implica recomendar su aplicación sin consentimiento, sin fundamento clínico o mediante presión.

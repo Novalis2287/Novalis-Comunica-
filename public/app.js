@@ -35,6 +35,14 @@ const almacen = {
   },
 };
 
+function barajar(lista) {
+  for (let i = lista.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [lista[i], lista[j]] = [lista[j], lista[i]];
+  }
+  return lista;
+}
+
 function markdownSeguro(texto) {
   return DOMPurify.sanitize(marked.parse(texto));
 }
@@ -199,8 +207,9 @@ async function vistaExamen(id) {
         ? h(
             "div",
             { class: "opciones" },
-            p.opciones.map((o, j) =>
-              h("label", { class: "opcion" }, h("input", { type: "radio", name: `p${i}`, value: j, id: `p${i}o${j}` }), h("span", {}, o)),
+            // Las opciones se barajan en cada intento para que no se memorice la posición.
+            barajar(p.opciones.map((o, j) => [o, j])).map(([o, j]) =>
+              h("label", { class: "opcion", "data-opcion": j }, h("input", { type: "radio", name: `p${i}`, value: j, id: `p${i}o${j}` }), h("span", {}, o)),
             ),
           )
         : h("textarea", { id: `p${i}`, name: `p${i}`, placeholder: "Escribe tu respuesta…", "aria-label": `Respuesta a la pregunta ${i + 1}` });
@@ -222,9 +231,9 @@ async function vistaExamen(id) {
         if (p.tipo === "test") {
           const marcada = campo.querySelector("input:checked");
           const elegida = marcada ? Number(marcada.value) : -1;
-          const opciones = campo.querySelectorAll(".opcion");
-          opciones[p.correcta].classList.add("correcta");
-          if (elegida !== p.correcta && elegida >= 0) opciones[elegida].classList.add("fallada");
+          const opcion = (j) => campo.querySelector(`.opcion[data-opcion="${j}"]`);
+          opcion(p.correcta).classList.add("correcta");
+          if (elegida !== p.correcta && elegida >= 0) opcion(elegida).classList.add("fallada");
           notas[i] = elegida === p.correcta ? 10 : 0;
           correccion.append(
             h("p", {}, h("strong", {}, elegida === p.correcta ? "Correcta. " : elegida < 0 ? "Sin responder. " : "Incorrecta. "), p.explicacion || ""),

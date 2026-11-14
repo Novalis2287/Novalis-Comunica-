@@ -1,8 +1,105 @@
-{"preguntas":[
-{"tipo":"test","enunciado":"¿Cuándo está un paciente en el área de cierre?","opciones":["Cuando ha recibido el presupuesto","Cuando ha entendido las consecuencias de su problema y muestra señales de querer tratarse","Cuando ha pedido financiación","Cuando viene acompañado"],"correcta":1,"explicacion":"Comprensión de las consecuencias más alguna señal de querer hacerse el tratamiento."},
-{"tipo":"test","enunciado":"¿Cómo termina siempre una técnica de cierre?","opciones":["Con un descuento","Con una pregunta cerrada","Con una pregunta abierta","Con un silencio"],"correcta":1,"explicacion":"Con una pregunta cerrada orientada a obtener el sí."},
-{"tipo":"test","enunciado":"¿Qué hay que conseguir en todas las visitas, aunque no se cierre?","opciones":["Un anticipo","Llegar a la verdadera objeción","Una segunda cita con el doctor","Que firme el presupuesto"],"correcta":1,"explicacion":"La verdadera objeción permite elegir la estrategia o descartar el caso."},
-{"tipo":"test","enunciado":"En la técnica «Estoy de acuerdo», ¿qué palabra hay que evitar?","opciones":["«Entiendo»","«Pero»","«Claro»","«Perfecto»"],"correcta":1,"explicacion":"El «pero» invalida el acuerdo que se acaba de expresar."},
-{"tipo":"test","enunciado":"Un paciente dice: «Llevo ocho años con los huecos y me apaño bien». ¿Qué técnica encaja?","opciones":["Ahora o nunca","No tengo alternativa","Cualquier tiempo pasado fue mejor","Mujer/hombre de acción"],"correcta":2,"explicacion":"Se le muestra cómo evolucionará su boca con el caso de alguien que lo fue dejando."},
-{"tipo":"desarrollo","enunciado":"Explica por qué el manual considera más importante llegar a la verdadera objeción que cerrar en la primera visita, y pon un ejemplo de objeción aparente y objeción real.","criterios":"Debe explicar que los pacientes no suelen ser sinceros al principio (vergüenza, desconfianza), que la objeción real determina la estrategia o la decisión de posponer o descartar, y dar un ejemplo coherente, como «me voy de viaje» o «tengo que pensarlo» ocultando el precio."}
-]}
+{
+ "preguntas": [
+  {
+   "tipo": "test",
+   "enunciado": "¿Cuándo está un paciente en el área de cierre?",
+   "opciones": [
+    "Cuando ha recibido el presupuesto",
+    "Cuando ha entendido las consecuencias de su problema y muestra señales de querer tratarse",
+    "Cuando ha pedido financiación",
+    "Cuando viene acompañado"
+   ],
+   "correcta": 1,
+   "explicacion": "Comprensión de las consecuencias más alguna señal de querer hacerse el tratamiento."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Cómo termina siempre una técnica de cierre?",
+   "opciones": [
+    "Con un descuento",
+    "Con una pregunta cerrada",
+    "Con una pregunta abierta",
+    "Con un silencio"
+   ],
+   "correcta": 1,
+   "explicacion": "Con una pregunta cerrada orientada a obtener el sí."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué hay que conseguir en todas las visitas, aunque no se cierre?",
+   "opciones": [
+    "Un anticipo",
+    "Llegar a la verdadera objeción",
+    "Una segunda cita con el doctor",
+    "Que firme el presupuesto"
+   ],
+   "correcta": 1,
+   "explicacion": "La verdadera objeción permite elegir la estrategia o descartar el caso."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "En la técnica «Estoy de acuerdo», ¿qué palabra hay que evitar?",
+   "opciones": [
+    "«Entiendo»",
+    "«Pero»",
+    "«Claro»",
+    "«Perfecto»"
+   ],
+   "correcta": 1,
+   "explicacion": "El «pero» invalida el acuerdo que se acaba de expresar."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "Un paciente dice: «Llevo ocho años con los huecos y me apaño bien». ¿Qué técnica encaja?",
+   "opciones": [
+    "Ahora o nunca",
+    "No tengo alternativa",
+    "Cualquier tiempo pasado fue mejor",
+    "Mujer/hombre de acción"
+   ],
+   "correcta": 2,
+   "explicacion": "Se le muestra cómo evolucionará su boca con el caso de alguien que lo fue dejando."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Cuál es la técnica de cierre más sencilla?",
+   "opciones": [
+    "Ofrecer un descuento",
+    "Preguntar simplemente «¿Lo hacemos?»",
+    "Contar una historia",
+    "Fijar una cita"
+   ],
+   "correcta": 1,
+   "explicacion": "Basta cuando el paciente sale convencido del gabinete."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "En «Ahora o nunca», ¿por qué se justifica la ventaja con un factor externo?",
+   "opciones": [
+    "Para alargar la oferta",
+    "Para no restar credibilidad a las tarifas",
+    "Para evitar impuestos",
+    "Porque lo exige el laboratorio"
+   ],
+   "correcta": 1,
+   "explicacion": "Una clínica no funciona como un comercio."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué condición pone el manual a las historias de «Cuéntame un cuento»?",
+   "opciones": [
+    "Que sean breves",
+    "Que sean reales y honestas",
+    "Que sean divertidas",
+    "Que hablen de dinero"
+   ],
+   "correcta": 1,
+   "explicacion": "No se trata de convertirse en un cuentista."
+  },
+  {
+   "tipo": "desarrollo",
+   "enunciado": "Explica por qué el manual considera más importante llegar a la verdadera objeción que cerrar en la primera visita, y pon un ejemplo de objeción aparente y objeción real.",
+   "criterios": "Debe explicar que los pacientes no suelen ser sinceros al principio (vergüenza, desconfianza), que la objeción real determina la estrategia o la decisión de posponer o descartar, y dar un ejemplo coherente, como «me voy de viaje» o «tengo que pensarlo» ocultando el precio."
+  }
+ ]
+}

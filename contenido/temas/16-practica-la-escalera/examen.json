@@ -1,7 +1,105 @@
-{"preguntas":[
-{"tipo":"test","enunciado":"¿Cuál es el orden de los peldaños de la escalera?","opciones":["Emoción, molestia, importancia, consecuencia","Molestia, consecuencia, emoción, importancia","Molestia, emoción, consecuencia, importancia","Importancia, molestia, consecuencia, emoción"],"correcta":1,"explicacion":"Molestia, consecuencia, emoción e importancia."},
-{"tipo":"test","enunciado":"El paciente dice: «tengo que estar pendiente de la dentadura». ¿Qué pregunta respeta las reglas?","opciones":["«¿Y eso le incomoda mucho?»","«Cuando dice estar pendiente, ¿a qué se refiere?»","«¿Ha pensado en ponerse implantes?»","«¿Desde cuándo le pasa, con qué frecuencia y en qué situaciones?»"],"correcta":1,"explicacion":"Es una sola pregunta, corta y anclada en sus palabras exactas."},
-{"tipo":"test","enunciado":"¿Qué indica que el paciente asienta durante la explicación?","opciones":["Que ha decidido tratarse","Que está receptivo, no necesariamente decidido","Que no ha entendido nada","Que quiere terminar"],"correcta":1,"explicacion":"Asentir indica receptividad; no equivale a comprensión completa ni a decisión."},
-{"tipo":"test","enunciado":"¿Qué se hace después de formular la pregunta?","opciones":["Explicar por qué se pregunta","Proponer varias respuestas posibles","Guardar silencio y esperar","Pasar a la solución"],"correcta":2,"explicacion":"Silencio: tres segundos antes de repreguntar y sin rescatar la conversación."},
-{"tipo":"desarrollo","enunciado":"Un paciente te dice: «La verdad es que esta dentadura me tiene un poco harto. Se mueve y tengo que estar pendiente de ella. Pero supongo que a mi edad es normal». Escribe las preguntas que harías para subir los peldaños de la escalera, una por peldaño.","criterios":"Cada pregunta debe ser única y corta, usar las palabras del paciente («harto», «estar pendiente») y no las propias, seguir el orden consecuencia, emoción, importancia, y no incluir explicaciones ni soluciones. Se valora que mencione el silencio tras cada pregunta."}
-]}
+{
+ "preguntas": [
+  {
+   "tipo": "test",
+   "enunciado": "¿Cuál es el orden de los peldaños de la escalera?",
+   "opciones": [
+    "Emoción, molestia, importancia, consecuencia",
+    "Molestia, consecuencia, emoción, importancia",
+    "Molestia, emoción, consecuencia, importancia",
+    "Importancia, molestia, consecuencia, emoción"
+   ],
+   "correcta": 1,
+   "explicacion": "Molestia, consecuencia, emoción e importancia."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "El paciente dice: «tengo que estar pendiente de la dentadura». ¿Qué pregunta respeta las reglas?",
+   "opciones": [
+    "«¿Y eso le incomoda mucho?»",
+    "«Cuando dice estar pendiente, ¿a qué se refiere?»",
+    "«¿Ha pensado en ponerse implantes?»",
+    "«¿Desde cuándo le pasa, con qué frecuencia y en qué situaciones?»"
+   ],
+   "correcta": 1,
+   "explicacion": "Es una sola pregunta, corta y anclada en sus palabras exactas."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué indica que el paciente asienta durante la explicación?",
+   "opciones": [
+    "Que ha decidido tratarse",
+    "Que está receptivo, no necesariamente decidido",
+    "Que no ha entendido nada",
+    "Que quiere terminar"
+   ],
+   "correcta": 1,
+   "explicacion": "Asentir indica receptividad; no equivale a comprensión completa ni a decisión."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué se hace después de formular la pregunta?",
+   "opciones": [
+    "Explicar por qué se pregunta",
+    "Proponer varias respuestas posibles",
+    "Guardar silencio y esperar",
+    "Pasar a la solución"
+   ],
+   "correcta": 2,
+   "explicacion": "Silencio: tres segundos antes de repreguntar y sin rescatar la conversación."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Dónde haces el primer contacto con el paciente?",
+   "opciones": [
+    "En el sillón",
+    "En la sala de espera",
+    "En el despacho",
+    "Por teléfono"
+   ],
+   "correcta": 1,
+   "explicacion": "El gabinete impone más; el primer rapport se hace fuera."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué problema tiene la broma «lo que duele es el presupuesto»?",
+   "opciones": [
+    "Es de mal gusto",
+    "Prepara al paciente para que el precio duela",
+    "Alarga la visita",
+    "No se entiende"
+   ],
+   "correcta": 1,
+   "explicacion": "Puede actuar como un anclaje negativo."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué precisión clínica se hizo a tu explicación de la piorrea?",
+   "opciones": [
+    "Que no es una enfermedad",
+    "Que el hueso se pierde por la inflamación de la placa, no porque el sarro lo ataque",
+    "Que no afecta al hueso",
+    "Que se cura sola"
+   ],
+   "correcta": 1,
+   "explicacion": "El sarro la favorece, pero el mecanismo es la inflamación."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Por qué era floja la pregunta «¿qué sería para ti un buen resultado?»",
+   "opciones": [
+    "Era demasiado larga",
+    "El paciente puede no saber qué responder",
+    "Era cerrada",
+    "Hablaba de dinero"
+   ],
+   "correcta": 1,
+   "explicacion": "Funciona mejor anclarla en algo que el paciente ya ha dicho."
+  },
+  {
+   "tipo": "desarrollo",
+   "enunciado": "Un paciente te dice: «La verdad es que esta dentadura me tiene un poco harto. Se mueve y tengo que estar pendiente de ella. Pero supongo que a mi edad es normal». Escribe las preguntas que harías para subir los peldaños de la escalera, una por peldaño.",
+   "criterios": "Cada pregunta debe ser única y corta, usar las palabras del paciente («harto», «estar pendiente») y no las propias, seguir el orden consecuencia, emoción, importancia, y no incluir explicaciones ni soluciones. Se valora que mencione el silencio tras cada pregunta."
+  }
+ ]
+}

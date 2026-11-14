@@ -1,7 +1,93 @@
-{"preguntas":[
-{"tipo":"test","enunciado":"En la escena del presupuesto que no funciona, ¿cuál es el fallo principal?","opciones":["El precio es demasiado alto","Se presenta una solución a un problema que el paciente no comprende","La auxiliar no sabe negociar","Falta financiación"],"correcta":1,"explicacion":"El paciente recibe una lista de tratamientos sin haber entendido su problema ni la finalidad global."},
-{"tipo":"test","enunciado":"Completa la frase del ponente: «La gente compra por emoción y…»","opciones":["paga por obligación","lo justifica con la razón","se arrepiente después","decide por precio"],"correcta":1,"explicacion":"La gente compra por emoción y lo justifica con la razón."},
-{"tipo":"test","enunciado":"En la analogía del hoyo y la escalera, ¿qué debe hacer el profesional sanitario?","opciones":["Cavar el hoyo","Hacer comprensible un hoyo que ya existe","Ofrecer la escalera más barata","Esperar a que el paciente lo descubra"],"correcta":1,"explicacion":"El problema clínico ya existe; la tarea es que el paciente lo comprenda."},
-{"tipo":"test","enunciado":"¿Por qué un paciente puede convivir años con una boca muy deteriorada sin sentir urgencia?","opciones":["Porque no le importa su salud","Porque el deterioro lento se normaliza","Porque no tiene dinero","Porque nadie le ha visto"],"correcta":1,"explicacion":"La progresión lenta hace que el paciente se acostumbre y no lo perciba como urgente."},
-{"tipo":"desarrollo","enunciado":"Explica la diferencia entre lo que el paciente necesita y lo que quiere, y por qué una lista técnica con un presupuesto alto rara vez consigue una decisión.","criterios":"Debe distinguir necesidad racional de motivación emocional, mencionar que saber no equivale a actuar, que la decisión se mueve por alejarse del dolor (a menudo emocional) o acercarse al placer, y que sin comprender el problema la lista de tratamientos no tiene relevancia personal. Se valora que cite el límite: no fabricar ni exagerar."}
-]}
+{
+ "preguntas": [
+  {
+   "tipo": "test",
+   "enunciado": "En la escena del presupuesto que no funciona, ¿cuál es el fallo principal?",
+   "opciones": [
+    "El precio es demasiado alto",
+    "Se presenta una solución a un problema que el paciente no comprende",
+    "La auxiliar no sabe negociar",
+    "Falta financiación"
+   ],
+   "correcta": 1,
+   "explicacion": "El paciente recibe una lista de tratamientos sin haber entendido su problema ni la finalidad global."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "Completa la frase del ponente: «La gente compra por emoción y…»",
+   "opciones": [
+    "paga por obligación",
+    "lo justifica con la razón",
+    "se arrepiente después",
+    "decide por precio"
+   ],
+   "correcta": 1,
+   "explicacion": "La gente compra por emoción y lo justifica con la razón."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "En la analogía del hoyo y la escalera, ¿qué debe hacer el profesional sanitario?",
+   "opciones": [
+    "Cavar el hoyo",
+    "Hacer comprensible un hoyo que ya existe",
+    "Ofrecer la escalera más barata",
+    "Esperar a que el paciente lo descubra"
+   ],
+   "correcta": 1,
+   "explicacion": "El problema clínico ya existe; la tarea es que el paciente lo comprenda."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Por qué un paciente puede convivir años con una boca muy deteriorada sin sentir urgencia?",
+   "opciones": [
+    "Porque no le importa su salud",
+    "Porque el deterioro lento se normaliza",
+    "Porque no tiene dinero",
+    "Porque nadie le ha visto"
+   ],
+   "correcta": 1,
+   "explicacion": "La progresión lenta hace que el paciente se acostumbre y no lo perciba como urgente."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué pregunta usan los vendedores de excursiones a la Estatua de la Libertad?",
+   "opciones": [
+    "«¿Cuánto quiere gastar?»",
+    "«¿A qué hora es su reserva?»",
+    "«¿Ha estado antes en Nueva York?»",
+    "«¿Viaja solo?»"
+   ],
+   "correcta": 1,
+   "explicacion": "Convierten la falta de reserva en un problema que motiva la compra."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "Si el paciente percibe su situación como un problema de 100 euros, ¿qué ocurre con una propuesta de 10.000?",
+   "opciones": [
+    "La acepta si hay financiación",
+    "No la entiende",
+    "La negocia",
+    "La compara con otras"
+   ],
+   "correcta": 1,
+   "explicacion": "Rechazar un plan no siempre es no poder pagarlo: puede no creer necesario lo propuesto."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué dos motores de la decisión describe el ponente?",
+   "opciones": [
+    "Precio y calidad",
+    "Alejarse del dolor y acercarse al placer",
+    "Miedo y culpa",
+    "Razón y lógica"
+   ],
+   "correcta": 1,
+   "explicacion": "Y sostiene que evitar el dolor emocional suele pesar especialmente."
+  },
+  {
+   "tipo": "desarrollo",
+   "enunciado": "Explica la diferencia entre lo que el paciente necesita y lo que quiere, y por qué una lista técnica con un presupuesto alto rara vez consigue una decisión.",
+   "criterios": "Debe distinguir necesidad racional de motivación emocional, mencionar que saber no equivale a actuar, que la decisión se mueve por alejarse del dolor (a menudo emocional) o acercarse al placer, y que sin comprender el problema la lista de tratamientos no tiene relevancia personal. Se valora que cite el límite: no fabricar ni exagerar."
+  }
+ ]
+}

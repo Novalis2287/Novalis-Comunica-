@@ -1,8 +1,105 @@
-{"preguntas":[
-{"tipo":"test","enunciado":"¿Qué se hace justo antes de formular la pregunta?","opciones":["Enseñar el presupuesto","Pedir permiso y hacer una pausa","Mostrar la cámara intraoral","Llamar al acompañante"],"correcta":1,"explicacion":"«¿Le puedo hacer una pregunta?», pausa, y después la pregunta."},
-{"tipo":"test","enunciado":"¿Cuál de estas formulaciones respeta el método?","opciones":["«¿Quiere ponerse dientes?»","«¿Quiere una sonrisa bonita?»","«¿Quiere usted mantener sus dientes?»","«¿Quiere ponerse implantes?»"],"correcta":2,"explicacion":"Solo se admite cambiar «conservar» por «mantener»; las demás desvían hacia prótesis o estética."},
-{"tipo":"test","enunciado":"¿Por qué funciona la pregunta?","opciones":["Porque asusta al paciente","Porque crea una disonancia y el paciente tiende a ser coherente con su respuesta","Porque acorta la visita","Porque le hace sentirse culpable"],"correcta":1,"explicacion":"Tras decir que sí, mantener «no quiero tratarme» resulta incoherente."},
-{"tipo":"test","enunciado":"El paciente responde «sí». ¿Qué viene a continuación?","opciones":["El presupuesto","La propuesta de implantes","La explicación de qué está ocurriendo","La financiación"],"correcta":2,"explicacion":"Tras el sí aún no se presenta la solución: empieza la explicación del problema."},
-{"tipo":"test","enunciado":"El paciente se queda callado y extrañado. ¿Cómo se interpreta?","opciones":["Como un no","Como señal de paciente conflictivo","Como nervios, bloqueo o falta de contexto","Como aceptación"],"correcta":2,"explicacion":"La extrañeza o la demora no prueban conflicto."},
-{"tipo":"desarrollo","enunciado":"Un paciente te dice: «Doctor, no me enseñe nada, yo solo vengo a que me quite esta muela». Escribe qué le dirías y qué harías después según conteste sí o no.","criterios":"Debe aceptar sin discutir, pedir permiso, hacer pausa y formular «¿Quiere usted conservar sus dientes?». Si dice sí: explicar qué ocurre antes de hablar de soluciones, y seguir aunque inhiba. Si dice no: resolver lo que pide sin insistir."}
-]}
+{
+ "preguntas": [
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué se hace justo antes de formular la pregunta?",
+   "opciones": [
+    "Enseñar el presupuesto",
+    "Pedir permiso y hacer una pausa",
+    "Mostrar la cámara intraoral",
+    "Llamar al acompañante"
+   ],
+   "correcta": 1,
+   "explicacion": "«¿Le puedo hacer una pregunta?», pausa, y después la pregunta."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Cuál de estas formulaciones respeta el método?",
+   "opciones": [
+    "«¿Quiere ponerse dientes?»",
+    "«¿Quiere una sonrisa bonita?»",
+    "«¿Quiere usted mantener sus dientes?»",
+    "«¿Quiere ponerse implantes?»"
+   ],
+   "correcta": 2,
+   "explicacion": "Solo se admite cambiar «conservar» por «mantener»; las demás desvían hacia prótesis o estética."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Por qué funciona la pregunta?",
+   "opciones": [
+    "Porque asusta al paciente",
+    "Porque crea una disonancia y el paciente tiende a ser coherente con su respuesta",
+    "Porque acorta la visita",
+    "Porque le hace sentirse culpable"
+   ],
+   "correcta": 1,
+   "explicacion": "Tras decir que sí, mantener «no quiero tratarme» resulta incoherente."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "El paciente responde «sí». ¿Qué viene a continuación?",
+   "opciones": [
+    "El presupuesto",
+    "La propuesta de implantes",
+    "La explicación de qué está ocurriendo",
+    "La financiación"
+   ],
+   "correcta": 2,
+   "explicacion": "Tras el sí aún no se presenta la solución: empieza la explicación del problema."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "El paciente se queda callado y extrañado. ¿Cómo se interpreta?",
+   "opciones": [
+    "Como un no",
+    "Como señal de paciente conflictivo",
+    "Como nervios, bloqueo o falta de contexto",
+    "Como aceptación"
+   ],
+   "correcta": 2,
+   "explicacion": "La extrañeza o la demora no prueban conflicto."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué responde el formador a quien dice que hace la pregunta «a veces»?",
+   "opciones": [
+    "Que es suficiente",
+    "Que entonces a veces le funcionará y a veces no",
+    "Que mejor no la haga",
+    "Que la cambie por otra"
+   ],
+   "correcta": 1,
+   "explicacion": "Ese acuerdo se necesita siempre."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Con qué compara el ponente la reacción del paciente ante la pregunta?",
+   "opciones": [
+    "Con un niño asustado",
+    "Con un conejo inmóvil bajo los faros de un coche",
+    "Con un alumno en un examen",
+    "Con un cliente indeciso"
+   ],
+   "correcta": 1,
+   "explicacion": "La imagen expresa sorpresa y reflexión."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Cómo empezó el ponente a atreverse a hacer la pregunta?",
+   "opciones": [
+    "Delante de todo el equipo",
+    "A solas, aprovechando que la auxiliar salía durante las aletas de mordida",
+    "Por escrito",
+    "Solo con pacientes conocidos"
+   ],
+   "correcta": 1,
+   "explicacion": "Recomienda además que el equipo no observe al doctor como en un examen."
+  },
+  {
+   "tipo": "desarrollo",
+   "enunciado": "Un paciente te dice: «Doctor, no me enseñe nada, yo solo vengo a que me quite esta muela». Escribe qué le dirías y qué harías después según conteste sí o no.",
+   "criterios": "Debe aceptar sin discutir, pedir permiso, hacer pausa y formular «¿Quiere usted conservar sus dientes?». Si dice sí: explicar qué ocurre antes de hablar de soluciones, y seguir aunque inhiba. Si dice no: resolver lo que pide sin insistir."
+  }
+ ]
+}

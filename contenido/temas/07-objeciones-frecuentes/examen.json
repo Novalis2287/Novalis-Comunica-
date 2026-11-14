@@ -1,8 +1,105 @@
-{"preguntas":[
-{"tipo":"test","enunciado":"Ante «tengo que hablarlo con mi pareja», ¿qué se hace primero?","opciones":["Rebatirlo","Validar que es normal consultarlo","Ofrecer un descuento","Insistir en decidir hoy"],"correcta":1,"explicacion":"Se valida, después se pregunta qué cree que opinará y se propone una cita conjunta."},
-{"tipo":"test","enunciado":"¿Por qué se propone que la pareja venga a una nueva cita?","opciones":["Para presionar al paciente","Porque no ha visto las imágenes ni vivido la explicación","Para firmar la financiación","Para alargar el proceso"],"correcta":1,"explicacion":"La pareja decide sin haber recibido la misma información."},
-{"tipo":"test","enunciado":"¿Qué frase propone el ponente ante «tengo que pensarlo»?","opciones":["«Piénselo rápido, la oferta caduca»","«Lo importante es que se trate bien, aquí o en otra clínica que lo haga bien»","«No hay nada que pensar»","«Ya le llamaremos»"],"correcta":1,"explicacion":"Transmite que la recomendación busca el interés del paciente."},
-{"tipo":"test","enunciado":"El paciente quiere arreglarse solo el diente que le duele. ¿Qué plantea la formación?","opciones":["Negarse a tratarle","Hacer solo ese diente sin más","Explicar el plan global y empezar por ese diente dentro de la secuencia","Derivarle"],"correcta":2,"explicacion":"Se empieza por lo que más le preocupa, pero dentro de un plan diseñado de antemano."},
-{"tipo":"test","enunciado":"Ante «soy muy mayor», ¿qué funciona mejor según el ponente?","opciones":["Decirle que está estupendo","Contar casos reales de personas mayores que se trataron","Darle la razón","Ofrecer una prótesis barata"],"correcta":1,"explicacion":"Las historias reales responden a la objeción mejor que un cumplido."},
-{"tipo":"desarrollo","enunciado":"Una paciente te dice: «Es que no tengo mucho dinero, y además tendría que hablarlo con mi marido». Escribe tu respuesta paso a paso.","criterios":"Debe tratar las dos objeciones por separado. Dinero: preguntar a qué se refiere y si sería posible con un pago fraccionado, concretando una cuota, sin prometer financiación antes de estudiarla. Marido: validar, preguntar qué cree que diría y proponer una cita conjunta. Debe mantener el tono de aclarar y no de vencer, respetando su derecho a pensarlo."}
-]}
+{
+ "preguntas": [
+  {
+   "tipo": "test",
+   "enunciado": "Ante «tengo que hablarlo con mi pareja», ¿qué se hace primero?",
+   "opciones": [
+    "Rebatirlo",
+    "Validar que es normal consultarlo",
+    "Ofrecer un descuento",
+    "Insistir en decidir hoy"
+   ],
+   "correcta": 1,
+   "explicacion": "Se valida, después se pregunta qué cree que opinará y se propone una cita conjunta."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Por qué se propone que la pareja venga a una nueva cita?",
+   "opciones": [
+    "Para presionar al paciente",
+    "Porque no ha visto las imágenes ni vivido la explicación",
+    "Para firmar la financiación",
+    "Para alargar el proceso"
+   ],
+   "correcta": 1,
+   "explicacion": "La pareja decide sin haber recibido la misma información."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué frase propone el ponente ante «tengo que pensarlo»?",
+   "opciones": [
+    "«Piénselo rápido, la oferta caduca»",
+    "«Lo importante es que se trate bien, aquí o en otra clínica que lo haga bien»",
+    "«No hay nada que pensar»",
+    "«Ya le llamaremos»"
+   ],
+   "correcta": 1,
+   "explicacion": "Transmite que la recomendación busca el interés del paciente."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "El paciente quiere arreglarse solo el diente que le duele. ¿Qué plantea la formación?",
+   "opciones": [
+    "Negarse a tratarle",
+    "Hacer solo ese diente sin más",
+    "Explicar el plan global y empezar por ese diente dentro de la secuencia",
+    "Derivarle"
+   ],
+   "correcta": 2,
+   "explicacion": "Se empieza por lo que más le preocupa, pero dentro de un plan diseñado de antemano."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "Ante «soy muy mayor», ¿qué funciona mejor según el ponente?",
+   "opciones": [
+    "Decirle que está estupendo",
+    "Contar casos reales de personas mayores que se trataron",
+    "Darle la razón",
+    "Ofrecer una prótesis barata"
+   ],
+   "correcta": 1,
+   "explicacion": "Las historias reales responden a la objeción mejor que un cumplido."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "En el ejercicio, la paciente dice que no puede afrontar el importe. ¿Qué cifra concreta acaba dando?",
+   "opciones": [
+    "Entre 50 y 100 euros al mes",
+    "Entre 200 y 300 euros al mes",
+    "500 euros al mes",
+    "Ninguna"
+   ],
+   "correcta": 1,
+   "explicacion": "El valor está en pasar de una objeción genérica a una restricción concreta."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué hace el equipo si el paciente no quiere dejar programada la revisión a seis meses?",
+   "opciones": [
+    "Insistir hasta que acepte",
+    "Aclarar y documentar que queda bajo su responsabilidad, ofreciendo recordatorios",
+    "Darle de baja",
+    "Cobrarle un anticipo"
+   ],
+   "correcta": 1,
+   "explicacion": "Se transfiere la responsabilidad sin enfrentarse."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Por qué rechaza el ponente la frase «son las nuevas normas»?",
+   "opciones": [
+    "Porque es falsa",
+    "Porque no transmite la justificación ni el beneficio",
+    "Porque es larga",
+    "Porque molesta al equipo"
+   ],
+   "correcta": 1,
+   "explicacion": "Importa tanto la seguridad al comunicar como el contenido."
+  },
+  {
+   "tipo": "desarrollo",
+   "enunciado": "Una paciente te dice: «Es que no tengo mucho dinero, y además tendría que hablarlo con mi marido». Escribe tu respuesta paso a paso.",
+   "criterios": "Debe tratar las dos objeciones por separado. Dinero: preguntar a qué se refiere y si sería posible con un pago fraccionado, concretando una cuota, sin prometer financiación antes de estudiarla. Marido: validar, preguntar qué cree que diría y proponer una cita conjunta. Debe mantener el tono de aclarar y no de vencer, respetando su derecho a pensarlo."
+  }
+ ]
+}

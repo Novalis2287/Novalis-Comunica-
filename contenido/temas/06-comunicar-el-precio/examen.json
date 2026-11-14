@@ -1,8 +1,105 @@
-{"preguntas":[
-{"tipo":"test","enunciado":"¿Quién debe comunicar el importe total del tratamiento?","opciones":["La recepcionista","La coordinadora, al final","El doctor","Se envía por escrito"],"correcta":2,"explicacion":"El doctor da la cifra con naturalidad; después el equipo gestiona el pago."},
-{"tipo":"test","enunciado":"¿Qué se hace justo después de decir la cifra?","opciones":["Explicar el descuento","Pausa y «¿Qué te parece?»","Justificar el precio","Ofrecer financiación"],"correcta":1,"explicacion":"Se da la cifra, se hace una pausa y se deja reaccionar al paciente."},
-{"tipo":"test","enunciado":"¿A qué llama el ponente dejar una «patata caliente»?","opciones":["A dar un presupuesto alto","A que el paciente plantee todas sus dudas por primera vez en el despacho","A cobrar por adelantado","A financiar sin intereses"],"correcta":1,"explicacion":"El doctor no puede pasar al equipo un paciente que solo ha asentido y no ha oído el precio."},
-{"tipo":"test","enunciado":"¿Por qué se opone el ponente al pago por acto en planes complejos?","opciones":["Porque es ilegal","Porque el paciente pospone fases y juzga cada pago por la última visita","Porque complica la contabilidad","Porque reduce el precio"],"correcta":1,"explicacion":"Favorece el abandono y las comparaciones entre minutos y honorarios."},
-{"tipo":"test","enunciado":"El paciente dice «es mucho dinero». ¿Qué se hace primero?","opciones":["Ofrecer un descuento","Quitar partidas del plan","Preguntar qué quiere decir exactamente con «mucho»","Proponer financiación"],"correcta":2,"explicacion":"Hay que distinguir si es un problema de valor percibido o un límite económico real."},
-{"tipo":"desarrollo","enunciado":"Escribe cómo comunicarías un presupuesto de 11.000 euros y cómo harías el relevo a la persona que gestiona el pago.","criterios":"Debe dar la cifra total de forma directa, sin bromas que anticipen dolor ni disculpas, hacer pausa y preguntar «¿Qué te parece?». El relevo debe dejar claro tratamiento, importe y dudas pendientes, delante del paciente. Se valora que conecte la inversión con lo que el paciente quiere recuperar y que no dé por definitivo un simple asentimiento."}
-]}
+{
+ "preguntas": [
+  {
+   "tipo": "test",
+   "enunciado": "¿Quién debe comunicar el importe total del tratamiento?",
+   "opciones": [
+    "La recepcionista",
+    "La coordinadora, al final",
+    "El doctor",
+    "Se envía por escrito"
+   ],
+   "correcta": 2,
+   "explicacion": "El doctor da la cifra con naturalidad; después el equipo gestiona el pago."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué se hace justo después de decir la cifra?",
+   "opciones": [
+    "Explicar el descuento",
+    "Pausa y «¿Qué te parece?»",
+    "Justificar el precio",
+    "Ofrecer financiación"
+   ],
+   "correcta": 1,
+   "explicacion": "Se da la cifra, se hace una pausa y se deja reaccionar al paciente."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿A qué llama el ponente dejar una «patata caliente»?",
+   "opciones": [
+    "A dar un presupuesto alto",
+    "A que el paciente plantee todas sus dudas por primera vez en el despacho",
+    "A cobrar por adelantado",
+    "A financiar sin intereses"
+   ],
+   "correcta": 1,
+   "explicacion": "El doctor no puede pasar al equipo un paciente que solo ha asentido y no ha oído el precio."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Por qué se opone el ponente al pago por acto en planes complejos?",
+   "opciones": [
+    "Porque es ilegal",
+    "Porque el paciente pospone fases y juzga cada pago por la última visita",
+    "Porque complica la contabilidad",
+    "Porque reduce el precio"
+   ],
+   "correcta": 1,
+   "explicacion": "Favorece el abandono y las comparaciones entre minutos y honorarios."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "El paciente dice «es mucho dinero». ¿Qué se hace primero?",
+   "opciones": [
+    "Ofrecer un descuento",
+    "Quitar partidas del plan",
+    "Preguntar qué quiere decir exactamente con «mucho»",
+    "Proponer financiación"
+   ],
+   "correcta": 2,
+   "explicacion": "Hay que distinguir si es un problema de valor percibido o un límite económico real."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Cuáles son las tres vías de pago que expone la formación?",
+   "opciones": [
+    "Efectivo, tarjeta y transferencia",
+    "Pronto pago, financiación y acuerdo de tres pagos",
+    "Pago por acto, mensual y anual",
+    "Anticipo, plazos y seguro"
+   ],
+   "correcta": 1,
+   "explicacion": "El de tres pagos: inicio, punto intermedio y antes de terminar."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué desaconseja el ponente sobre la financiación?",
+   "opciones": [
+    "Financiar a más de un año",
+    "Ofrecer financiación «sin intereses» con comisiones de apertura elevadas",
+    "Que la clínica asuma intereses",
+    "Hablar de financiación en la primera visita"
+   ],
+   "correcta": 1,
+   "explicacion": "Pone el ejemplo de una comisión del 9 %."
+  },
+  {
+   "tipo": "test",
+   "enunciado": "¿Qué creencia se le rompió al ponente la primera vez que dio él el precio?",
+   "opciones": [
+    "Que los pacientes no pagan",
+    "Que hablar de precios desprestigia al odontólogo",
+    "Que la financiación es cara",
+    "Que el equipo no sabe vender"
+   ],
+   "correcta": 1,
+   "explicacion": "Anunció 3.000 o 4.000 euros y el paciente no reaccionó mal."
+  },
+  {
+   "tipo": "desarrollo",
+   "enunciado": "Escribe cómo comunicarías un presupuesto de 11.000 euros y cómo harías el relevo a la persona que gestiona el pago.",
+   "criterios": "Debe dar la cifra total de forma directa, sin bromas que anticipen dolor ni disculpas, hacer pausa y preguntar «¿Qué te parece?». El relevo debe dejar claro tratamiento, importe y dudas pendientes, delante del paciente. Se valora que conecte la inversión con lo que el paciente quiere recuperar y que no dé por definitivo un simple asentimiento."
+  }
+ ]
+}

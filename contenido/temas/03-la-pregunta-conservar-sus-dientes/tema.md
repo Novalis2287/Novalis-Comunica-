@@ -1,52 +1,100 @@
 ---
 titulo: La pregunta: «¿Quiere conservar sus dientes?»
-resumen: Cuándo se hace, cómo se formula, por qué funciona y qué hacer con cada respuesta.
+resumen: El escenario, la formulación exacta, por qué funciona, cómo conducir cada respuesta y cómo atreverse a hacerla.
 ---
 
 ## El dentista peluquero
 
-Lo que hace la mayoría es esto: llega el paciente con su problema, se le dice «tienes la boca muy mal», él contesta «ya, pero yo vengo por esto», y el dentista acaba preguntando qué quiere que le haga. Como en la peluquería. Para el formador esa es la lacra con la que hay que terminar.
+Lo que hace cualquier dentista ahí fuera es esto: llega el paciente con su problemita, se le dice «tienes la boca muy mal», él contesta «ya, ya, pero yo vengo por esto», y el dentista coge la turbina y pregunta qué quiere que le haga. Como en la peluquería: «¿Cómo te lo dejo? Por aquí más corto, por allí más largo».
 
-## Cuándo se hace
+Esa es la odontología que se aprende en todo el mundo, dice el formador, y esa es la lacra con la que quiere terminar.
 
-Después del contacto: el paciente ha contado su motivo, se ha explorado y hay radiografías. El método está pensado sobre todo para bocas complejas, no para un empaste.
+## El escenario inicial
 
-El paciente suele querer arreglar solo lo que le molesta. Antes el ponente le enfrentaba con toda la lista de problemas y solo conseguía desacuerdo. Ahora acepta sin discutir: «Entiendo que ahora quiera solucionar esto».
+El ponente parte de un paciente con la boca comprometida: ausencias, enfermedad periodontal, coronas, restos radiculares y varios problemas más. Aclara que el método está diseñado sobre todo para cuadros complejos, no para un simple empaste.
 
-## Cómo se formula
+Se presupone que el equipo ya estableció contacto, escuchó el motivo de la visita, generó puntos de acuerdo y obtuvo información clínica mediante exploración y radiografías.
 
-1. Se pide permiso: «¿Le puedo hacer una pregunta?».
-2. Se hace una pausa deliberada.
-3. Se pregunta: «¿Quiere usted conservar sus dientes?».
+Describe la puesta en escena: sentar al paciente en el gabinete, reclinar el sillón para explorar con un espejo y reincorporarlo hasta una posición semiinclinada, cercana a 45 grados. Menciona una postura cercana, incluso una mano en el hombro. El Documento Maestro precisa que la posición y el contacto deben responder siempre a la comodidad y al consentimiento del paciente, no a buscar indefensión.
 
-La pregunta se mantiene casi idéntica. No vale «¿quiere ponerse dientes?» ni «¿quiere una sonrisa?». Se admite «mantener» en lugar de «conservar». Si el paciente entiende que se habla solo de la muela que le duele, se aclara que es de los dientes en general.
+## No discutir de entrada sobre implantes
 
-## Por qué funciona
+El paciente suele querer resolver solo la molestia que le ha traído y dejar el resto «poco a poco».
 
-Cambia el horizonte: ya no se trata de arreglar una muela, sino de proteger la dentadura a largo plazo.
+El ponente recuerda que antes se enfrentaba al paciente con toda la lista de problemas y tratamientos, y eso generaba desacuerdo. Ahora recomienda aceptar la preocupación inicial sin discutir: «Entiendo que ahora quiera solucionar esto».
 
-Además genera una disonancia. Quien ha dicho que quiere conservar sus dientes tiende a ser coherente con ello, y eso le pone de tu lado. «Quiero conservar mis dientes» y «no quiero gastarme el dinero» chocan, y tiene que soltar uno de los dos.
+Cuando el paciente dice directamente «doctor, no me enseñe nada», la respuesta es la misma: «Vale, yo sé que no quiere saber nada, perfecto, no se preocupe. De hecho, no le voy a poner implantes a menos que usted me lo pida».
 
-De ahí la regla: ese acuerdo se busca siempre. Quien pregunta a veces obtiene resultados a veces.
+La estrategia es abrir después una pregunta de objetivo que permita ampliar el foco.
 
-## Qué hacer con cada respuesta
+## Pedir permiso
 
-- **«Sí».** «Perfecto, entonces le voy a explicar qué está ocurriendo y qué tenemos que hacer para conservarlos». Todavía no se habla de la solución.
-- **«Sí, sobre todo los de delante».** Indica qué valora; es una ocasión para ampliar la conversación.
-- **«¿Por qué me pregunta eso?».** Se explica que unos pacientes quieren salir del apuro y otros priorizan conservar su dentadura.
-- **Silencio o extrañeza.** No significa conflicto: pueden ser nervios o falta de contexto.
-- **«No».** No se pierde el tiempo. Se resuelve lo que pide. El ponente no quiere que la boca del paciente le importe más a él que al propio paciente.
+Se propone «¿Le puedo hacer una pregunta?» y, si conviene, «¿Le puedo hacer una pregunta que hago a todos los pacientes cuando los conozco?».
 
-Si ha dicho que sí, se sigue aunque luego inhiba y aunque la vocecita diga que va a parecer que presionas.
+El permiso capta la atención y prepara la escucha. Después se hace una pausa deliberada antes de formular la pregunta central.
+
+## La pregunta exacta
+
+«¿Quiere usted conservar sus dientes?»
+
+El ponente insiste en que debe mantenerse prácticamente idéntica. No se sustituye por «¿quiere ponerse dientes?», «¿quiere una sonrisa?» ni por otras fórmulas centradas en prótesis, estética o implantes. Sí admite «mantener» en lugar de «conservar».
+
+Si el paciente entiende que la pregunta se refiere únicamente a la muela que le molesta, conviene aclarar que se habla de los dientes en general.
+
+La pregunta se hace después de haber oído al paciente y de explorar. Su función es abrir una conversación sobre el objetivo a largo plazo.
+
+## Qué le ocurre al paciente
+
+El ponente compara la reacción con la de un conejo inmóvil bajo los faros de un coche: sorpresa, reflexión. El formador del módulo 2 la describe como un puñetazo en el estómago. El paciente no la espera: «¿Cómo? Hombre, pues sí, quiero».
+
+Es especialmente intensa en pacientes con años de evolución, acostumbrados a reparaciones aisladas.
+
+La pregunta transforma el horizonte temporal: ya no se trata de arreglar una muela, sino de proteger el conjunto de los dientes a largo plazo. El paciente sube un escalón en la escala que va de desconocer a actuar.
+
+## Por qué es tan potente
+
+Produce una disonancia cognitiva. Si el paciente dice que sí quiere conservar sus dientes, tenderá a ser coherente con lo que ha dicho, y por tanto se pone de tu lado.
+
+«Quiero conservar mis dientes» y «no me quiero gastar el dinero» son una disonancia: tiene que soltar uno de los dos pensamientos. Ahí está la magia, dice el formador.
+
+El ponente añade otros argumentos. El miedo a tratarse o a afrontar la realidad ha contribuido a posponer la atención, y ese mismo miedo puede impulsar el cambio. Una pregunta puede desplazar la conservación de los dientes al primer lugar en la lista de prioridades de la persona. Habla de «virus» y de «cambio de juego» como metáforas de ese efecto, y menciona la programación neurolingüística, sin aportar pruebas en el material.
+
+## Siempre, no a veces
+
+Cuando un alumno dice que la pregunta la hace «a veces», la respuesta del formador es: pues a veces te funcionará y a veces no. Ese acuerdo se necesita siempre.
+
+Y avisa contra la conclusión precipitada: no penséis en aquel día en que hicisteis la pregunta a un paciente y no pasó nada.
+
+## Cómo conducir cada respuesta
+
+**«Sí».** «Perfecto, entonces le voy a explicar qué está ocurriendo y qué tenemos que hacer para conservarlos». Todavía no se presenta la solución: empieza la educación sobre el problema.
+
+**«Sí, pero sobre todo los de delante».** Es una señal del valor que el paciente asigna a determinadas piezas y una oportunidad para ampliar la conversación. Se explora qué desea preservar y se explican las opciones.
+
+**«¿Por qué me pregunta eso?».** Se explica que algunos pacientes buscan salir de un apuro puntual mientras otros priorizan conservar su dentadura.
+
+**Silencio.** Requerirá más conversación. La extrañeza o la demora al responder no prueban conflicto: pueden deberse a nervios, bloqueo o falta de contexto.
+
+**«Solo he venido a sacarme una muela» o «no».** El ponente admite que puede realizar la extracción indicada, aunque no ofrecerá restauraciones que considere incoherentes con la situación global. No pretende convencer a todo el mundo y no quiere que la boca del paciente le importe más a él que al propio paciente.
+
+El formador lo cuenta con un caso de esa misma semana: un paciente le dijo que no quería conservar sus dientes. «¿Tú qué quieres, la muela y listo?». «Sí». Se dieron la mano y le quitó la muela. No hay que perder el tiempo.
+
+## Si ha dicho que sí, se sigue
+
+«Si el paciente me dice que quiere conservar sus dientes, yo sigo». Aunque después frene, aunque pida que no le enseñes la cámara y aunque la vocecita diga que va a pensar que eres un presionador. «Me da igual lo que piense. Yo sigo con mi proceso y con mis pasos, porque mis pasos son para darle conocimiento». El profesional no va a ser cómplice del deterioro.
 
 ## Cuándo no se hace
 
-Con pacientes sin dientes o cuando clínicamente no tiene sentido.
+Con personas sin dientes o cuando no tiene sentido clínico. El ponente menciona también a los pacientes que percibe como conflictivos; el Documento Maestro advierte de que ese criterio no debe usarse para excluir información ni para discriminar: todos merecen información honesta y un trato profesional.
 
-## Atreverse
+## Atreverse: el equipo y la práctica
 
-Al profesional le cuesta hacerla las primeras veces. El ponente empezó formulándola a solas, cuando la auxiliar salía del gabinete, y pide al equipo que acompañe sin examinar al doctor.
+El ponente reconoce que al profesional le puede costar atreverse a preguntar, y pide el apoyo del equipo para ensayarlo.
 
-## Un matiz del Documento Maestro
+Cuenta que al principio él hacía las radiografías de aleta de mordida y aprovechaba la salida de la auxiliar para formular la pregunta a solas. Recomienda que el resto del equipo acompañe el cambio sin observar al doctor como si fuera un examen, porque ensayar una pregunta poco habitual genera nervios.
 
-Un «sí» abre la conversación sobre el objetivo; no es un consentimiento para cualquier tratamiento.
+## Matices del Documento Maestro
+
+- Un «sí» abre la conversación; no es una autorización para cualquier tratamiento.
+- La formulación absoluta de la pregunta no debe ocultar un pronóstico incierto ni las alternativas legítimas. Propone variantes: «¿Qué importancia tiene para usted conservar estos dientes, si es viable?» y «¿Le parece que revisemos qué se puede conservar y qué alternativas tiene?».
+- Sensibilizar sobre riesgos veraces no equivale a buscar el miedo como objetivo. El paciente debe poder comprender las consecuencias sin sentirse acorralado.
