@@ -14,6 +14,8 @@ const raiz = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const salida = path.resolve(process.argv[2] || "pagina");
 fs.mkdirSync(path.join(salida, "audio"), { recursive: true });
 
+fs.copyFileSync(path.join(raiz, "public/novalis.png"), path.join(salida, "novalis.png"));
+
 const temas = listarTemas().map((t) => {
   if (t.tieneAudio) fs.copyFileSync(path.join(t.dir, "audio.mp3"), path.join(salida, "audio", `${t.id}.mp3`));
   return {
@@ -31,6 +33,7 @@ css = css.replace(".cabecera { ", ".cabecera { top: env(safe-area-inset-top, 0px
 
 const app = fs
   .readFileSync(path.join(raiz, "public/app.js"), "utf8")
+  .replace('import { iniciarCuenta } from "./cuenta.js";\nawait iniciarCuenta();', '')
   .replace("src: `/api/temas/${tema.id}/audio`", "src: `audio/${tema.id}.mp3`");
 
 // El profesor y el guardado en la nube usan las capacidades de la página (ver pagina-sin-servidor.js).
@@ -44,7 +47,7 @@ const sinServidor = fs
 const cuerpo = fs.readFileSync(path.join(raiz, "public/index.html"), "utf8").match(/<body>([\s\S]*?)<script/)[1];
 const pagina = `<title>Novalis Comunica</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
 <style>
 ${css}
 </style>
