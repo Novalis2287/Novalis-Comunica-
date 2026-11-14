@@ -1,4 +1,4 @@
-# Publicar Novalis Comunica
+# Publicar Novalis Aprende
 
 La aplicación está preparada para usar Supabase como cuenta y base de datos y
 Render como alojamiento del servidor web. No hay ninguna cuenta ni proyecto externo
@@ -7,7 +7,7 @@ creado por esta entrega. Hace falta configurar ambos servicios para obtener la U
 ## 1. Crear el proyecto de Supabase
 
 1. Abre https://supabase.com/dashboard y pulsa **New project**.
-2. Elige tu organización, llama al proyecto **Novalis Comunica**, establece una
+2. Elige tu organización, llama al proyecto **Novalis Aprende**, establece una
    contraseña de base de datos y elige una región europea. Guarda esa contraseña
    en tu gestor de contraseñas; no hace falta compartirla.
 3. En **SQL Editor**, abre una consulta nueva, pega el contenido de
@@ -27,13 +27,11 @@ datos. La función de guardado comprueba la revisión para detectar cambios simu
    seleccionando el repositorio. Render leerá `render.yaml`. También puedes crear
    un **Web Service** Node con `npm ci` para construir y `npm start` para arrancar.
 3. Configura `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` con los valores del paso 1.
-4. Para activar el profesor y las correcciones de desarrollo, configura
-   `ANTHROPIC_API_KEY`. Es una clave de API con facturación propia, independiente de
-   la suscripción de Claude. Sin ella siguen funcionando los temas, audios, test,
-   guía de visita y sincronización. `MODELO_TUTOR` permite elegir un modelo disponible
-   en tu cuenta de Anthropic; la integración con IA aún requiere una prueba real.
-5. Configura o consulta `CODIGO_ACCESO`: el Blueprint genera uno. Tendrás que
-   introducirlo en el móvil y en el iPad al usar el profesor.
+4. La opción elegida para el profesor es la versión dentro de Claude, que usa la
+   cuenta del alumno. No se configura una API de pago para este despliegue. La web
+   de Render todavía no dispone del profesor; la integración original se conserva
+   en `scripts/pagina-sin-servidor.js` y su exportador.
+5. Ejecuta las dos migraciones y configura el administrador siguiendo README.md.
 6. Espera a que Render te dé una dirección `https://...onrender.com`.
 
 El Blueprint selecciona el plan Free para una primera prueba. Este plan se duerme
@@ -52,8 +50,8 @@ https://render.com/docs/free. No guarda el progreso en disco: este se almacena e
    dirección, revisa los destinatarios permitidos y configura SMTP propio antes de
    utilizar la aplicación con más personas. Consulta:
    https://supabase.com/docs/guides/auth/auth-smtp.
-4. Abre la web en el móvil. En la sección de cuenta, pide un enlace de acceso y
-   ábrelo en el mismo dispositivo. Repite con el mismo correo en el iPad.
+4. Abre la web, pulsa **Crear cuenta**, introduce correo y contraseña y confirma
+   el correo. Entra con el mismo correo y contraseña desde el móvil y el iPad.
 5. Completa un test o registra una visita. Comprueba «Todo guardado en tu cuenta».
    En el otro dispositivo pulsa «Sincronizar ahora» y verifica el resultado.
 

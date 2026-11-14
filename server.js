@@ -5,6 +5,7 @@ import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { listarTemas, obtenerTema, temaComoHtml, listarFuentes, obtenerFlujo } from "./lib/contenido.js";
 import { conversar, corregir, valorarProgreso, tutorConfigurado, mensajeDeError } from "./lib/tutor.js";
+import { crearAcceso, exigirAdministrador } from "./lib/acceso.js";
 
 const aqui = path.dirname(fileURLToPath(import.meta.url));
 
@@ -13,7 +14,9 @@ const rutaEnv = path.join(aqui, ".env");
 if (fs.existsSync(rutaEnv)) process.loadEnvFile(rutaEnv);
 
 const app = express();
+app.set("trust proxy", 1);
 app.use(express.json({ limit: "2mb" }));
+const exigirSesion = crearAcceso({ url: process.env.SUPABASE_URL, key: process.env.SUPABASE_PUBLISHABLE_KEY });
 
 const CODIGO = process.env.CODIGO_ACCESO || "";
 function codigoCorrecto(valor) {
@@ -45,7 +48,37 @@ app.get("/api/configuracion", (req, res) => {
   res.set("Cache-Control", "no-store").json({
     supabaseUrl: process.env.SUPABASE_URL || "",
     supabaseKey: process.env.SUPABASE_PUBLISHABLE_KEY || "",
+    requiereCuenta: true,
   });
+});
+
+app.delete("/api/sesion", (req, res) => {
+  res.clearCookie("novalis_sesion", { path: "/", httpOnly: true, sameSite: "strict", secure: req.secure });
+  res.status(204).end();
+});
+app.post("/api/sesion", exigirSesion, (req, res) => {
+  if (req.get("origin") && new URL(req.get("origin")).host !== req.get("host")) return res.status(403).json({ error: "Origen no permitido." });
+  res.cookie("novalis_sesion", req.cuenta.token, { httpOnly: true, secure: req.secure, sameSite: "strict", path: "/", maxAge: 3600000 });
+  res.json({ perfil: req.cuenta.perfil });
+});
+
+// También se comprueba en el servidor: ocultar el menú no protege el contenido.
+app.use("/api", exigirSesion);
+app.get("/api/admin/usuarios", exigirAdministrador, async (req, res) => {
+  const pagina = Math.max(0, Math.min(10000, Number.parseInt(req.query.pagina, 10) || 0));
+  const { data, count, error } = await req.cuenta.cliente.from("perfiles")
+    .select("id,email,rol,activo,creado", { count: "exact" }).order("creado", { ascending: false }).range(pagina * 50, pagina * 50 + 49);
+  if (error) return res.status(503).json({ error: "No se pudieron cargar los usuarios." });
+  res.json({ usuarios: data, total: count, pagina });
+});
+app.patch("/api/admin/usuarios/:id", exigirAdministrador, async (req, res) => {
+  if (!/^[0-9a-f-]{36}$/i.test(req.params.id) || typeof req.body?.activo !== "boolean") return res.status(400).json({ error: "Datos no válidos." });
+  if (req.params.id === req.cuenta.perfil.id) return res.status(400).json({ error: "No puedes desactivar tu propia cuenta." });
+  const { data, error } = await req.cuenta.cliente.from("perfiles").update({ activo: req.body.activo })
+    .eq("id", req.params.id).eq("rol", "usuario").select("id,activo").maybeSingle();
+  if (error) return res.status(503).json({ error: "No se pudo modificar la cuenta." });
+  if (!data) return res.status(404).json({ error: "Usuario no encontrado o protegido." });
+  res.json(data);
 });
 
 app.get("/api/temas", (req, res) => {
@@ -139,4 +172,4 @@ app.use("/vendor/supabase.js", express.static(path.join(aqui, "node_modules/@sup
 app.use(express.static(path.join(aqui, "public")));
 
 const puerto = Number(process.env.PORT) || 3000;
-app.listen(puerto, () => console.log(`Novalis Comunica en http://localhost:${puerto}`));
+app.listen(puerto, () => console.log(`Novalis Aprende en http://localhost:${puerto}`));

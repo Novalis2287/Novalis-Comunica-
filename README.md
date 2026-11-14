@@ -1,4 +1,4 @@
-# Novalis Comunica
+# Novalis Aprende
 
 App para entrenar la comunicación con los pacientes.
 
@@ -16,8 +16,10 @@ cp .env.example .env   # y rellena las claves
 npm start              # http://localhost:3000
 ```
 
-Sin claves la app funciona igualmente para leer y hacer los test; el profesor y
-la corrección de preguntas de desarrollo necesitan `ANTHROPIC_API_KEY`.
+La web necesita las dos variables públicas de Supabase para permitir el acceso.
+El profesor original está preparado para la versión alojada dentro de Claude,
+donde utiliza la cuenta del alumno sin una API aparte. Esa capacidad no se
+traslada automáticamente a Render; su enlace con la web sigue pendiente.
 
 ## Dónde está el contenido
 
@@ -32,14 +34,37 @@ contenido/
   flujo.json               pasos de la primera visita, puntos de control y caso guiado
 ```
 
-Sin Supabase, las visitas se guardan en el navegador del dispositivo donde se
-anotan. Con Supabase configurado, cada alumno entra por correo y sincroniza sus
+La web requiere Supabase y una cuenta confirmada. Las visitas se guardan en el
+navegador donde se anotan y se sincronizan con la cuenta. Cada alumno sincroniza sus
 visitas, notas de examen, caso práctico, borrador y valoración entre dispositivos.
 El chat y el código de acceso no se sincronizan. Los datos locales están separados
 por cuenta. Los registros previos de invitado se mantienen separados de la cuenta.
 Al profesor se le envían las visitas sin el campo identificador del paciente.
 
 ## Acceso desde móvil y iPad
+
+La versión web exige registro con correo y contraseña, confirmación del correo e
+inicio de sesión. Los contenidos y audios también comprueban la sesión en el
+servidor. La recuperación de contraseña se solicita desde la pantalla de acceso.
+
+El administrador ve las cuentas y puede activar o desactivar usuarios. Los roles
+no se leen de metadatos editables. El correo reservado para el administrador se
+configura en `private.ajustes_acceso`, nunca en el código público. El registro
+crea su perfil; para entrar debe confirmar el correo y elegir su propia contraseña.
+El panel no muestra las notas libres ni las visitas de otras cuentas.
+
+Tras la migración inicial de progreso, ejecuta también
+`supabase/migrations/20261114155643_acceso_usuarios.sql`. Desde SQL Editor, configura
+el correo del administrador con una consulta privada:
+
+```sql
+update private.ajustes_acceso set email_admin = lower('correo-del-administrador') where unico;
+-- Si la cuenta ya existía, asigna el rol a ese perfil concreto:
+update public.perfiles set rol = 'admin' where email = (select email_admin from private.ajustes_acceso where unico);
+```
+
+El servicio usa las variables configuradas en Render. `render.yaml` queda como
+plantilla para despliegues nuevos; el servicio actual se creó desde el panel.
 
 Consulta [PUBLICAR.md](PUBLICAR.md) para configurar Supabase y publicar el servidor.
 Se incluye `render.yaml` para Render. La identidad visual utiliza el logotipo
