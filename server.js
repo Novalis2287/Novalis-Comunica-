@@ -41,6 +41,13 @@ app.get("/api/estado", (req, res) => {
   });
 });
 
+app.get("/api/configuracion", (req, res) => {
+  res.set("Cache-Control", "no-store").json({
+    supabaseUrl: process.env.SUPABASE_URL || "",
+    supabaseKey: process.env.SUPABASE_PUBLISHABLE_KEY || "",
+  });
+});
+
 app.get("/api/temas", (req, res) => {
   res.json(
     listarTemas().map((t) => ({
@@ -128,6 +135,7 @@ app.post("/api/corregir", exigirAcceso, exigirTutor, async (req, res) => {
 
 app.use("/vendor/marked.js", express.static(path.join(aqui, "node_modules/marked/lib/marked.umd.js")));
 app.use("/vendor/purify.js", express.static(path.join(aqui, "node_modules/dompurify/dist/purify.min.js")));
+app.use("/vendor/supabase.js", express.static(path.join(aqui, "node_modules/@supabase/supabase-js/dist/umd/supabase.js")));
 app.use(express.static(path.join(aqui, "public")));
 
 const puerto = Number(process.env.PORT) || 3000;

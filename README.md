@@ -32,8 +32,25 @@ contenido/
   flujo.json               pasos de la primera visita, puntos de control y caso guiado
 ```
 
-Las visitas registradas se guardan en el navegador del dispositivo donde se
-anotan. Al profesor se le envían sin el identificador del paciente.
+Sin Supabase, las visitas se guardan en el navegador del dispositivo donde se
+anotan. Con Supabase configurado, cada alumno entra por correo y sincroniza sus
+visitas, notas de examen, caso práctico, borrador y valoración entre dispositivos.
+El chat y el código de acceso no se sincronizan. Los datos locales están separados
+por cuenta. Los registros previos de invitado se mantienen separados de la cuenta.
+Al profesor se le envían las visitas sin el campo identificador del paciente.
+
+## Acceso desde móvil y iPad
+
+Consulta [PUBLICAR.md](PUBLICAR.md) para configurar Supabase y publicar el servidor.
+Se incluye `render.yaml` para Render. La identidad visual utiliza el logotipo
+facilitado por Novalis, su azul corporativo y una interfaz adaptada a pantallas táctiles.
+
+La sincronización se realiza al entrar, al guardar, al volver a la pestaña y al
+recuperar conexión. También se puede pulsar «Sincronizar ahora». Si dos dispositivos
+modifican la misma sección sin haberse sincronizado, se pide elegir qué versión
+conservar antes de reemplazarla. No hay actualización en tiempo real de una pantalla
+que permanezca abierta en primer plano. Los cambios sin conexión quedan pendientes
+en el dispositivo; no debe borrarse el almacenamiento del navegador antes de subirlos.
 
 Los temas se ordenan por el nombre de la carpeta. Formato de `examen.json`:
 

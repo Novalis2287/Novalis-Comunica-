@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: novalis-comunica
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/estado
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_PUBLISHABLE_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: CODIGO_ACCESO
+        generateValue: true
