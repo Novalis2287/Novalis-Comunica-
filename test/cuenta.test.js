@@ -27,7 +27,7 @@ async function entorno({ usuario = "uno", filas = [], previo = {}, fallo = false
   let sinRed = fallo;
   let interceptar;
   const cliente = {
-    auth: { getSession: async () => ({ data: { session: usuario ? { user: { id: usuario, email: "alumno@example.org" } } : null } }), onAuthStateChange() {}, signOut: async () => ({}) },
+    auth: { getSession: async () => ({ data: { session: usuario ? { access_token: "sesion-de-prueba", user: { id: usuario, email: "alumno@example.org" } } : null } }), onAuthStateChange() {}, signOut: async () => ({}) },
     from: () => ({ select: async () => sinRed ? { error: new Error("Sin red") } : { data: [...remoto.values()].map((x) => structuredClone(x)) } }),
     rpc: async (_, p) => {
       llamadas.push(p);
@@ -41,10 +41,10 @@ async function entorno({ usuario = "uno", filas = [], previo = {}, fallo = false
     },
   };
   ventana.supabase = { createClient: () => cliente };
-  const ctx = vm.createContext({ window: ventana, document: doc, Event, AbortSignal, queueMicrotask,
-    fetch: async () => ({ ok: true, json: async () => ({ supabaseUrl: "https://example.supabase.co", supabaseKey: "publicable" }) }),
+  const ctx = vm.createContext({ window: ventana, document: doc, Event, AbortSignal, URLSearchParams, queueMicrotask,
+    fetch: async (ruta) => ({ ok: true, json: async () => ruta === "/api/sesion" ? { perfil: { id: usuario, rol: "usuario", activo: true } } : { supabaseUrl: "https://example.supabase.co", supabaseKey: "publicable" } }),
     localStorage: { getItem: (k) => valores.get(k) ?? null, setItem: (k, v) => valores.set(k, v) },
-    location: { origin: "https://app.example.org", pathname: "/", reload() {} },
+    location: { origin: "https://app.example.org", pathname: "/", search: "", reload() {} },
   });
   const fuente = fs.readFileSync(new URL("../public/cuenta.js", import.meta.url), "utf8");
   vm.runInContext(fuente.replace("export async function iniciarCuenta", "async function iniciarCuenta"), ctx);
