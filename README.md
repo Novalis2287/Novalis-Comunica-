@@ -17,9 +17,11 @@ npm start              # http://localhost:3000
 ```
 
 La web necesita las dos variables públicas de Supabase para permitir el acceso.
-El profesor original está preparado para la versión alojada dentro de Claude,
-donde utiliza la cuenta del alumno sin una API aparte. Esa capacidad no se
-traslada automáticamente a Render; su enlace con la web sigue pendiente.
+El profesor web funciona localmente con WebLLM 0.2.88 y Qwen2.5 1.5B Instruct cuantizado a 4 bits. No necesita claves ni cuentas de proveedores de IA. En Profesor, pulsa «Descargar y preparar profesor» en cada dispositivo. La primera descarga proviene de Hugging Face y MLC; el navegador guarda el modelo en caché, pero puede borrarlo. La inferencia usa WebGPU en un worker. Necesita HTTPS, un navegador compatible con shader-f16 y memoria disponible; no se promete compatibilidad ni velocidad hasta probar el dispositivo real.
+
+Esta integración es una prueba. Se seleccionan fragmentos del temario para limitar el contexto; no se carga el contenido completo en cada respuesta. Las correcciones de desarrollo son orientativas y se validan antes de puntuar. El profesor genera el texto en el dispositivo. El temario sigue requiriendo una sesión activa y conexión con el servidor, y el progreso sincronizado usa Supabase. El chat se guarda solo en el navegador por cuenta. El modelo de IA no recibe datos desde un proveedor externo; descarga sus archivos públicos antes de funcionar.
+
+Se han comprobado la recuperación de fragmentos, el contrato de corrección y la interfaz con un motor simulado. La generación real y su calidad en iPhone/iPad requieren validación en los equipos del usuario. Referencias: https://github.com/mlc-ai/web-llm y https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct (licencia Apache 2.0).
 
 ## Dónde está el contenido
 
@@ -115,9 +117,9 @@ ofrece leerlo con la voz del navegador.
 
 Es un servidor Node sin paso de compilación: sirve en cualquier alojamiento que
 ejecute `npm start` (Render, Railway, Fly.io…). Define allí las variables de
-`.env.example` y pon un `CODIGO_ACCESO` para que solo tú puedas usar el profesor.
+`.env.example`. El acceso al curso se controla mediante las cuentas de Supabase.
 
-## Versión como página de Claude
+## Exportador legado como página de Claude
 
 `node scripts/exportar-pagina.mjs <carpeta>` genera la app en una sola página,
 sin servidor, para publicarla como artefacto privado de Claude con las

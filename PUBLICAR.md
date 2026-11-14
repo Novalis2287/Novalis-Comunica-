@@ -27,11 +27,8 @@ datos. La función de guardado comprueba la revisión para detectar cambios simu
    seleccionando el repositorio. Render leerá `render.yaml`. También puedes crear
    un **Web Service** Node con `npm ci` para construir y `npm start` para arrancar.
 3. Configura `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` con los valores del paso 1.
-4. La opción elegida para el profesor es la versión dentro de Claude, que usa la
-   cuenta del alumno. No se configura una API de pago para este despliegue. La web
-   de Render todavía no dispone del profesor; la integración original se conserva
-   en `scripts/pagina-sin-servidor.js` y su exportador.
-5. Ejecuta las dos migraciones y configura el administrador siguiendo README.md.
+4. El profesor web utiliza un modelo local mediante WebLLM. No configures ninguna clave de IA. Cada dispositivo descarga el modelo desde la sección Profesor; consulta los requisitos y las limitaciones de la prueba en README.md.
+5. Ejecuta las tres migraciones y configura el administrador siguiendo README.md.
 6. Espera a que Render te dé una dirección `https://...onrender.com`.
 
 El Blueprint selecciona el plan Free para una primera prueba. Este plan se duerme

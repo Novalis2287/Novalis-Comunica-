@@ -1,10 +1,8 @@
 import express from "express";
 import fs from "node:fs";
 import path from "node:path";
-import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { listarTemas, obtenerTema, temaComoHtml, listarFuentes, obtenerFlujo } from "./lib/contenido.js";
-import { conversar, corregir, valorarProgreso, tutorConfigurado, mensajeDeError } from "./lib/tutor.js";
 import { crearAcceso, exigirAdministrador } from "./lib/acceso.js";
 
 const aqui = path.dirname(fileURLToPath(import.meta.url));
@@ -18,28 +16,11 @@ app.set("trust proxy", 1);
 app.use(express.json({ limit: "2mb" }));
 const exigirSesion = crearAcceso({ url: process.env.SUPABASE_URL, key: process.env.SUPABASE_PUBLISHABLE_KEY });
 
-const CODIGO = process.env.CODIGO_ACCESO || "";
-function codigoCorrecto(valor) {
-  const a = Buffer.from(String(valor || ""));
-  const b = Buffer.from(CODIGO);
-  return a.length === b.length && crypto.timingSafeEqual(a, b);
-}
-// Protege las rutas que gastan la clave de IA.
-function exigirAcceso(req, res, next) {
-  if (!CODIGO || codigoCorrecto(req.get("x-codigo-acceso"))) return next();
-  res.status(401).json({ error: "Código de acceso incorrecto.", pideCodigo: true });
-}
-function exigirTutor(req, res, next) {
-  if (tutorConfigurado()) return next();
-  res.status(503).json({
-    error: "El profesor con IA aún no está configurado: falta la clave ANTHROPIC_API_KEY en el servidor.",
-  });
-}
-
 app.get("/api/estado", (req, res) => {
   res.json({
-    tutor: tutorConfigurado(),
-    pideCodigo: Boolean(CODIGO),
+    tutor: true,
+    tutorModo: "local",
+    pideCodigo: false,
     fuentes: listarFuentes().map((f) => f.nombre),
   });
 });
@@ -144,56 +125,15 @@ app.get("/api/temas/:id/audio", (req, res) => {
 
 app.get("/api/flujo", (req, res) => res.json(obtenerFlujo()));
 
-app.post("/api/progreso", exigirAcceso, exigirTutor, async (req, res) => {
-  try {
-    res.json({ valoracion: await valorarProgreso({ visitas: req.body?.visitas }) });
-  } catch (error) {
-    res.status(error instanceof Error && !("status" in error) ? 400 : 502).json({ error: mensajeDeError(error) });
-  }
-});
-
-app.post("/api/chat", exigirAcceso, exigirTutor, async (req, res) => {
-  let stream;
-  try {
-    stream = conversar({ mensajes: req.body?.mensajes, temaId: req.body?.temaId, visitas: req.body?.visitas });
-  } catch (error) {
-    return res.status(400).json({ error: error.message });
-  }
-  res.set({ "Content-Type": "text/event-stream", "Cache-Control": "no-cache", "X-Accel-Buffering": "no" });
-  res.flushHeaders();
-  const enviar = (dato) => res.write(`data: ${JSON.stringify(dato)}\n\n`);
-  res.on("close", () => {
-    if (!res.writableEnded) stream.abort();
+// Material reservado a usuarios activos; la inferencia se hace en el dispositivo.
+app.get("/api/profesor/material", (req, res) => {
+  res.set("Cache-Control", "private, no-store").json({
+    temas: listarTemas().map(t => ({ id: t.id, titulo: t.titulo, texto: t.markdown, preguntas: t.preguntas })),
+    flujo: obtenerFlujo(),
   });
-  try {
-    for await (const evento of stream) {
-      if (evento.type === "content_block_delta" && evento.delta.type === "text_delta") {
-        enviar({ texto: evento.delta.text });
-      }
-    }
-    const final = await stream.finalMessage();
-    if (final.stop_reason === "refusal") enviar({ error: "El profesor no puede responder a esa petición." });
-    else if (final.stop_reason === "max_tokens") enviar({ aviso: "La respuesta se ha cortado por longitud." });
-    enviar({ fin: true });
-  } catch (error) {
-    if (!res.writableEnded) enviar({ error: mensajeDeError(error) });
-  }
-  res.end();
 });
 
-app.post("/api/corregir", exigirAcceso, exigirTutor, async (req, res) => {
-  const { temaId, indice, respuesta } = req.body || {};
-  const tema = obtenerTema(String(temaId || ""));
-  const pregunta = tema?.preguntas[indice];
-  if (!pregunta || pregunta.tipo !== "desarrollo") return res.status(404).json({ error: "Pregunta no encontrada." });
-  if (typeof respuesta !== "string" || !respuesta.trim()) return res.status(400).json({ error: "La respuesta está vacía." });
-  try {
-    res.json(await corregir({ tema, pregunta, respuesta }));
-  } catch (error) {
-    res.status(502).json({ error: mensajeDeError(error) });
-  }
-});
-
+app.use("/vendor/webllm.js", express.static(path.join(aqui, "node_modules/@mlc-ai/web-llm/lib/index.js")));
 app.use("/vendor/marked.js", express.static(path.join(aqui, "node_modules/marked/lib/marked.umd.js")));
 app.use("/vendor/purify.js", express.static(path.join(aqui, "node_modules/dompurify/dist/purify.min.js")));
 app.use("/vendor/supabase.js", express.static(path.join(aqui, "node_modules/@supabase/supabase-js/dist/umd/supabase.js")));
