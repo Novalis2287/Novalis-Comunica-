@@ -199,3 +199,83 @@ a.chip { text-decoration: none; }
 .valoracion .fecha { margin: 0 0 6px; font-size: 0.85rem; color: var(--tinta-suave); }
 .valoracion > div { background: var(--panel); border: 1px solid var(--linea); border-radius: 12px; padding: 4px 16px; }
 .enlace { font: inherit; font-size: 0.85rem; background: none; border: 0; padding: 0; color: var(--tinta-suave); text-decoration: underline; cursor: pointer; align-self: flex-start; }
+
+/* Identidad Novalis: azul corporativo, blanco y formas suaves. */
+:root {
+  --fondo: #f3f8fb;
+  --panel: #fff;
+  --tinta: #18374a;
+  --tinta-suave: #526b7b;
+  --linea: #d9e7ef;
+  --acento: #007fa9;
+  --acento-tinta: #fff;
+  --acento-suave: #e1f3fa;
+  --ui: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --lectura: var(--ui);
+  color-scheme: light;
+}
+.ancho { max-width: 1080px; padding-inline: max(24px, env(safe-area-inset-left, 0px)); }
+.cabecera { background: #058bc0; border: 0; box-shadow: 0 3px 18px #12445b15; }
+.cabecera-int { min-height: 106px; padding-block: 6px; }
+.marca { display: flex; gap: 16px; align-items: center; color: white; }
+.logo-novalis { display: block; width: 120px; height: 62px; overflow: hidden; position: relative; }
+.logo-novalis img { position: absolute; width: 194px; max-width: none; height: auto; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.marca .marca-producto { color: white; font-size: 0.9rem; font-weight: 800; letter-spacing: 0.14em; border-left: 1px solid #ffffff66; padding-left: 18px; }
+.marca-producto span { display: block; color: #e0f6ff; font-size: 0.66rem; font-weight: 500; letter-spacing: 0; margin-top: 5px; }
+.cabecera nav a { color: #fff; min-height: 44px; display: flex; align-items: center; font-size: 0.88rem; }
+.cabecera nav a:hover { background: #ffffff1a; }
+.cabecera nav a[aria-current="page"] { background: #fff; color: #006d94; }
+main { flex: 1; padding-block: 32px 48px; }
+.bienvenida { background: #058bc0; border-radius: 24px; padding: 36px; color: white; overflow: hidden; position: relative; }
+.bienvenida::after { content: ""; position: absolute; right: -40px; top: -70px; width: 270px; height: 270px; border: 36px solid #ffffff0d; border-radius: 60px; transform: rotate(15deg); pointer-events: none; }
+.sobrelinea { font-size: 0.69rem; font-weight: 800; letter-spacing: 0.13em; margin: 0 0 12px; }
+.bienvenida h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); max-width: 650px; font-weight: 800; letter-spacing: -0.04em; }
+.bienvenida > p:not(.sobrelinea) { max-width: 570px; color: #e3f7ff; margin: 18px 0 26px; }
+.bienvenida .boton { background: white; border-color: white; color: #006d94; min-height: 46px; font-weight: 700; }
+.bienvenida .boton.secundario { background: transparent; color: white; border-color: #ffffff80; }
+.cabecera-temas { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; padding-block: 14px 2px; }
+.cabecera-temas .sobrelinea { color: var(--acento); margin-bottom: 7px; }
+.cabecera-temas h2 { margin: 0; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.03em; }
+.temas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.tema-tarjeta { padding: 24px; border-radius: 18px; box-shadow: 0 4px 20px #18374a04; position: relative; }
+.numero-tema { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; background: var(--acento-suave); color: var(--acento); border-radius: 12px; font-weight: 800; font-size: 0.84rem; margin-bottom: 16px; }
+.tema-tarjeta h2 { font-size: 1.06rem; line-height: 1.45; font-weight: 800; margin: 0; }
+.tema-tarjeta h2 a { text-decoration: none; color: var(--tinta); }
+.tema-tarjeta h2 a:hover { color: var(--acento); text-decoration: underline; }
+.tema-tarjeta > p { font-size: 0.89rem; line-height: 1.7; }
+.tema-tarjeta .datos { margin-top: auto; }
+.chip { font-size: 0.73rem; }
+.boton { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; }
+.texto { max-width: 760px; margin-inline: auto; font-size: 1.08rem; line-height: 1.85; }
+.reproductor audio { max-width: 100%; }
+.cuenta { padding-block: 24px; border-top: 1px solid var(--linea); }
+.cuenta h2 { font-weight: 800; }
+.cuenta > p { font-size: 0.9rem; overflow-wrap: anywhere; }
+.form-cuenta { display: flex; flex-wrap: wrap; gap: 10px; }
+.form-cuenta input { flex: 1; min-width: 180px; border: 1px solid var(--linea); background: var(--panel); color: var(--tinta); border-radius: 12px; font: inherit; padding: 12px; }
+.cuenta .aviso { margin-top: 12px; }
+@media (max-width: 700px) {
+  .ancho { padding-inline: max(18px, env(safe-area-inset-left, 0px)); }
+  .cabecera-int { justify-content: center; row-gap: 0; padding-bottom: 10px; }
+  .logo-novalis { height: 50px; width: 100px; }
+  .logo-novalis img { width: 161px; }
+  .marca .marca-producto { font-size: 0.8rem; padding-left: 14px; }
+  .marca-producto span { font-size: 0.6rem; }
+  .cabecera nav { width: 100%; justify-content: space-between; flex-wrap: nowrap; gap: 2px; }
+  .cabecera nav a { font-size: 0.76rem; padding: 8px 10px; }
+  main { padding-top: 20px; }
+  .bienvenida { padding: 26px 22px; border-radius: 20px; }
+  .bienvenida .sobrelinea { font-size: 0.6rem; }
+  .bienvenida .fila { align-items: stretch; }
+  .bienvenida .boton { font-size: 0.8rem; }
+  .temas { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .tema-tarjeta { padding: 22px; }
+  .cabecera-temas h2 { font-size: 1.2rem; }
+  .barra { grid-template-columns: minmax(0, 1fr) 60px 40px; gap: 6px; font-size: 0.8rem; }
+  .modos { grid-template-columns: minmax(0, 1fr); }
+  .redactar { padding-bottom: max(12px, env(safe-area-inset-bottom, 0px)); }
+  input, textarea, select, .campo input, .campo textarea, .campo select, .redactar select { font-size: 16px; }
+}
+@media (prefers-color-scheme: dark) {
+  :root { --fondo: #0c202e; --panel: #142f40; --tinta: #e8f5fc; --tinta-suave: #aec5d3; --linea: #2a475a; --acento: #68d4fa; --acento-tinta: #082637; --acento-suave: #173f55; color-scheme: dark; }
+}

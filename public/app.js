@@ -1,4 +1,6 @@
 // Interfaz de Novalis Comunica: temas, examen y profesor con IA.
+import { iniciarCuenta } from "./cuenta.js";
+await iniciarCuenta();
 const vista = document.getElementById("vista");
 
 // ---------- utilidades ----------
@@ -21,14 +23,14 @@ function h(etiqueta, attrs = {}, ...hijos) {
 const almacen = {
   leer(clave, defecto) {
     try {
-      return JSON.parse(localStorage.getItem(clave)) ?? defecto;
+      return JSON.parse(localStorage.getItem(window.novalisClave?.(clave) || clave)) ?? defecto;
     } catch {
       return defecto;
     }
   },
   guardar(clave, valor) {
     try {
-      localStorage.setItem(clave, JSON.stringify(valor));
+      localStorage.setItem(window.novalisClave?.(clave) || clave, JSON.stringify(valor));
     } catch {
       /* sin almacenamiento: la app sigue funcionando */
     }
@@ -105,22 +107,24 @@ async function vistaTemas() {
   const temas = await apiJson("/api/temas");
   const res = resultados();
   return [
-    h("h1", {}, "Temas"),
-    h(
-      "p",
-      { class: "entrada" },
-      "Lee o escucha cada tema, entrénalo con un examen y coméntalo con el profesor.",
+    h("section", { class: "bienvenida" },
+      h("p", { class: "sobrelinea" }, "NOVALIS · FORMACIÓN EN COMUNICACIÓN"),
+      h("h1", {}, "Conecta mejor con tus pacientes."),
+      h("p", {}, "Escucha, aprende y lleva cada conversación a la práctica. A tu ritmo, desde donde estés."),
+      h("div", { class: "fila" }, h("a", { class: "boton", href: `#/tema/${temas[0]?.id || ""}` }, "Empezar a aprender"), h("a", { class: "boton secundario", href: "#/visita" }, "Practicar una visita")),
     ),
+    h("div", { class: "cabecera-temas" }, h("div", {}, h("p", { class: "sobrelinea" }, "TU ITINERARIO"), h("h2", {}, "Un paso más en tu comunicación")), h("span", { class: "chip gris" }, `${temas.length} temas · texto y audio`)),
     estado.fuentes.length === 0 &&
       h("p", { class: "aviso" }, "Todavía no hay fuentes cargadas. Lo que ves es un tema de muestra."),
     h(
       "ul",
       { class: "temas" },
-      temas.map((t) => {
+      temas.map((t, indice) => {
         const ultimo = res[t.id]?.at(-1);
         return h(
           "li",
           { class: "tema-tarjeta" },
+          h("span", { class: "numero-tema", "aria-hidden": "true" }, String(indice + 1).padStart(2, "0")),
           h("h2", {}, h("a", { href: `#/tema/${t.id}` }, t.titulo)),
           t.resumen && h("p", {}, t.resumen),
           h(
