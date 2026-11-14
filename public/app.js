@@ -322,7 +322,7 @@ async function vistaExamen(id) {
   return [
     h("a", { class: "volver", href: `#/tema/${id}` }, `← ${tema.titulo}`),
     h("h1", {}, "Examen"),
-    h("p", { class: "entrada" }, `${preguntas.length} preguntas. Las de desarrollo reciben una corrección orientativa. Prepara primero el modelo en Profesor.`),
+    h("p", { class: "entrada" }, `${preguntas.length} preguntas. Las de desarrollo reciben una corrección orientativa.${estado.tutorModo === "local" ? " Prepara primero el modelo en Profesor." : ""}`),
     zonaNota,
     h("form", { class: "examen", onsubmit: entregar }, campos, h("div", {}, boton)),
   ];
