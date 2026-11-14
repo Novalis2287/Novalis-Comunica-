@@ -6,7 +6,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { listarTemas, temaComoHtml, listarFuentes } from "../lib/contenido.js";
+import { listarTemas, temaComoHtml, listarFuentes, obtenerFlujo } from "../lib/contenido.js";
 
 const raiz = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const salida = path.resolve(process.argv[2] || "pagina");
@@ -19,7 +19,7 @@ const temas = listarTemas().map((t) => {
     numPreguntas: t.preguntas.length, html: temaComoHtml(t), preguntas: t.preguntas,
   };
 });
-const datos = { temas, fuentes: listarFuentes().map((f) => f.nombre) };
+const datos = { temas, fuentes: listarFuentes().map((f) => f.nombre), flujo: obtenerFlujo() };
 
 // El tema oscuro debe obedecer también al selector de tema de la página que la aloja.
 let css = fs.readFileSync(path.join(raiz, "public/estilos.css"), "utf8");
@@ -37,6 +37,7 @@ const DATOS = ${JSON.stringify(datos).replace(/</g, "\\u003c")};
 const responder = (cuerpo, estado = 200) => new Response(JSON.stringify(cuerpo), { status: estado, headers: { "Content-Type": "application/json" } });
 window.fetch = async (ruta) => {
   if (ruta === "/api/estado") return responder({ tutor: false, pideCodigo: false, fuentes: DATOS.fuentes });
+  if (ruta === "/api/flujo") return responder(DATOS.flujo);
   if (ruta === "/api/temas") return responder(DATOS.temas.map(({ html, preguntas, ...resto }) => resto));
   const tema = DATOS.temas.find((t) => ruta === "/api/temas/" + t.id);
   if (tema) return responder(tema);

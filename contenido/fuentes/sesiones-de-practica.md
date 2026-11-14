@@ -1,6 +1,6 @@
 # Sesiones de práctica del alumno (no pertenecen a la formación)
 
-Notas de las sesiones de entrenamiento que el alumno, dentista, hizo por su cuenta analizando una primera visita real. Los datos del paciente se han omitido. Este material no es del formador: son hábitos del propio alumno y propuestas de mejora surgidas en la práctica.
+Notas de las sesiones de entrenamiento que el alumno, dentista, hizo por su cuenta analizando una primera visita real. El caso es el de Alfredo, de unos setenta años, que acude con su mujer, Mari Carmen, recomendado por Carlos, otro paciente con el que desayuna; el dentista es el doctor Martín. Los nombres son ficticios. Alfredo lleva una prótesis removible superior y abajo conserva sus piezas y unos puentes antiguos, con enfermedad periodontal avanzada y movilidad; tras un dolor fue a urgencias, le recetaron antibiótico y llegó sin dolor. Aceptó en la misma visita un plan de 11.000 euros con pronto pago. Este material no es del formador: son hábitos del propio alumno y propuestas de mejora surgidas en la práctica.
 
 ## Cómo hace el alumno una primera visita
 

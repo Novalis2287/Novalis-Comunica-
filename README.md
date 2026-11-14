@@ -5,6 +5,8 @@ App para entrenar la comunicación con los pacientes.
 - **Temas**: cada tema tiene su texto y un audio narrado por una voz de profesor (hombre, acento de España).
 - **Examen**: preguntas tipo test y de desarrollo por tema, con nota sobre 10. Las de desarrollo las corrige la IA.
 - **Profesor**: chat con una IA que conoce todas las fuentes del curso, para preguntar y debatir.
+- **Visita**: el flujo de la primera visita paso a paso. Se puede recorrer con un caso guiado, decidiendo qué hacer en cada momento, o usar como guía en consulta marcando los puntos que se cumplen.
+- **Seguimiento**: registro de las visitas reales, con el cumplimiento por paso, los puntos a reforzar y la valoración del profesor según los avances.
 
 ## Ponerla en marcha
 
@@ -27,7 +29,11 @@ contenido/
       tema.md              texto del tema (con cabecera titulo / resumen)
       examen.json          preguntas del examen
       audio.mp3            narración (se genera con npm run audio)
+  flujo.json               pasos de la primera visita, puntos de control y caso guiado
 ```
+
+Las visitas registradas se guardan en el navegador del dispositivo donde se
+anotan. Al profesor se le envían sin el identificador del paciente.
 
 Los temas se ordenan por el nombre de la carpeta. Formato de `examen.json`:
 

@@ -144,3 +144,58 @@ dialog input { width: 100%; font: inherit; padding: 10px; margin-bottom: 14px; b
 dialog .fila { justify-content: flex-end; }
 
 @media (prefers-reduced-motion: no-preference) { .boton, .opcion, .sugerencias button { transition: background-color 0.12s, border-color 0.12s; } }
+
+/* Primera visita y seguimiento */
+h2 { font: 600 1.3rem/1.25 var(--lectura); margin: 12px 0 0; }
+h3 { font: 600 0.82rem var(--ui); letter-spacing: 0.05em; text-transform: uppercase; color: var(--tinta-suave); margin: 14px 0 4px; }
+.cabecera-int { flex-wrap: wrap; row-gap: 6px; }
+.cabecera nav { flex-wrap: wrap; }
+.modos { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.modo { background: var(--panel); border: 1px solid var(--acento); border-radius: 12px; padding: 16px; text-decoration: none; color: var(--tinta); display: flex; flex-direction: column; gap: 6px; }
+.modo strong { color: var(--acento); font-size: 1.05rem; }
+.modo span { color: var(--tinta-suave); font-size: 0.95rem; }
+.pasos { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 8px; }
+.pasos summary, .paso-guia summary { cursor: pointer; display: flex; flex-wrap: wrap; gap: 2px 12px; align-items: baseline; }
+.pasos summary span { color: var(--tinta-suave); font-size: 0.93rem; flex-basis: 100%; }
+.pasos ul, .caso ul, .paso-guia ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }
+.frases li { font-family: var(--lectura); font-size: 1.05rem; }
+.caso { display: flex; flex-direction: column; gap: 14px; }
+.escena { font: 1.1rem/1.65 var(--lectura); margin: 0; background: var(--panel); border: 1px solid var(--linea); border-radius: 12px; padding: 16px; }
+.progreso-caso { margin: 0; color: var(--tinta-suave); font-size: 0.88rem; font-variant-numeric: tabular-nums; }
+.caso h2 { margin: 0; }
+.caso p { margin: 0; }
+.elecciones { display: flex; flex-direction: column; gap: 8px; }
+.eleccion { font: inherit; text-align: left; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--linea); background: var(--panel); color: var(--tinta); cursor: pointer; }
+.eleccion:hover:not(:disabled) { border-color: var(--acento); }
+.eleccion:disabled { cursor: default; opacity: 0.75; }
+.eleccion.correcta { background: var(--bien-suave); border-color: var(--bien); opacity: 1; }
+.eleccion.fallada { background: var(--mal-suave); border-color: var(--mal); opacity: 1; }
+.resultado-paso { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--linea); padding-top: 14px; }
+.guia { display: flex; flex-direction: column; gap: 12px; }
+.campo { display: flex; flex-direction: column; gap: 4px; font-weight: 500; font-size: 0.92rem; }
+.campo input, .campo select, .campo textarea { font: inherit; font-weight: 400; padding: 10px; border-radius: 8px; border: 1px solid var(--linea); background: var(--panel); color: var(--tinta); max-width: 100%; }
+.campo textarea { min-height: 110px; resize: vertical; }
+.paso-guia { background: var(--panel); border: 1px solid var(--linea); border-radius: 12px; padding: 12px 14px; }
+.paso-guia[open] { display: flex; flex-direction: column; gap: 10px; }
+.paso-guia summary { justify-content: space-between; }
+.paso-guia .objetivo, .paso-guia .evita { margin: 0; font-size: 0.93rem; color: var(--tinta-suave); }
+.paso-guia .opcion { padding: 6px 4px; }
+.contador { font-size: 0.82rem; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+.contador.completo { color: var(--bien); font-weight: 600; }
+.cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.cifras div { background: var(--panel); border: 1px solid var(--linea); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 2px; }
+.cifras strong { font: 600 1.9rem/1.1 var(--lectura); font-variant-numeric: tabular-nums; }
+.cifras span { font-size: 0.85rem; color: var(--tinta-suave); }
+.reforzar, .visitas { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.reforzar li, .visitas li { background: var(--panel); border: 1px solid var(--linea); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+.visitas p { margin: 0; color: var(--tinta-suave); font-size: 0.93rem; overflow-wrap: anywhere; }
+.visitas .datos { align-items: center; }
+a.chip { text-decoration: none; }
+.barras { display: flex; flex-direction: column; gap: 8px; }
+.barra { display: grid; grid-template-columns: minmax(0, 1fr) 90px 44px; gap: 10px; align-items: center; font-size: 0.9rem; }
+.pista { height: 8px; border-radius: 999px; background: var(--acento-suave); overflow: hidden; display: block; }
+.relleno { display: block; height: 100%; background: var(--acento); border-radius: 999px; }
+.valor { text-align: right; font-variant-numeric: tabular-nums; color: var(--tinta-suave); }
+.valoracion .fecha { margin: 0 0 6px; font-size: 0.85rem; color: var(--tinta-suave); }
+.valoracion > div { background: var(--panel); border: 1px solid var(--linea); border-radius: 12px; padding: 4px 16px; }
+.enlace { font: inherit; font-size: 0.85rem; background: none; border: 0; padding: 0; color: var(--tinta-suave); text-decoration: underline; cursor: pointer; align-self: flex-start; }

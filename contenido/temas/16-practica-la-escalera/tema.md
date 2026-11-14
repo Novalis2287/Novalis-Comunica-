@@ -7,23 +7,23 @@ resumen: Tu propia primera visita paso a paso, lo que funcionó, lo que se puede
 
 ## El caso
 
-Un paciente de unos setenta años, sin patología médica, que llega recomendado por otro paciente con el que desayuna. Viene con su mujer.
+Alfredo, de unos setenta años y sin patología médica. Llega recomendado por Carlos, otro paciente tuyo con el que desayuna, y viene con su mujer, Mari Carmen. Los nombres son ficticios.
 
 Lleva una prótesis removible superior. Abajo conserva sus piezas y unos puentes antiguos, con sarro, enfermedad periodontal avanzada y movilidad en todas las piezas inferiores. Empezó con dolor en uno de los puentes, fue a urgencias y le recetaron antibiótico, así que llega sin dolor, pero sabiendo que tiene un problema.
 
 ## Paso 1: el primer contacto, en la sala de espera
 
-Sales del gabinete y te presentas en la sala de espera, si es posible cuando el paciente está solo, para tener algo de privacidad: «Soy el doctor Martín, ¿qué tal?, encantado». Dejas que salude y que cuente brevemente por qué está allí, saludas también a su acompañante y no profundizas.
+Sales del gabinete y te presentas en la sala de espera, si es posible cuando no hay nadie más, para tener algo de privacidad: «Alfredo, soy el doctor Martín, ¿qué tal?, encantado». Dejas que salude y que cuente brevemente por qué está allí, saludas también a su acompañante y no profundizas.
 
-Después: «Te dejo aquí un minuto mientras preparamos el gabinete y te paso enseguida».
+Después: «Alfredo, te dejo aquí un minuto mientras preparamos el gabinete y te paso enseguida».
 
 El motivo: el gabinete impone más respeto, sobre todo con el paciente ya sentado en el sillón. El primer rapport se hace fuera.
 
 ## Paso 2: la bienvenida y el motivo de consulta
 
-«Adelante, bienvenido, toma asiento, ponte cómodo.» Invitas a pasar a la acompañante: que venga con alguien de su confianza es un punto ganado.
+«Alfredo, adelante, bienvenido, toma asiento, ponte cómodo.» Invitas a pasar también a Mari Carmen: que venga con alguien de su confianza es un punto ganado.
 
-Te sientas frente al paciente con la historia clínica: «Cuéntame el motivo por el que has venido hoy a la clínica. ¿En qué te puedo ayudar?». Y le dejas contar libremente.
+Te sientas frente a Alfredo con la historia clínica: «Bueno, Alfredo, cuéntame el motivo por el que has venido hoy a la clínica. ¿En qué te puedo ayudar?». Y le dejas contar libremente: el dolor, el puente que se mueve, las urgencias, el antibiótico y la recomendación de Carlos.
 
 Luego recuperas el control con las preguntas médicas: algo que debas saber de su salud, medicación, intervenciones importantes, alergias.
 
@@ -35,7 +35,7 @@ La situación ya estaba prevista en la panorámica; en boca solo se confirma. No
 
 Y la frase que rompe la distancia: «Muchas veces los médicos nos explicamos fatal, usamos muchos tecnicismos. Voy a intentar usar un lenguaje que se entienda. La verdad es que los dentistas nos explicamos fatal».
 
-El paciente sonríe con complicidad y se relaja.
+Alfredo sonríe con complicidad y se relaja.
 
 Valoración: es uno de tus recursos estrella. Reconoces los tecnicismos, prometes lenguaje sencillo y rematas con humor. Además no presentas las fotos como prueba de que tiene la boca mal, sino como una herramienta para entender juntos qué pasa. Conviene observar no solo la sonrisa, sino si después pregunta más o habla con más libertad.
 
@@ -45,7 +45,7 @@ Te pones a su lado con la tablet. Le explicas que tiene una enfermedad de las en
 
 Enseñas un dibujo con dos modelos: una muela sana y otra con las estructuras deterioradas y sarro. Le dices que el sarro es como el óxido, que primero ataca la encía y luego el hueso; que el hueso se retira; y que el hueso es como los cimientos de una casa: si se pierden, los dientes se aflojan. Combinas el dibujo con las fotos de su boca.
 
-Y añades: «Todo lo que voy a contarte tú lo sabes mejor que nadie, porque lo vives en tu propia boca».
+Y añades: «Mira, Alfredo, todo lo que voy a contarte tú lo sabes mejor que nadie, porque lo vives en tu propia boca».
 
 Valoración: 8,5 sobre 10. Pasas de lo general a lo suyo, la analogía de los cimientos es clara y la frase reconoce su experiencia.
 
@@ -56,7 +56,7 @@ Dos mejoras:
 
 ## Asentir no es decidir
 
-El paciente asentía constantemente: reconocía en la explicación lo que ya vivía en su boca.
+Alfredo asentía constantemente: reconocía en la explicación lo que ya vivía en su boca.
 
 Pero que un paciente asienta no significa que haya comprendido todas las consecuencias ni que esté preparado para decidir. Indica receptividad.
 
@@ -64,11 +64,11 @@ Lo mismo cuando asintió ante los dientes fijos el mismo día: comprender el tra
 
 ## Paso 5: del problema a la solución
 
-El paciente te dijo algo valioso: «A mí lo que me gusta es que me hablen claro». Es una señal de confianza enorme.
+Alfredo te dijo algo valioso: «A mí lo que me gusta es que me hablen claro». Es una señal de confianza enorme.
 
-Tú seguiste: «Lamentablemente, los cimientos que tenemos no garantizan la estabilidad para poner dientes con los que comer con seguridad. Hay que poner unos cimientos nuevos». Y fueron ellos quienes dijeron: «Hay que poner implantes, ¿no?».
+Tú seguiste: «Lamentablemente, Alfredo, los cimientos que tenemos no garantizan la estabilidad para poner dientes con los que comer con seguridad. Hay que poner unos cimientos nuevos». Y fue él, o quizá Mari Carmen, quien dijo: «Hay que poner implantes, ¿no?».
 
-Sentiste que el paciente te daba pie: «He entendido el problema, ahora cuéntame la solución». Tiene sentido. Aun así faltó una frase puente, una pregunta para que él mismo dijera qué espera conseguir.
+Sentiste que Alfredo te daba pie: «He entendido el problema, ahora cuéntame la solución». Tiene sentido. Aun así faltó una frase puente, una pregunta para que él mismo dijera qué espera conseguir.
 
 ## La pregunta puente
 
@@ -81,9 +81,9 @@ Dos versiones más concretas:
 - «Ahora que hemos visto lo que está ocurriendo, ¿qué es lo que más te preocupa de tu boca en este momento?»
 - «Tú llevas tiempo notando que estos dientes se mueven. ¿En qué te está afectando esto en tu día a día?»
 
-Y entonces recordaste que el paciente te había dado la pista él solo: «Una de las cosas que ya no soporto es que se me meta la comida entre los dientes». Tiene tanta pérdida de encía que se le han formado unas troneras enormes, y al comer se le mete ahí toda la comida.
+Y entonces recordaste que Alfredo te había dado la pista él solo: «Una de las cosas que ya no soporto es que se me meta la comida entre los dientes». Tiene tanta pérdida de encía que se le han formado unas troneras enormes, y al comer se le mete ahí toda la comida.
 
-Con eso la pregunta ya no es teórica: «Antes me has contado que ya no soportas que se te meta comida entre los dientes. Cuéntame un poco más: ¿cómo te está afectando en tu día a día?».
+Con eso la pregunta ya no es teórica: «Alfredo, antes me has contado que ya no soportas que se te meta comida entre los dientes. Cuéntame un poco más: ¿cómo te está afectando en tu día a día?».
 
 Cuando responda, enlazas: «Entiendo. Y si seguimos sin tratarlo, esto irá a más». Y entonces sí presentas los implantes como respuesta a «que no se me meta la comida y pueda comer tranquilo».
 
@@ -110,7 +110,7 @@ Las reglas:
 
 ## Primer ejercicio
 
-Paciente: «Lo que ya no soporto es que cada vez que como se me mete toda la comida entre los dientes. Es desesperante».
+Alfredo: «Lo que ya no soporto es que cada vez que como se me mete toda la comida entre los dientes. Es desesperante».
 
 Tu primer intento: «Te entiendo. Cuéntame, ¿siempre que estás comiendo se te mete comida?». Corrección: es una buena aclaración, pero confirma la frecuencia. Hay que buscar la consecuencia.
 
@@ -118,7 +118,7 @@ Segundo intento: «Cuéntame qué es lo que sientes cuando te ocurre eso». Mejo
 
 ## Segundo ejercicio
 
-Paciente: «Llevo años con estos problemas, ya estoy acostumbrado a que se me muevan los dientes. Pero últimamente, cuando salgo a comer con mi mujer o con unos amigos, estoy más pendiente de la boca que de disfrutar de la comida».
+Alfredo: «Llevo años con estos problemas, ya estoy acostumbrado a que se me muevan los dientes. Pero últimamente, cuando salgo a comer con mi mujer o con unos amigos, estoy más pendiente de la boca que de disfrutar de la comida».
 
 Tus intentos y sus correcciones:
 
@@ -131,7 +131,7 @@ La versión final: «Cuando estás comiendo con tu mujer y tus amigos y te ocurr
 
 ## Tercer ejercicio
 
-Otro paciente, 62 años, con una prótesis inferior que se mueve: «Esta dentadura me tiene un poco harto. Se mueve constantemente y tengo que estar pendiente de ella. Pero supongo que a mi edad estas cosas son normales».
+Otro paciente, Antonio, de 62 años y varios sin venir, con una prótesis inferior que se mueve: «Esta dentadura me tiene un poco harto. Se mueve constantemente y tengo que estar pendiente de ella. Pero supongo que a mi edad estas cosas son normales».
 
 - «Te entiendo. Cuéntame, ¿cómo te afecta en tu día a día?» Va al efecto, pero es genérica. Hay que anclarla en «estar pendiente» o en «harto».
 - «Cuando te refieres a qué te incomoda, ¿a qué te refieres?» Casi: «incomoda» es palabra tuya, él no la dijo.
@@ -156,15 +156,15 @@ Y lo más importante: explicas muy bien lo que haces, pero no lo conectas de for
 
 No alargaste la explicación cuando ya lo habían entendido: bien por no saturar.
 
-Antes de terminar escaneaste la boca. Es un buen recurso, porque la tecnología no solo se nombra, se ve. Su valor está en que el paciente entienda para qué le sirve a él, no en impresionar.
+Alfredo y Mari Carmen asentían: la idea encajaba con la que traían. Antes de terminar escaneaste la boca. Es un buen recurso, porque la tecnología no solo se nombra, se ve. Su valor está en que el paciente entienda para qué le sirve a él, no en impresionar.
 
 Oportunidad de mejora: antes de mandarlos a la sala de espera a esperar el presupuesto, comprobar cómo lo ven. Basta un «¿cómo lo veis vosotros?» y silencio.
 
 ## Paso 8: el presupuesto
 
-En el despacho, con el paciente y su acompañante enfrente y la radiografía delante, vuelves a señalar muy brevemente el nivel del hueso.
+En el despacho, con Alfredo y Mari Carmen enfrente y la radiografía delante, vuelves a señalar muy brevemente el nivel del hueso.
 
-Sueles hacer una broma antes de la cifra: «Todo lo que te tengo que hacer en la boca no duele. Lo que duele es lo que viene a continuación». Se ríen.
+Sueles hacer una broma antes de la cifra: «Mira, Alfredo, todo lo que te tengo que hacer en la boca no duele. Lo que duele es lo que viene a continuación». Se ríen.
 
 Valoración: la intención se entiende, porque baja la tensión en un momento incómodo. Pero prepara al paciente para que el precio duela, y puede funcionar como un anclaje negativo. No es necesariamente un error si hay confianza. La alternativa: «Ya hemos visto el problema, la solución y cómo lo haríamos. Ahora quiero explicarte la inversión que supone recuperar tu salud oral y volver a comer tranquilo».
 
@@ -178,7 +178,7 @@ En este caso no lo hiciste.
 
 ## Cómo presentas la cifra
 
-Pones el presupuesto en la mesa y dices el total: «El tratamiento del que hemos hablado son 11.000». Y añades: «Esta es la letra grande; ahora vamos a la letra pequeña».
+Pones el presupuesto en la mesa y dices el total: «Alfredo, el tratamiento del que hemos hablado son 11.000». Y añades: «Esta es la letra grande; ahora vamos a la letra pequeña».
 
 En la letra pequeña está el desglose y la forma de pago: con pronto pago hay un descuento de cortesía del 10 % y se descuenta la prueba del TAC.
 
@@ -195,7 +195,7 @@ Aceptaron en el momento, con pronto pago.
 
 Tu lectura de lo que fue decisivo:
 
-1. Venían recomendados.
+1. Venían recomendados por Carlos.
 2. Arrastraba el problema desde hacía mucho tiempo.
 3. Encontraron a un profesional cercano que hablaba un lenguaje que entendían.
 4. Se les recomendó ver los testimonios reales de otros pacientes: prueba social.

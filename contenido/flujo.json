@@ -1,0 +1,285 @@
+{
+  "caso": {
+    "titulo": "El caso de Alfredo",
+    "presentacion": "Alfredo tiene unos setenta años y ninguna enfermedad importante. Viene recomendado por Carlos, otro paciente tuyo con el que desayuna, y le acompaña su mujer, Mari Carmen. Lleva una prótesis removible arriba; abajo conserva sus dientes y unos puentes antiguos, con enfermedad periodontal avanzada y movilidad. Hace unos días le dolió uno de los puentes, fue a urgencias y le recetaron antibiótico. Hoy llega sin dolor. Vas a recorrer con él la primera visita completa, decidiendo en cada momento qué haces."
+  },
+  "pasos": [
+    {
+      "id": "preparacion",
+      "titulo": "Antes de entrar: tu estado",
+      "objetivo": "Llegar a la visita con el foco en ayudar al paciente, no en el miedo al rechazo.",
+      "puntos": [
+        { "id": "prep-distancia", "texto": "He preguntado al equipo a qué distancia viene el paciente (fase en la que llega)" },
+        { "id": "prep-foco", "texto": "He puesto el foco en ayudarle, no en si aceptará" },
+        { "id": "prep-vocecita", "texto": "He respondido a la vocecita: «gracias por tu opinión, pero paso»" }
+      ],
+      "frases": ["Quiero venderle, sí. Pero por él, no por mí.", "Gracias por tu opinión, pero paso."],
+      "evita": ["Entrar pensando en el presupuesto.", "Dar por hecho que «este va por precio»: lo que no sabes, te lo inventas."],
+      "temas": ["12-foco-lenguaje-y-fisiologia", "11-la-vocecita-y-el-caso-de-jorge", "14-las-fases-del-paciente"],
+      "escena": {
+        "texto": "Recepción te avisa: «Ha llegado Alfredo, el recomendado de Carlos. Dice que viene por un puente que se le mueve. Lleva cinco años sin ir al dentista». Has visto su panorámica: la boca está muy deteriorada. Notas que ya estás calculando el tratamiento.",
+        "pregunta": "¿Qué haces antes de salir a recibirle?",
+        "opciones": [
+          { "texto": "Preparar mentalmente el plan de implantes para explicárselo cuanto antes.", "correcta": false, "feedback": "Estás empezando la visita en deseo mientras Alfredo llega en desconocer. Así se pierden muchos tratamientos: él aún cree que tiene un problema pequeño." },
+          { "texto": "Parar un momento: poner el foco en entender qué le pasa a Alfredo y recordar que llega lejos, por un problema que él cree pequeño.", "correcta": true, "feedback": "Eso es. Antes de hablar con el otro hay que hablar con uno mismo. Sabes que viene en desconocer, y eso marca el ritmo de toda la visita." },
+          { "texto": "Pensar que, con cinco años sin venir, seguramente no querrá gastar.", "correcta": false, "feedback": "Esa es la vocecita escribiendo su novela. No sabes nada de Alfredo todavía: recuerda a Jorge, que eligió la clínica más cara." }
+        ]
+      }
+    },
+    {
+      "id": "contacto",
+      "titulo": "Primer contacto en la sala de espera",
+      "objetivo": "Que el primer acercamiento sea humano y fuera del gabinete.",
+      "puntos": [
+        { "id": "cont-presentacion", "texto": "Me he presentado en la sala de espera por mi nombre" },
+        { "id": "cont-acompanante", "texto": "He saludado también al acompañante" },
+        { "id": "cont-breve", "texto": "He dejado que cuente brevemente por qué viene, sin profundizar" }
+      ],
+      "frases": ["Alfredo, soy el doctor Martín, ¿qué tal?, encantado.", "Te dejo aquí un minuto mientras preparamos el gabinete y te paso enseguida."],
+      "evita": ["Que el primer contacto sea con el paciente ya tumbado en el sillón.", "Empezar a hablar del problema en la sala de espera."],
+      "temas": ["16-practica-la-escalera", "01-las-cuatro-fases-y-el-contacto"],
+      "escena": {
+        "texto": "Alfredo y Mari Carmen están solos en la sala de espera. El gabinete aún no está preparado.",
+        "pregunta": "¿Cómo empiezas?",
+        "opciones": [
+          { "texto": "Esperas a que la auxiliar los pase y entras cuando Alfredo ya está en el sillón.", "correcta": false, "feedback": "El gabinete impone, y más desde el sillón. Pierdes la ocasión de crear el primer rapport en un terreno neutral." },
+          { "texto": "Sales, te presentas, saludas a los dos, le dejas contar en dos frases por qué viene y le dices que le pasas enseguida.", "correcta": true, "feedback": "Bien. Presentación, saludo a Mari Carmen y una primera toma de contacto sin entrar en materia. El paciente empieza a confiar mucho antes de conocer el precio." },
+          { "texto": "Sales y le preguntas allí mismo desde cuándo se le mueve el puente y si le duele.", "correcta": false, "feedback": "Demasiado pronto y en un sitio sin privacidad. Aquí solo toca presentarse y acercarse; la conversación clínica es dentro." }
+        ]
+      }
+    },
+    {
+      "id": "escucha",
+      "titulo": "Bienvenida y motivo de consulta",
+      "objetivo": "Que el paciente se sienta escuchado y encontrar un punto de acuerdo.",
+      "puntos": [
+        { "id": "esc-abierta", "texto": "He hecho una pregunta abierta sobre el motivo de la visita" },
+        { "id": "esc-sin-interrumpir", "texto": "Le he dejado contarlo sin interrumpir ni preparar mi respuesta" },
+        { "id": "esc-mirroring", "texto": "He recogido sus palabras (mirroring) para que ampliara" },
+        { "id": "esc-acuerdo", "texto": "He validado lo que le preocupa, sin discutir de entrada" },
+        { "id": "esc-medica", "texto": "He hecho las preguntas médicas: salud, medicación, intervenciones, alergias" }
+      ],
+      "frases": ["Cuéntame el motivo por el que has venido hoy. ¿En qué te puedo ayudar?", "Entiendo que ahora quieras solucionar esto.", "Cuéntame, a nivel de salud, algo que yo tenga que saber."],
+      "evita": ["Preparar el diagnóstico o el presupuesto mientras habla.", "Empezar discutiendo sobre implantes o sobre un tratamiento integral."],
+      "temas": ["01-las-cuatro-fases-y-el-contacto"],
+      "escena": {
+        "texto": "Ya en el gabinete, con Mari Carmen sentada al lado. Alfredo te cuenta: «Pues mire, me dolió el puente de abajo, fui a urgencias y me dieron antibiótico. Yo lo que quiero es que me arregle ese puente, que por lo demás me apaño».",
+        "pregunta": "¿Qué respondes?",
+        "opciones": [
+          { "texto": "«Alfredo, el puente es lo de menos. Tienes toda la boca de abajo para quitar.»", "correcta": false, "feedback": "Confrontación precoz. Alfredo está en desconocer: le estás hablando de un problema de miles de euros cuando él cree que tiene uno pequeño. Se cerrará." },
+          { "texto": "«Te apañas… Entiendo que ahora quieras solucionar lo del puente. Cuéntame un poco más de cómo te apañas.»", "correcta": true, "feedback": "Validas su preocupación, no discutes y recoges su palabra, «me apaño», para que siga hablando. Eso es realidad compartida y mirroring." },
+          { "texto": "«Muy bien, vamos a mirar ese puente.» Y reclinas el sillón.", "correcta": false, "feedback": "Es el dentista peluquero: «¿cómo te lo dejo?». Has dejado pasar la ocasión de entender qué le preocupa de verdad." }
+        ]
+      }
+    },
+    {
+      "id": "preocupacion",
+      "titulo": "Encontrar la preocupación: la escalera",
+      "objetivo": "Pasar de la molestia a lo que de verdad le importa al paciente.",
+      "puntos": [
+        { "id": "preo-molestia", "texto": "He identificado la molestia con sus propias palabras" },
+        { "id": "preo-consecuencia", "texto": "He preguntado por la consecuencia en su día a día" },
+        { "id": "preo-emocion", "texto": "He llegado a la emoción o a la importancia que tiene para él" },
+        { "id": "preo-corta", "texto": "He hecho una sola pregunta, corta y anclada en sus palabras" },
+        { "id": "preo-silencio", "texto": "He guardado silencio después de preguntar" }
+      ],
+      "frases": ["¿Qué es lo más incómodo de que te pase eso?", "Cuando te ocurre eso, ¿cómo te sientes?", "¿Qué cambiaría para ti si pudiéramos solucionarlo?"],
+      "evita": ["Cambiar sus palabras por las tuyas.", "Encadenar preguntas: no es un interrogatorio.", "Rescatar el silencio si duda."],
+      "temas": ["16-practica-la-escalera", "02-necesidad-deseo-y-problema"],
+      "escena": {
+        "texto": "Alfredo sigue: «Lo que ya no soporto es que cada vez que como se me mete toda la comida entre los dientes. Cuando salimos a comer con los amigos estoy más pendiente de la boca que de disfrutar».",
+        "pregunta": "¿Qué preguntas ahora?",
+        "opciones": [
+          { "texto": "«¿Y eso te pasa siempre que comes o solo con algunas comidas?»", "correcta": false, "feedback": "Es una aclaración, pero confirma la frecuencia. No subes de peldaño: te quedas en la molestia." },
+          { "texto": "«Cuando estás comiendo con los amigos y te ocurre eso, ¿qué es lo que más te incomoda?» Y te callas.", "correcta": true, "feedback": "Una sola pregunta, corta, anclada en lo que él ha dicho, y silencio. Has subido de la molestia a la consecuencia." },
+          { "texto": "«Te entiendo perfectamente, eso es por la pérdida de encía, y tiene solución con implantes.»", "correcta": false, "feedback": "Has saltado a la solución. Alfredo te acaba de dar la pista emocional más valiosa de la visita y la has tapado con una explicación." }
+        ]
+      }
+    },
+    {
+      "id": "exploracion",
+      "titulo": "Exploración e imágenes",
+      "objetivo": "Reunir la evidencia y presentarla como una herramienta para entender juntos.",
+      "puntos": [
+        { "id": "expl-anuncio", "texto": "He anunciado lo que iba a hacer antes de explorar" },
+        { "id": "expl-fotos", "texto": "He hecho fotos con la cámara intraoral" },
+        { "id": "expl-lenguaje", "texto": "He prometido un lenguaje sencillo (la frase de «nos explicamos fatal»)" }
+      ],
+      "frases": ["Me voy a poner guantes, te voy a reclinar un poquito y vamos a ver qué está ocurriendo y cómo te puedo ayudar.", "Te voy a hacer unas fotos, porque con las imágenes me voy a poder explicar mucho mejor.", "Los dentistas nos explicamos fatal. Voy a usar un lenguaje que se entienda."],
+      "evita": ["Dictar hallazgos a la auxiliar delante del paciente como una lista.", "Presentar las fotos como prueba de que tiene la boca mal."],
+      "temas": ["04-el-gorro-de-profesor", "16-practica-la-escalera"],
+      "escena": {
+        "texto": "Has explorado. En boca se confirma lo que viste en la panorámica: movilidad en todas las piezas inferiores, sarro y pérdida de encía.",
+        "pregunta": "¿Qué haces a continuación?",
+        "opciones": [
+          { "texto": "Dictas a la auxiliar: «extracciones de 33 a 43, seis implantes, prótesis híbrida».", "correcta": false, "feedback": "Es la escena del presupuesto que no funciona: una lista técnica que el paciente no puede entender. Asentirá y luego dirá que es caro y que se lo piensa." },
+          { "texto": "Coges la cámara intraoral: «Te voy a hacer unas fotos, porque los dentistas nos explicamos fatal y con las imágenes te lo voy a explicar mucho mejor».", "correcta": true, "feedback": "Preparas la explicación visual y, con humor, rompes la distancia. Alfredo sonríe y se relaja." },
+          { "texto": "Le giras la pantalla con la panorámica y empiezas a señalarle la pérdida de hueso.", "correcta": false, "feedback": "La panorámica aporta evidencia, pero la mayoría de los pacientes no la entiende. Y aún no has hecho la pregunta." }
+        ]
+      }
+    },
+    {
+      "id": "pregunta",
+      "titulo": "La pregunta",
+      "objetivo": "Conseguir el acuerdo que cambia el horizonte: de arreglar una pieza a conservar los dientes.",
+      "puntos": [
+        { "id": "preg-permiso", "texto": "He pedido permiso: «¿Le puedo hacer una pregunta?»" },
+        { "id": "preg-pausa", "texto": "He hecho una pausa antes de formularla" },
+        { "id": "preg-exacta", "texto": "He preguntado: «¿Quiere usted conservar sus dientes?»" },
+        { "id": "preg-respuesta", "texto": "He esperado su respuesta en silencio y la he conducido" }
+      ],
+      "frases": ["¿Te puedo hacer una pregunta?", "¿Quieres conservar tus dientes?", "Perfecto. Entonces te voy a explicar qué está ocurriendo y qué tenemos que hacer para conservarlos."],
+      "evita": ["Cambiarla por «¿quieres ponerte dientes?» o «¿quieres una sonrisa?».", "Hacerla solo a veces.", "Tomar el sí como un consentimiento para el tratamiento."],
+      "temas": ["03-la-pregunta-conservar-sus-dientes"],
+      "escena": {
+        "texto": "Incorporas el sillón. Alfredo insiste: «Entonces, ¿el puente tiene arreglo?».",
+        "pregunta": "¿Qué dices?",
+        "opciones": [
+          { "texto": "«Alfredo, ¿te puedo hacer una pregunta?» Pausa. «¿Quieres conservar tus dientes?»", "correcta": true, "feedback": "Permiso, pausa y la pregunta exacta. Alfredo se queda un segundo parado y contesta: «Hombre, claro». Ya no hablamos de un puente." },
+          { "texto": "«¿Tú quieres ponerte unos dientes fijos y olvidarte de problemas?»", "correcta": false, "feedback": "Esa pregunta habla de prótesis, no de su objetivo. La formación insiste en mantenerla casi idéntica: conservar, o mantener, sus dientes." },
+          { "texto": "«El puente no tiene arreglo. Hay que quitar todo y poner implantes.»", "correcta": false, "feedback": "Has ido a la solución sin acuerdo previo y sin que entienda el problema. Lo más probable es que inhiba y se cierre." }
+        ]
+      }
+    },
+    {
+      "id": "problema",
+      "titulo": "Explicar el problema con el gorro de profesor",
+      "objetivo": "Que comprenda qué le ocurre y lo relacione con el motivo por el que vino.",
+      "puntos": [
+        { "id": "prob-dibujo", "texto": "He empezado por un dibujo o esquema sencillo" },
+        { "id": "prob-foto", "texto": "He enseñado después la foto de su propia boca" },
+        { "id": "prob-sencillo", "texto": "He usado lenguaje sin tecnicismos y alguna analogía" },
+        { "id": "prob-relacion", "texto": "He relacionado su motivo de consulta con el problema global" },
+        { "id": "prob-comprobar", "texto": "He comprobado qué ha entendido: «¿Qué opinas?»" },
+        { "id": "prob-fase", "texto": "He identificado en qué fase está (inhibe, pregunta, muestra interés)" }
+      ],
+      "frases": ["Esto que tienes se ha llamado comúnmente piorrea.", "El hueso es como los cimientos de una casa.", "Todo esto tú lo sabes mejor que nadie, porque lo vives en tu boca.", "¿Qué opinas?"],
+      "evita": ["Enseñar la cámara antes que el dibujo.", "Culpar al paciente.", "Asustarte si inhibe: es buena señal, se lo está planteando.", "Confundir que asienta con que ha decidido."],
+      "temas": ["04-el-gorro-de-profesor", "14-las-fases-del-paciente"],
+      "escena": {
+        "texto": "Te sientas a su lado con la tablet. Empiezas a explicar y Alfredo te corta: «Bueno, bueno, doctor, pero no me cuente mucho, que ya sé yo que la tengo mal».",
+        "pregunta": "¿Cómo sigues?",
+        "opciones": [
+          { "texto": "Te detienes y pasas directamente a hablarle del arreglo del puente.", "correcta": false, "feedback": "Es lo que hace el dentista que no conoce las fases: el paciente inhibe y él se para. Alfredo te dijo que quiere conservar sus dientes: toca seguir." },
+          { "texto": "Sigues con calma: primero el dibujo de la muela sana y la enferma, después su foto, y relacionas la comida que se le mete con la encía que ha perdido. Terminas con «¿Qué opinas?».", "correcta": true, "feedback": "Alfredo está inhibiendo, y eso es bueno: se lo está planteando. Dibujo, foto propia y comprobación. Al unir su queja con el problema general llega el clic: «¿Y eso duele mucho? ¿Cuánto cuesta?». Ha pasado a interés." },
+          { "texto": "Le enseñas directamente las fotos más impactantes de su boca para que reaccione.", "correcta": false, "feedback": "Sin el dibujo antes no entiende lo que ve: lleva años conviviendo con ello. Y buscar el impacto por el impacto no es el objetivo; lo es que comprenda." }
+        ]
+      }
+    },
+    {
+      "id": "puente",
+      "titulo": "Pregunta puente y permiso para la solución",
+      "objetivo": "Que la solución llegue como respuesta a algo que el paciente ha pedido.",
+      "puntos": [
+        { "id": "puen-conectar", "texto": "He vuelto a su preocupación con sus propias palabras" },
+        { "id": "puen-permiso", "texto": "He pedido permiso para explicarle cómo se puede resolver" }
+      ],
+      "frases": ["Antes me has contado que no soportas que se te meta la comida. ¿Cómo te está afectando en tu día a día?", "¿Quieres que te explique cómo podemos resolverlo?"],
+      "evita": ["Preguntas genéricas que le dejan en blanco: «¿qué sería para ti un buen resultado?».", "Saltar a la solución porque «ya lo ha entendido»."],
+      "temas": ["16-practica-la-escalera", "05-explicar-la-solucion"],
+      "escena": {
+        "texto": "Alfredo asiente a todo y dice: «A mí lo que me gusta es que me hablen claro». Mari Carmen pregunta: «Entonces habrá que poner implantes, ¿no?».",
+        "pregunta": "¿Qué haces?",
+        "opciones": [
+          { "texto": "«Sí, esa es la solución.» Y explicas la implantología inmediata.", "correcta": false, "feedback": "Es lo que hiciste en la visita real, y funcionó porque venían predispuestos. Pero faltó el puente: asentir no es decidir, y la solución no quedó unida a lo que Alfredo quiere recuperar." },
+          { "texto": "«Alfredo, antes me has dicho que ya no soportas que se te meta la comida y que no disfrutas cuando sales. Si lo dejamos así irá a más. ¿Quieres que te explique cómo podemos resolverlo?»", "correcta": true, "feedback": "Recoges su preocupación con sus palabras y pides permiso. Ahora los implantes serán la respuesta a «comer tranquilo», no un tratamiento que le propones tú." },
+          { "texto": "«Con lo que has visto, ¿qué sería para ti un buen resultado?»", "correcta": false, "feedback": "La intención es buena, pero es demasiado abstracta: es fácil que no sepa qué contestar. Ánclala en lo que él ya te ha contado." }
+        ]
+      }
+    },
+    {
+      "id": "solucion",
+      "titulo": "Explicar la solución",
+      "objetivo": "Que entienda el tratamiento, sus alternativas y lo que exige, unido a lo que quiere recuperar.",
+      "puntos": [
+        { "id": "sol-orden", "texto": "He explicado la solución en el mismo orden que el problema" },
+        { "id": "sol-beneficio", "texto": "He conectado cada parte con lo que el paciente quiere recuperar" },
+        { "id": "sol-realista", "texto": "He dado expectativas realistas: incertidumbres y alternativas" },
+        { "id": "sol-mantenimiento", "texto": "He explicado el mantenimiento y las revisiones cada seis meses" },
+        { "id": "sol-comprobar", "texto": "He comprobado cómo lo ven antes de pasar al precio" }
+      ],
+      "frases": ["Resolvemos varios problemas en una sola intervención.", "Un implante es una raíz artificial.", "La enfermedad de las encías no se cura, se controla: por eso nos veremos cada seis meses.", "¿Cómo lo veis vosotros?"],
+      "evita": ["Prometer que nada va a doler: explica cómo controláis el dolor.", "Simplificar tanto que crees falsas expectativas.", "Saturar cuando ya lo han entendido."],
+      "temas": ["05-explicar-la-solucion"],
+      "escena": {
+        "texto": "Explicas las extracciones, los implantes y los dientes provisionales fijos el mismo día. Alfredo y Mari Carmen asienten. Has terminado de escanear la boca.",
+        "pregunta": "¿Qué haces antes de preparar el presupuesto?",
+        "opciones": [
+          { "texto": "Les pides que esperen en la sala mientras preparas la propuesta económica.", "correcta": false, "feedback": "Les mandas fuera sin saber si están convencidos. Que asientan indica receptividad, no decisión." },
+          { "texto": "«¿Cómo lo veis vosotros?» Y esperas en silencio.", "correcta": true, "feedback": "Una pregunta y silencio. Si hay dudas, salen ahora y contigo, no por primera vez en el despacho." },
+          { "texto": "Añades más detalles técnicos sobre la carga inmediata para reforzar.", "correcta": false, "feedback": "Ya lo han entendido: más explicación satura. Lo que falta no es información, es comprobar cómo lo ven." }
+        ]
+      }
+    },
+    {
+      "id": "precio",
+      "titulo": "Comunicar el precio",
+      "objetivo": "Dar la cifra con naturalidad y entregar el relevo al equipo sin dejar una patata caliente.",
+      "puntos": [
+        { "id": "prec-doctor", "texto": "He comunicado yo el importe total" },
+        { "id": "prec-natural", "texto": "Lo he dicho sin bromas, disculpas ni rodeos" },
+        { "id": "prec-pausa", "texto": "He hecho una pausa y he preguntado «¿Qué te parece?»" },
+        { "id": "prec-pago", "texto": "He presentado las formas de pago" },
+        { "id": "prec-relevo", "texto": "He hecho el relevo al equipo dejando claro tratamiento, importe y dudas" }
+      ],
+      "frases": ["Ahora quiero explicarte la inversión que supone recuperar tu salud y volver a comer tranquilo.", "El tratamiento del que hemos hablado son 11.000 euros.", "¿Qué te parece?", "Para nosotros el tratamiento no termina cuando te colocamos los dientes."],
+      "evita": ["«Lo que duele es lo que viene ahora»: prepara al paciente para que duela.", "Dejar toda la conversación económica a otra persona.", "Recitar los servicios incluidos como una lista de extras."],
+      "temas": ["06-comunicar-el-precio", "13-la-confianza-se-entrena"],
+      "escena": {
+        "texto": "Estáis en el despacho. Tienes el presupuesto delante: 11.000 euros.",
+        "pregunta": "¿Cómo lo presentas?",
+        "opciones": [
+          { "texto": "«Alfredo, lo que te voy a hacer en la boca no duele. Lo que duele es esto.» Y le enseñas la cifra.", "correcta": false, "feedback": "La broma baja la tensión, pero prepara a Alfredo para que el precio duela. Con confianza puede funcionar; hay una forma mejor." },
+          { "texto": "«Ahora quiero explicarte la inversión que supone recuperar tu salud y volver a comer tranquilo. El tratamiento son 11.000 euros.» Pausa. «¿Qué te parece?»", "correcta": true, "feedback": "Unes la cifra con lo que él quiere, la dices tú, sin vergüenza, y dejas que reaccione. Solo cuando conoce el precio se puede hablar en serio de aceptación." },
+          { "texto": "Le dices que la coordinadora le explicará ahora los números y te despides.", "correcta": false, "feedback": "Le dejas al equipo una patata caliente: Alfredo ha asentido contigo y planteará todas sus dudas por primera vez sin ti." }
+        ]
+      }
+    },
+    {
+      "id": "objeciones",
+      "titulo": "Objeciones y cierre",
+      "objetivo": "Llegar a la verdadera objeción y terminar con una acción concreta o con un no sincero.",
+      "puntos": [
+        { "id": "obj-validar", "texto": "He validado la objeción antes de responder" },
+        { "id": "obj-preguntar", "texto": "He preguntado para concretarla (qué quiere decir, qué le preocupa)" },
+        { "id": "obj-verdadera", "texto": "He llegado a la verdadera objeción" },
+        { "id": "obj-accion", "texto": "Hemos terminado con una acción: cita, pago o fecha concreta para hablar" },
+        { "id": "obj-respeto", "texto": "He respetado su derecho a pensarlo o a decir que no" }
+      ],
+      "frases": ["Yo también lo hablaría con mi mujer. ¿Qué crees que te va a decir?", "Cuando dices que es mucho, ¿a qué te refieres exactamente?", "Si el dinero no fuera un problema, ¿lo harías?", "Te reservo el día 7 a las 17:30 para terminar de concretarlo. ¿Te parece bien?"],
+      "evita": ["Decir «pero» después de darle la razón.", "Quitar partidas del plan para abaratarlo.", "Despedirte con un «lo vamos viendo».", "Condicionar el alivio del dolor a que acepte el plan completo."],
+      "temas": ["07-objeciones-frecuentes", "08-cierre-la-verdadera-objecion", "09-cierre-compromiso-y-seguimiento"],
+      "escena": {
+        "texto": "En la visita real Alfredo aceptó en el momento. Imagina que no: se queda mirando el papel y dice «Es mucho dinero. Lo tengo que pensar».",
+        "pregunta": "¿Qué respondes?",
+        "opciones": [
+          { "texto": "«Claro, piénsalo y ya me llamas.»", "correcta": false, "feedback": "Es el «lo vamos viendo», que casi nunca llega a nada. Te quedas sin saber cuál es su verdadera objeción y sin fecha para volver a hablar." },
+          { "texto": "«Estoy de acuerdo en que es mucho dinero. Si el dinero no fuera un problema, ¿lo harías?» Y esperas.", "correcta": true, "feedback": "Le das la razón sin «pero» y compruebas si el dinero es la objeción real. Si dice que sí, se estudian las cuotas; si dice que no, hay otra detrás. En cualquier caso, terminas fijando día y hora para volver a hablar." },
+          { "texto": "«Mira, te quito la limpieza y el TAC y te lo dejo en 10.000.»", "correcta": false, "feedback": "Es la reacción de la vergüenza por el precio: recortar el plan. No sabes aún si el problema es el dinero, y le enseñas que la cifra no era firme." }
+        ]
+      }
+    },
+    {
+      "id": "despues",
+      "titulo": "Después de la visita",
+      "objetivo": "Cerrar la puerta de atrás y aprender de lo ocurrido.",
+      "puntos": [
+        { "id": "desp-registro", "texto": "He registrado la visita y lo que se cumplió" },
+        { "id": "desp-seguimiento", "texto": "Si no decidió, hay un seguimiento con fecha y responsable" },
+        { "id": "desp-revision", "texto": "Si aceptó, sabe que nos veremos en las revisiones cada seis meses" }
+      ],
+      "frases": ["Te escribo porque me preocupa que tu problema haya empeorado. Te he reservado una cita el lunes a las 11:30."],
+      "evita": ["Mensajes como «estoy a tu disposición para cualquier duda».", "Dejar de aplicar las técnicas cuando el paciente sale por la puerta."],
+      "temas": ["09-cierre-compromiso-y-seguimiento", "10-paciente-ideal-y-dos-puertas"],
+      "escena": {
+        "texto": "Alfredo ha aceptado con pronto pago. Se van contentos.",
+        "pregunta": "¿Qué haces cuando se marchan?",
+        "opciones": [
+          { "texto": "Nada más: ha aceptado, la visita ha sido un éxito.", "correcta": false, "feedback": "Ha salido bien, pero era un paciente fácil: recomendado y con un problema de años. Si no revisas la visita, no sabrás qué habría fallado con uno difícil." },
+          { "texto": "Apuntas qué pasos cumpliste y cuáles no: no hiciste pregunta puente ni profundizaste en su preocupación. Y dejas claro el mantenimiento cada seis meses.", "correcta": true, "feedback": "Eso es evaluación continua. Y con las revisiones cierras la puerta de atrás: un paciente que vuelve cada seis meses se acuerda de ti y te recomienda, como hizo Carlos." },
+          { "texto": "Le pides a recepción que le mande un mensaje: «Estamos a tu disposición para cualquier duda».", "correcta": false, "feedback": "Esa frase no conduce a nada. Y aquí no hace falta seguimiento de cierre: lo que toca es registrar la visita y asegurar el mantenimiento." }
+        ]
+      }
+    }
+  ]
+}

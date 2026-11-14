@@ -3,8 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
-import { listarTemas, obtenerTema, temaComoHtml, listarFuentes } from "./lib/contenido.js";
-import { conversar, corregir, tutorConfigurado, mensajeDeError } from "./lib/tutor.js";
+import { listarTemas, obtenerTema, temaComoHtml, listarFuentes, obtenerFlujo } from "./lib/contenido.js";
+import { conversar, corregir, valorarProgreso, tutorConfigurado, mensajeDeError } from "./lib/tutor.js";
 
 const aqui = path.dirname(fileURLToPath(import.meta.url));
 
@@ -74,10 +74,20 @@ app.get("/api/temas/:id/audio", (req, res) => {
   res.sendFile(path.join(t.dir, "audio.mp3"));
 });
 
+app.get("/api/flujo", (req, res) => res.json(obtenerFlujo()));
+
+app.post("/api/progreso", exigirAcceso, exigirTutor, async (req, res) => {
+  try {
+    res.json({ valoracion: await valorarProgreso({ visitas: req.body?.visitas }) });
+  } catch (error) {
+    res.status(error instanceof Error && !("status" in error) ? 400 : 502).json({ error: mensajeDeError(error) });
+  }
+});
+
 app.post("/api/chat", exigirAcceso, exigirTutor, async (req, res) => {
   let stream;
   try {
-    stream = conversar({ mensajes: req.body?.mensajes, temaId: req.body?.temaId });
+    stream = conversar({ mensajes: req.body?.mensajes, temaId: req.body?.temaId, visitas: req.body?.visitas });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
