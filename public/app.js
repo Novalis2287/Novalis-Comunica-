@@ -349,7 +349,7 @@ async function vistaProfesor(temaId) {
   const preparar = h("button", { class: "boton", type: "button", onclick: async () => {
     try { await prepararProfesor(); } catch { /* El estado muestra el error y permite reintentar. */ }
   } }, "Descargar y preparar profesor");
-  const detener = h("button", { class: "boton secundario", type: "button", onclick: detenerProfesor }, "Detener respuesta");
+  const detener = h("button", { class: "boton secundario", type: "button", onclick: () => detenerProfesor() }, "Detener respuesta");
   let listo = estado.tutorModo !== "local";
   let desobservar = () => {};
   if (estado.tutorModo === "local") desobservar = observarProfesor((s) => {
@@ -445,7 +445,9 @@ async function vistaProfesor(temaId) {
     h(
       "p",
       { class: "entrada" },
-      estado.fuentes.length
+      estado.tutorModo === "local"
+        ? "Estudia el temario con explicaciones, preguntas y casos prácticos. El profesor selecciona fragmentos del curso para responder."
+        : estado.fuentes.length
         ? `Conoce las ${estado.fuentes.length} fuentes del curso. Pregunta, debate o pídele que te examine.`
         : "Pregunta, debate o pídele que te examine. Aún no hay fuentes cargadas.",
     ),
