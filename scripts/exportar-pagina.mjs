@@ -33,7 +33,7 @@ css = css.replace(".cabecera { ", ".cabecera { top: env(safe-area-inset-top, 0px
 const app = fs
   .readFileSync(path.join(raiz, "public/app.js"), "utf8")
   // El módulo de práctica se incrusta: en una sola página no hay importaciones.
-  .replace(/^import \{[^\n]+\} from "\.\/practica\.js";\n/m, () => fs.readFileSync(path.join(raiz, "public/practica.js"), "utf8").replace(/^export /gm, ""))
+  .replace(/^import \{[^\n]+\} from "\.\/(practica|grabacion)\.js";\n/gm, (_, modulo) => fs.readFileSync(path.join(raiz, `public/${modulo}.js`), "utf8").replace(/^export /gm, ""))
   .replace(/import \{ iniciarCuenta \} from "\.\/cuenta\.js";\r?\nwindow\.novalisAutorizado = await iniciarCuenta\(\);/, 'window.novalisAutorizado = true; document.body.classList.remove("sin-sesion");')
   .replace("src: `/api/temas/${tema.id}/audio`", "src: `audio/${tema.id}.mp3`");
 

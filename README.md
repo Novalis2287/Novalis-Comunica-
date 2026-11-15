@@ -4,6 +4,7 @@ App para entrenar la comunicación con los pacientes.
 
 - **Temas**: cada tema tiene su texto, un audio narrado y un examen. Las preguntas tipo test se corrigen solas; las de desarrollo muestran los criterios para autocorregirse.
 - **Guía**: se añade un paciente nuevo y una plantilla guía la primera visita paso a paso, con las frases, los puntos de control, lo que hay que evitar y apuntes por paso. Incluye un caso de ejemplo para practicar.
+- **Grabación**: en la versión web, la guía puede grabar el audio de la visita (con el consentimiento del paciente) y marca en qué momento empieza cada paso. Después se revisa paso a paso: se escucha, se marca lo que de verdad se cumplió y se anota la corrección. El audio se guarda solo en el dispositivo donde se graba.
 - **Historial**: todas las primeras visitas, con su resultado, los mensajes de seguimiento, los recordatorios y los puntos que más se resisten.
 - **Practicar con una IA**: desde el historial se descarga o se copia un archivo con el método, las visitas y el temario para adjuntarlo a una conversación con cualquier IA y practicar en modo charla.
 

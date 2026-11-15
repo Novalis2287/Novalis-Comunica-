@@ -57,3 +57,16 @@ test("el material para la IA incluye instrucciones, método y la visita", () => 
   assert.match(todo, /Pregúntame con qué paciente/);
   assert.match(todo, /Temario completo/);
 });
+
+test("formatea la duración y elige la extensión del audio", async () => {
+  const { duracionLegible, extensionDe } = await import("../public/grabacion.js");
+  assert.equal(duracionLegible(0), "0:00");
+  assert.equal(duracionLegible(125.4), "2:05");
+  assert.equal(extensionDe("audio/mp4"), "m4a");
+  assert.equal(extensionDe("audio/webm;codecs=opus"), "webm");
+});
+
+test("las correcciones de la revisión van en el material para la IA", () => {
+  const v = nuevaVisita({ alias: "Luis", estado: "terminada", correcciones: { contacto: "No saludé a la acompañante." } });
+  assert.match(textoParaIA({ visitas: [v], flujo }), /Lo que corregiría al revisar la grabación: No saludé a la acompañante\./);
+});

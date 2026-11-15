@@ -1,5 +1,6 @@
 // Interfaz de Novalis Aprende: temas, guía de primera visita e historial.
 import { RESULTADOS, TIPOS_SEGUIMIENTO, nuevaVisita, normalizarVisitas, cumplimiento, recordatoriosPendientes, resumenHistorial, textoParaIA } from "./practica.js";
+import { puedeGrabar, empezarGrabacion, guardarAudio, leerAudio, borrarAudio, duracionLegible, extensionDe } from "./grabacion.js";
 import { iniciarCuenta } from "./cuenta.js";
 window.novalisAutorizado = await iniciarCuenta();
 const vista = document.getElementById("vista");
@@ -394,6 +395,173 @@ function botonesDePractica({ nombre, generar }) {
   );
 }
 
+// ---------- grabación de la visita ----------
+let grabacionActiva = null; // { visitaId, mandos, marcas, reloj }
+
+async function terminarGrabacion() {
+  const activa = grabacionActiva;
+  if (!activa) return;
+  grabacionActiva = null;
+  clearInterval(activa.reloj);
+  const { blob, duracion, tipo } = await activa.mandos.detener();
+  if (!blob.size) return;
+  await guardarAudio(activa.visitaId, blob);
+  cambiarVisita(activa.visitaId, (v) => (v.audio = { fecha: new Date().toISOString(), duracion: Math.round(duracion), tipo, marcas: activa.marcas }));
+}
+
+function barraDeGrabacion(visitaId, leerVisita, marcarPaso) {
+  const barra = h("div", { class: "grabacion" });
+  if (!puedeGrabar()) {
+    barra.append(h("p", {}, window.novalisSinMicrofono ? "La grabación de audio solo está disponible en la versión web de Novalis Aprende, no dentro de Claude." : "Este navegador no permite grabar audio."));
+    return barra;
+  }
+  function pintarBarra() {
+    const activa = grabacionActiva?.visitaId === visitaId ? grabacionActiva : null;
+    if (activa) {
+      const tiempo = h("strong", { class: "tiempo" }, duracionLegible(activa.mandos.segundos()));
+      clearInterval(activa.reloj);
+      activa.reloj = setInterval(() => (tiempo.textContent = duracionLegible(activa.mandos.segundos())), 1000);
+      const pausa = h("button", { class: "boton secundario", type: "button" }, activa.mandos.estaPausada() ? "Reanudar" : "Pausar");
+      pausa.addEventListener("click", () => {
+        if (activa.mandos.estaPausada()) activa.mandos.reanudar();
+        else activa.mandos.pausar();
+        pintarBarra();
+      });
+      barra.replaceChildren(
+        h("span", { class: `punto-rojo${activa.mandos.estaPausada() ? " pausado" : ""}`, "aria-hidden": "true" }),
+        h("span", {}, activa.mandos.estaPausada() ? "Grabación en pausa" : "Grabando"),
+        tiempo,
+        pausa,
+        h("button", { class: "boton", type: "button", onclick: async () => { await terminarGrabacion(); pintarBarra(); } }, "Detener y guardar"),
+      );
+      return;
+    }
+    const audio = leerVisita().audio;
+    const permiso = h("input", { type: "checkbox", id: "consentimiento" });
+    const empezar = h("button", { class: "boton secundario", type: "button", disabled: true }, audio ? "Grabar de nuevo" : "Grabar la visita");
+    const error = h("p", { class: "error", hidden: true });
+    permiso.addEventListener("change", () => (empezar.disabled = !permiso.checked));
+    empezar.addEventListener("click", async () => {
+      try {
+        if (grabacionActiva) await terminarGrabacion();
+        const mandos = await empezarGrabacion();
+        grabacionActiva = { visitaId, mandos, marcas: [], reloj: null };
+        marcarPaso();
+        pintarBarra();
+      } catch {
+        error.textContent = "No se ha podido usar el micrófono. Revisa el permiso del navegador para esta página.";
+        error.hidden = false;
+      }
+    });
+    barra.replaceChildren(
+      h("label", { class: "opcion" }, permiso, h("span", {}, "El paciente sabe que se va a grabar la visita y ha dado su consentimiento.")),
+      h("div", { class: "fila" }, empezar, audio && h("span", { class: "chip gris" }, `Hay una grabación de ${duracionLegible(audio.duracion)}; grabar de nuevo la sustituye`)),
+      error,
+    );
+  }
+  pintarBarra();
+  return barra;
+}
+
+// Revisión de la grabación: se escucha cada paso, se marca lo cumplido y se anota la corrección.
+async function vistaRevision(id, visitas, flujo, temas) {
+  let visita = visitas.find((v) => v.id === id);
+  if (!visita) return [h("p", { class: "error" }, "No se ha encontrado este paciente."), h("a", { href: "#/historial" }, "Volver al historial")];
+  const blob = visita.audio ? await leerAudio(id) : null;
+  const guardar = (cambio) => (visita = cambiarVisita(id, cambio) || visita);
+  const cabecera = [h("a", { class: "volver", href: `#/historial/${id}` }, `← ${visita.alias || "Paciente"}`), h("h1", {}, "Revisar la grabación")];
+  if (!blob) {
+    return [
+      ...cabecera,
+      h("p", { class: "aviso" }, visita.audio ? "La grabación de esta visita está guardada en el dispositivo donde se grabó. Ábrela allí para escucharla." : "Esta visita no tiene grabación."),
+    ];
+  }
+  const reproductorAudio = h("audio", { controls: true, preload: "metadata", src: URL.createObjectURL(blob) });
+  const marcas = visita.audio.marcas || [];
+  const porcentaje = h("span", { class: "chip" }, `${cumplimiento(visita, flujo)} % del flujo`);
+  return [
+    ...cabecera,
+    h("p", { class: "entrada" }, "Escucha cada paso, marca lo que de verdad hiciste y anota cómo lo dirías la próxima vez."),
+    h("div", { class: "reproductor revision-audio" }, reproductorAudio, h("div", { class: "datos" }, h("span", { class: "chip gris" }, duracionLegible(visita.audio.duracion)), porcentaje)),
+    ...flujo.pasos.map((paso, n) => {
+      const marca = marcas.find((m) => m.paso === paso.id);
+      const correccion = h("textarea", { id: `correccion-${paso.id}`, placeholder: "Qué fallé aquí y cómo lo diría la próxima vez" }, visita.correcciones[paso.id] || "");
+      correccion.addEventListener("input", () => guardar((v) => (v.correcciones[paso.id] = correccion.value)));
+      return h(
+        "section",
+        { class: "paso-guia revision-paso" },
+        h("h2", {}, `${n + 1}. ${paso.titulo}`),
+        marca
+          ? h("div", {}, h("button", { class: "boton secundario", type: "button", onclick: () => { reproductorAudio.currentTime = marca.t; reproductorAudio.play(); } }, `Escuchar desde ${duracionLegible(marca.t)}`))
+          : h("p", { class: "objetivo" }, "No pasaste por este paso mientras grababas."),
+        h(
+          "div",
+          { class: "opciones" },
+          paso.puntos.map((p) => {
+            const casilla = h("input", { type: "checkbox", id: `revision-${p.id}`, checked: Boolean(visita.puntos[p.id]) });
+            casilla.addEventListener("change", () => {
+              guardar((v) => {
+                if (casilla.checked) v.puntos[p.id] = true;
+                else delete v.puntos[p.id];
+              });
+              porcentaje.textContent = `${cumplimiento(visita, flujo)} % del flujo`;
+            });
+            return h("label", { class: "opcion" }, casilla, h("span", {}, p.texto));
+          }),
+        ),
+        h("p", { class: "evita" }, h("strong", {}, "Errores que vigilar: "), paso.evita.join(" ")),
+        campo("Corrección", correccion),
+        h("div", { class: "datos" }, enlacesATemas(paso.temas, temas)),
+      );
+    }),
+    h("div", {}, h("a", { class: "boton", href: `#/historial/${id}` }, "Terminar la revisión")),
+    h("div", { class: "hueco-audio", "aria-hidden": "true" }),
+  ];
+}
+
+// Bloque de la ficha del paciente con la grabación de su visita.
+function seccionGrabacion(visita) {
+  if (!visita.audio) return [];
+  const estadoEl = h("p", { class: "entrada", hidden: true });
+  const borrar = h("button", { class: "enlace", type: "button" }, "Borrar la grabación");
+  borrar.addEventListener("click", async () => {
+    if (!borrar.dataset.seguro) {
+      borrar.dataset.seguro = "1";
+      borrar.textContent = "¿Borrar el audio? Pulsa otra vez";
+      return;
+    }
+    await borrarAudio(visita.id);
+    cambiarVisita(visita.id, (v) => (v.audio = null));
+    pintar();
+  });
+  return [
+    h("h2", {}, "Grabación de la visita"),
+    h("div", { class: "datos" }, h("span", { class: "chip gris" }, `${duracionLegible(visita.audio.duracion)} · ${fechaCorta(visita.audio.fecha)}`), h("span", { class: "chip gris" }, "Guardada solo en el dispositivo donde se grabó")),
+    h(
+      "div",
+      { class: "fila" },
+      h("a", { class: "boton", href: `#/historial/${visita.id}/revision` }, "Revisar la grabación"),
+      h("button", { class: "boton secundario", type: "button", onclick: async () => {
+        const blob = await leerAudio(visita.id);
+        if (!blob) {
+          estadoEl.textContent = "El audio no está en este dispositivo.";
+          estadoEl.hidden = false;
+          return;
+        }
+        const url = URL.createObjectURL(blob);
+        const enlace = h("a", { href: url, download: `visita-${(visita.alias || "paciente").toLowerCase().replace(/[^a-z0-9áéíóúñ]+/gi, "-")}.${extensionDe(visita.audio.tipo)}` });
+        document.body.append(enlace);
+        enlace.click();
+        enlace.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 5000);
+      } }, "Descargar el audio"),
+    ),
+    h("p", { class: "entrada" }, "Para que una IA la analice, descarga el audio y el archivo de práctica de abajo y adjunta los dos a la conversación."),
+    estadoEl,
+    h("div", {}, borrar),
+  ];
+}
+
 // ---------- guía de primera visita ----------
 async function vistaGuia(id) {
   const [flujo, temas] = await Promise.all([apiJson("/api/flujo"), apiJson("/api/temas")]);
@@ -469,6 +637,8 @@ function vistaPlantilla(id, flujo, temas) {
 
   function irA(n) {
     guardar((v) => (v.pasoActual = Math.max(0, Math.min(total, n))));
+    // Cada cambio de paso deja una marca en la grabación para encontrarlo al revisarla.
+    if (grabacionActiva?.visitaId === id) grabacionActiva.marcas.push({ paso: flujo.pasos[visita.pasoActual]?.id || "cierre", t: Math.round(grabacionActiva.mandos.segundos()) });
     pintarPaso();
     window.scrollTo(0, 0);
   }
@@ -583,9 +753,11 @@ function vistaPlantilla(id, flujo, temas) {
   }
 
   pintarPaso();
+  const marcarPaso = () => grabacionActiva?.visitaId === id && grabacionActiva.marcas.push({ paso: flujo.pasos[visita.pasoActual]?.id || "cierre", t: Math.round(grabacionActiva.mandos.segundos()) });
   return [
     h("a", { class: "volver", href: "#/guia" }, "← Guía de primera visita"),
     h("h1", {}, visita.alias || "Primera visita"),
+    barraDeGrabacion(id, () => visita, marcarPaso),
     (visita.motivo || visita.acompanante) &&
       h("div", { class: "datos" }, visita.motivo && h("span", { class: "chip gris" }, visita.motivo), visita.acompanante && h("span", { class: "chip gris" }, `Con ${visita.acompanante}`)),
     zona,
@@ -677,9 +849,10 @@ function filaRecordatorio(r, { conPaciente }) {
   );
 }
 
-async function vistaHistorial(id) {
+async function vistaHistorial(id, extra) {
   const [flujo, temas] = await Promise.all([apiJson("/api/flujo"), apiJson("/api/temas")]);
   const visitas = leerVisitas();
+  if (id && extra === "revision") return vistaRevision(id, visitas, flujo, temas);
   if (id) return vistaPaciente(id, visitas, flujo, temas);
   if (!visitas.length) {
     return [
@@ -800,6 +973,7 @@ function vistaPaciente(id, visitas, flujo, temas) {
     visita.notas && h("p", {}, h("strong", {}, "Notas de cierre. "), visita.notas),
     visita.estado === "en-curso" && h("div", {}, h("a", { class: "boton", href: `#/guia/${id}` }, "Continuar la guía")),
     h("div", { class: "guia" }, campo("Resultado", resultado)),
+    ...seccionGrabacion(visita),
 
     h("h2", {}, "Recordatorios"),
     pendientes.length > 0 && h("ul", { class: "reforzar" }, pendientes.map((r) => filaRecordatorio({ ...r, visitaId: id }, { conPaciente: false }))),
@@ -883,7 +1057,9 @@ function vistaPaciente(id, visitas, flujo, temas) {
 async function pintar() {
   if (!window.novalisAutorizado) return;
   if ("speechSynthesis" in window) speechSynthesis.cancel();
-  let [, seccion = "", id] = location.hash.replace(/^#/, "").split("/");
+  let [, seccion = "", id, extra] = location.hash.replace(/^#/, "").split("/");
+  // Si se sale de la plantilla con la grabación en marcha, se guarda lo grabado.
+  if (grabacionActiva && !(seccion === "guia" && id === grabacionActiva.visitaId)) await terminarGrabacion();
   // Enlaces de versiones anteriores.
   if (seccion === "visita") seccion = "guia";
   if (seccion === "seguimiento" || seccion === "profesor") seccion = "historial";
@@ -911,7 +1087,7 @@ async function pintar() {
           : seccion === "guia"
             ? await vistaGuia(id)
             : seccion === "historial"
-              ? await vistaHistorial(id)
+              ? await vistaHistorial(id, extra)
               : await vistaTemas();
     vista.replaceChildren(...contenido.filter(Boolean));
   } catch (error) {

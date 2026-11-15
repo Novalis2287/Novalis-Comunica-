@@ -18,6 +18,9 @@ window.fetch = async (ruta) => {
   return responder({ error: "No encontrado." }, 404);
 };
 
+// La página de Claude no da acceso al micrófono: la grabación solo existe en la versión web.
+if (window.claude?.use) window.novalisSinMicrofono = true;
+
 // Dentro de la página de Claude los enlaces de descarga no funcionan: guarda la propia página.
 if (window.claude?.use) {
   window.novalisDescargar = async (nombre, texto) => {
