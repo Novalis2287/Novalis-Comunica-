@@ -2,11 +2,10 @@
 
 App para entrenar la comunicación con los pacientes.
 
-- **Temas**: cada tema tiene su texto y un audio narrado por una voz de profesor (hombre, acento de España).
-- **Examen**: preguntas tipo test y de desarrollo por tema, con nota sobre 10. Las de desarrollo las corrige la IA.
-- **Profesor**: chat con una IA que conoce todas las fuentes del curso, para preguntar y debatir.
-- **Visita**: el flujo de la primera visita paso a paso. Se puede recorrer con un caso guiado, decidiendo qué hacer en cada momento, o usar como guía en consulta marcando los puntos que se cumplen.
-- **Seguimiento**: registro de las visitas reales, con el cumplimiento por paso, los puntos a reforzar y la valoración del profesor según los avances.
+- **Temas**: cada tema tiene su texto, un audio narrado y un examen. Las preguntas tipo test se corrigen solas; las de desarrollo muestran los criterios para autocorregirse.
+- **Guía**: se añade un paciente nuevo y una plantilla guía la primera visita paso a paso, con las frases, los puntos de control, lo que hay que evitar y apuntes por paso. Incluye un caso de ejemplo para practicar.
+- **Historial**: todas las primeras visitas, con su resultado, los mensajes de seguimiento, los recordatorios y los puntos que más se resisten.
+- **Practicar con una IA**: desde el historial se descarga o se copia un archivo con el método, las visitas y el temario para adjuntarlo a una conversación con cualquier IA y practicar en modo charla.
 
 ## Ponerla en marcha
 
@@ -17,17 +16,13 @@ npm start              # http://localhost:3000
 ```
 
 La web necesita las dos variables públicas de Supabase para permitir el acceso.
-El profesor web funciona localmente con WebLLM 0.2.88 y Qwen2.5 1.5B Instruct cuantizado a 4 bits. No necesita claves ni cuentas de proveedores de IA. En Profesor, pulsa «Descargar y preparar profesor» en cada dispositivo. La primera descarga proviene de Hugging Face y MLC; el navegador guarda el modelo en caché, pero puede borrarlo. La inferencia usa WebGPU en un worker. Necesita HTTPS, un navegador compatible con shader-f16 y memoria disponible; no se promete compatibilidad ni velocidad hasta probar el dispositivo real.
-
-Esta integración es una prueba. Se seleccionan fragmentos del temario para limitar el contexto; no se carga el contenido completo en cada respuesta. Las correcciones de desarrollo son orientativas y se validan antes de puntuar. El profesor genera el texto en el dispositivo. El temario sigue requiriendo una sesión activa y conexión con el servidor, y el progreso sincronizado usa Supabase. El chat se guarda solo en el navegador por cuenta. El modelo de IA no recibe datos desde un proveedor externo; descarga sus archivos públicos antes de funcionar.
-
-Se han comprobado la recuperación de fragmentos, el contrato de corrección y la interfaz con un motor simulado. La generación real y su calidad en iPhone/iPad requieren validación en los equipos del usuario. Referencias: https://github.com/mlc-ai/web-llm y https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct (licencia Apache 2.0).
+La app no usa ningún servicio de IA: no necesita claves ni cuentas de proveedores.
 
 ## Dónde está el contenido
 
 ```
 contenido/
-  fuentes/                 texto de cada fuente (.md o .txt); lo lee el profesor
+  fuentes/                 texto de cada fuente (.md o .txt)
   temas/
     01-nombre-del-tema/
       tema.md              texto del tema (con cabecera titulo / resumen)
@@ -41,7 +36,7 @@ navegador donde se anotan y se sincronizan con la cuenta. Cada alumno sincroniza
 visitas, notas de examen, caso práctico, borrador y valoración entre dispositivos.
 El chat y el código de acceso no se sincronizan. Los datos locales están separados
 por cuenta. Los registros previos de invitado se mantienen separados de la cuenta.
-Al profesor se le envían las visitas sin el campo identificador del paciente.
+Las primeras visitas se guardan bajo la clave `visitas`; los registros anteriores a la guía por paciente se convierten al abrirlos.
 
 ## Acceso desde móvil y iPad
 
@@ -119,17 +114,13 @@ Es un servidor Node sin paso de compilación: sirve en cualquier alojamiento que
 ejecute `npm start` (Render, Railway, Fly.io…). Define allí las variables de
 `.env.example`. El acceso al curso se controla mediante las cuentas de Supabase.
 
-## Exportador legado como página de Claude
+## Versión como página de Claude
 
 `node scripts/exportar-pagina.mjs <carpeta>` genera la app en una sola página,
 sin servidor, para publicarla como artefacto privado de Claude con las
-capacidades `sample`, `db` y `user`. En esa versión:
-
-- El profesor responde con la cuenta de Claude de quien abre la página; no hace
-  falta clave de API ni alojamiento.
-- Las visitas, las notas de examen y la valoración se guardan en la carpeta
-  privada del usuario en la base de datos de la página, y se ven en todos sus
-  dispositivos.
+capacidades `db`, `user` y `downloads`. En esa versión las visitas y las notas
+de examen se guardan en la carpeta privada del usuario en la base de datos de
+la página, y la descarga del material de práctica la gestiona la propia página.
 
 ## Pruebas
 

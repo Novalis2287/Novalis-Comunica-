@@ -293,3 +293,17 @@ main { flex: 1; padding-block: 32px 48px; }
 
 .profesor-preparacion { border: 1px solid var(--borde, #b9dce8); border-radius: 16px; padding: 20px; margin-block: 20px; }
 .profesor-preparacion progress { width: 100%; margin-bottom: 16px; accent-color: #058bc0; }
+
+/* Plantilla de primera visita e historial por paciente */
+.plantilla { display: flex; flex-direction: column; gap: 12px; }
+.plantilla h2, .plantilla p { margin: 0; }
+.plantilla ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }
+.plantilla .opcion { padding: 8px 6px; }
+.plantilla .objetivo { color: var(--tinta-suave); }
+.avance { display: flex; flex-direction: column; gap: 8px; }
+.avance select { font: inherit; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--linea); background: var(--panel); color: var(--tinta); max-width: 100%; }
+.nombre-paciente { font-weight: 800; font-size: 1.05rem; color: var(--tinta); text-decoration: none; }
+.nombre-paciente:hover { color: var(--acento); }
+.practica { display: flex; flex-direction: column; gap: 8px; }
+.copia-manual { width: 100%; min-height: 160px; font: 0.85rem/1.4 ui-monospace, monospace; padding: 10px; border-radius: 8px; border: 1px solid var(--linea); background: var(--panel); color: var(--tinta); }
+.reforzar li > span { overflow-wrap: anywhere; }

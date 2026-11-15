@@ -1,5 +1,5 @@
 const CLAVES = ["visitas", "resultados", "valoracion", "caso", "visita-borrador"];
-const NOMBRES = { visitas: "visitas", resultados: "notas de examen", valoracion: "valoración del profesor", caso: "caso práctico", "visita-borrador": "borrador de visita" };
+const NOMBRES = { visitas: "primeras visitas", resultados: "notas de examen", valoracion: "valoración", caso: "caso práctico", "visita-borrador": "borrador de visita" };
 
 function elemento(tag, texto, atributos = {}) {
   const el = document.createElement(tag);

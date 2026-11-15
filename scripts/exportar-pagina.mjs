@@ -1,14 +1,13 @@
 #!/usr/bin/env node
 // Genera una versión de la app en una sola página, sin servidor: temas, audios
-// exámenes, flujo de visita y seguimiento. Publicada como página de Claude,
-// el profesor usa la cuenta de quien la abre y los datos se guardan en su base de datos.
+// exámenes, guía de primera visita e historial. Publicada como página de Claude,
+// los datos del usuario se guardan en la base de datos de la página.
 //
 //   node scripts/exportar-pagina.mjs <carpeta-de-salida>
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { listarTemas, temaComoHtml, listarFuentes, obtenerFlujo } from "../lib/contenido.js";
-import { INSTRUCCIONES } from "../lib/tutor.js";
 
 const raiz = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const salida = path.resolve(process.argv[2] || "pagina");
@@ -33,17 +32,15 @@ css = css.replace(".cabecera { ", ".cabecera { top: env(safe-area-inset-top, 0px
 
 const app = fs
   .readFileSync(path.join(raiz, "public/app.js"), "utf8")
-  .replace(/^import \{ observarProfesor[^\n]+\n/m, "")
+  // El módulo de práctica se incrusta: en una sola página no hay importaciones.
+  .replace(/^import \{[^\n]+\} from "\.\/practica\.js";\n/m, () => fs.readFileSync(path.join(raiz, "public/practica.js"), "utf8").replace(/^export /gm, ""))
   .replace(/import \{ iniciarCuenta \} from "\.\/cuenta\.js";\r?\nwindow\.novalisAutorizado = await iniciarCuenta\(\);/, 'window.novalisAutorizado = true; document.body.classList.remove("sin-sesion");')
   .replace("src: `/api/temas/${tema.id}/audio`", "src: `audio/${tema.id}.mp3`");
 
-// El profesor y el guardado en la nube usan las capacidades de la página (ver pagina-sin-servidor.js).
-const progreso = fs.readFileSync(path.join(raiz, "lib/progreso.js"), "utf8").replace(/^export /gm, "");
+// El guardado en la nube y la descarga usan las capacidades de la página (ver pagina-sin-servidor.js).
 const sinServidor = fs
   .readFileSync(path.join(raiz, "scripts/pagina-sin-servidor.js"), "utf8")
-  .replace("__DATOS__", () => JSON.stringify(datos).replace(/</g, "\\u003c"))
-  .replace("__INSTRUCCIONES__", () => JSON.stringify(INSTRUCCIONES).replace(/</g, "\\u003c"))
-  .replace("__PROGRESO__", () => progreso);
+  .replace("__DATOS__", () => JSON.stringify(datos).replace(/</g, "\\u003c"));
 
 const cuerpo = fs.readFileSync(path.join(raiz, "public/index.html"), "utf8").match(/<body[^>]*>([\s\S]*?)<script/)[1];
 const pagina = `<title>Novalis Aprende</title>

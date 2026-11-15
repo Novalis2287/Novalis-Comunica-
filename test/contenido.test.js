@@ -51,14 +51,3 @@ test("el flujo de la primera visita está bien formado", async () => {
     assert.equal(paso.escena.opciones.filter((o) => o.correcta).length, 1, `${paso.id}: debe haber una única opción correcta`);
   }
 });
-
-test("el resumen de visitas descarta datos mal formados", async () => {
-  const { resumirVisitas, limpiarVisitas } = await import("../lib/progreso.js");
-  const { obtenerFlujo } = await import("../lib/contenido.js");
-  assert.equal(resumirVisitas("no es una lista", obtenerFlujo()), "");
-  const limpias = limpiarVisitas([{ resultado: "inventado", puntos: { "preg-exacta": true, falso: "sí" }, notas: "x".repeat(5000) }, null]);
-  assert.equal(limpias.length, 1);
-  assert.equal(limpias[0].resultado, "sin-plan");
-  assert.deepEqual(limpias[0].puntos, { "preg-exacta": true });
-  assert.equal(limpias[0].notas.length, 600);
-});

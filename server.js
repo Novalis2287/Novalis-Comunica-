@@ -18,8 +18,7 @@ const exigirSesion = crearAcceso({ url: process.env.SUPABASE_URL, key: process.e
 
 app.get("/api/estado", (req, res) => {
   res.json({
-    tutor: true,
-    tutorModo: "local",
+    tutor: false,
     pideCodigo: false,
     fuentes: listarFuentes().map((f) => f.nombre),
   });
@@ -125,15 +124,13 @@ app.get("/api/temas/:id/audio", (req, res) => {
 
 app.get("/api/flujo", (req, res) => res.json(obtenerFlujo()));
 
-// Material reservado a usuarios activos; la inferencia se hace en el dispositivo.
-app.get("/api/profesor/material", (req, res) => {
+// Temario en texto, para el archivo de práctica que el usuario se lleva a una IA.
+app.get("/api/material", (req, res) => {
   res.set("Cache-Control", "private, no-store").json({
-    temas: listarTemas().map(t => ({ id: t.id, titulo: t.titulo, texto: t.markdown, preguntas: t.preguntas })),
-    flujo: obtenerFlujo(),
+    temas: listarTemas().map((t) => ({ id: t.id, titulo: t.titulo, texto: t.markdown })),
   });
 });
 
-app.use("/vendor/webllm.js", express.static(path.join(aqui, "node_modules/@mlc-ai/web-llm/lib/index.js")));
 app.use("/vendor/marked.js", express.static(path.join(aqui, "node_modules/marked/lib/marked.umd.js")));
 app.use("/vendor/purify.js", express.static(path.join(aqui, "node_modules/dompurify/dist/purify.min.js")));
 app.use("/vendor/supabase.js", express.static(path.join(aqui, "node_modules/@supabase/supabase-js/dist/umd/supabase.js")));

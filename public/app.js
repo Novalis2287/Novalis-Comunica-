@@ -1,5 +1,5 @@
-// Interfaz de Novalis Aprende: temas, examen y profesor con IA.
-import { observarProfesor, prepararProfesor, detenerProfesor, peticionProfesor } from "./profesor-local.js";
+// Interfaz de Novalis Aprende: temas, guía de primera visita e historial.
+import { RESULTADOS, TIPOS_SEGUIMIENTO, nuevaVisita, normalizarVisitas, cumplimiento, recordatoriosPendientes, resumenHistorial, textoParaIA } from "./practica.js";
 import { iniciarCuenta } from "./cuenta.js";
 window.novalisAutorizado = await iniciarCuenta();
 const vista = document.getElementById("vista");
@@ -71,11 +71,6 @@ function pedirCodigo() {
 }
 
 async function api(ruta, opciones = {}) {
-  if (estado.tutorModo === "local" && ["/api/chat", "/api/corregir", "/api/progreso"].includes(ruta)) {
-    // Se valida la cuenta antes de cada generación, también si el material ya está en memoria.
-    await apiJson("/api/profesor/material");
-    return peticionProfesor(ruta, JSON.parse(opciones.body || "{}"), apiJson);
-  }
   for (;;) {
     const token = await window.novalisToken?.();
     const r = await fetch(ruta, {
@@ -125,7 +120,7 @@ async function vistaTemas() {
       h("p", { class: "sobrelinea" }, "NOVALIS · FORMACIÓN EN COMUNICACIÓN"),
       h("h1", {}, "Conecta mejor con tus pacientes."),
       h("p", {}, "Escucha, aprende y lleva cada conversación a la práctica. A tu ritmo, desde donde estés."),
-      h("div", { class: "fila" }, h("a", { class: "boton", href: `#/tema/${temas[0]?.id || ""}` }, "Empezar a aprender"), h("a", { class: "boton secundario", href: "#/visita" }, "Practicar una visita")),
+      h("div", { class: "fila" }, h("a", { class: "boton", href: `#/tema/${temas[0]?.id || ""}` }, "Empezar a aprender"), h("a", { class: "boton secundario", href: "#/guia" }, "Guiar una primera visita")),
     ),
     h("div", { class: "cabecera-temas" }, h("div", {}, h("p", { class: "sobrelinea" }, "TU ITINERARIO"), h("h2", {}, "Un paso más en tu comunicación")), h("span", { class: "chip gris" }, `${temas.length} temas · texto y audio`)),
     estado.fuentes.length === 0 &&
@@ -212,7 +207,6 @@ async function vistaTema(id) {
       "div",
       { class: "fila" },
       tema.preguntas.length > 0 && h("a", { class: "boton", href: `#/examen/${id}` }, "Hacer el examen"),
-      h("a", { class: "boton secundario", href: `#/profesor/${id}` }, "Preguntar al profesor"),
       ultimo && chipNota(ultimo.nota),
     ),
   ];
@@ -269,28 +263,12 @@ async function vistaExamen(id) {
           correccion.append(h("p", {}, h("strong", {}, "Sin responder.")));
           return;
         }
-        if (!estado.tutor) {
-          notas[i] = null;
-          correccion.append(
-            h("p", {}, "El profesor con IA no está configurado, así que esta pregunta no puntúa. Compárala con los criterios:"),
-            h("p", {}, p.criterios || ""),
-          );
-          return;
-        }
-        correccion.append(h("p", {}, "El profesor está corrigiendo tu respuesta…"));
-        try {
-          const c = await apiJson("/api/corregir", { method: "POST", body: JSON.stringify({ temaId: id, indice: i, respuesta }) });
-          notas[i] = c.nota;
-          correccion.replaceChildren(
-            h("p", {}, h("strong", {}, `Nota orientativa: ${c.nota}/10`)),
-            h("p", {}, h("strong", {}, "Aciertos. "), c.aciertos),
-            h("p", {}, h("strong", {}, "A mejorar. "), c.mejoras),
-            h("p", {}, h("strong", {}, "Respuesta modelo. "), c.respuesta_modelo),
-          );
-        } catch (error) {
-          notas[i] = null;
-          correccion.replaceChildren(h("p", { class: "error" }, `No se ha podido corregir: ${error.message} Esta pregunta no puntúa.`));
-        }
+        // Las preguntas de desarrollo se autocorrigen con los criterios del tema.
+        notas[i] = null;
+        correccion.append(
+          h("p", {}, h("strong", {}, "Compara tu respuesta con los criterios. "), "Esta pregunta no puntúa."),
+          h("p", {}, p.criterios || ""),
+        );
       };
     for (let i = 0; i < preguntas.length; i++) await corregirPregunta(preguntas[i], i);
     const puntuadas = notas.filter((n) => n != null);
@@ -313,7 +291,7 @@ async function vistaExamen(id) {
         "div",
         { class: "fila" },
         h("button", { class: "boton", type: "button", onclick: () => pintar() }, "Repetir el examen"),
-        h("a", { class: "boton secundario", href: `#/profesor/${id}` }, "Repasar con el profesor"),
+        h("a", { class: "boton secundario", href: `#/tema/${id}` }, "Volver al tema"),
       ),
     );
     zonaNota.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -322,184 +300,29 @@ async function vistaExamen(id) {
   return [
     h("a", { class: "volver", href: `#/tema/${id}` }, `← ${tema.titulo}`),
     h("h1", {}, "Examen"),
-    h("p", { class: "entrada" }, `${preguntas.length} preguntas. Las de desarrollo reciben una corrección orientativa.${estado.tutorModo === "local" ? " Prepara primero el modelo en Profesor." : ""}`),
+    h("p", { class: "entrada" }, `${preguntas.length} preguntas. Las de desarrollo no puntúan: al entregar verás los criterios para corregirte.`),
     zonaNota,
     h("form", { class: "examen", onsubmit: entregar }, campos, h("div", {}, boton)),
   ];
 }
 
-// ---------- vista: profesor ----------
-async function vistaProfesor(temaId) {
-  const temas = await apiJson("/api/temas");
-  let mensajes = almacen.leer("chat", []);
-  let ocupado = false;
-
-  const lista = h("div", { class: "chat", "aria-live": "polite" });
-  const errorEl = h("p", { class: "error", hidden: true });
-  const campo = h("textarea", { id: "mensaje", placeholder: "Escribe al profesor…", "aria-label": "Mensaje para el profesor" });
-  const selector = h(
-    "select",
-    { id: "tema-chat", "aria-label": "Tema de la conversación" },
-    h("option", { value: "" }, "Todos los temas"),
-    temas.map((t) => h("option", { value: t.id, selected: t.id === temaId }, t.titulo)),
-  );
-  const enviarBtn = h("button", { class: "boton" }, "Enviar");
-  const estadoLocal = h("p", { role: "status" });
-  const progresoLocal = h("progress", { max: 1, value: 0, "aria-label": "Preparación del profesor" });
-  const preparar = h("button", { class: "boton", type: "button", onclick: async () => {
-    try { await prepararProfesor(); } catch { /* El estado muestra el error y permite reintentar. */ }
-  } }, "Descargar y preparar profesor");
-  const detener = h("button", { class: "boton secundario", type: "button", onclick: () => detenerProfesor() }, "Detener respuesta");
-  let listo = estado.tutorModo !== "local";
-  let desobservar = () => {};
-  if (estado.tutorModo === "local") desobservar = observarProfesor((s) => {
-    listo = s.fase === "listo";
-    estadoLocal.textContent = s.texto;
-    progresoLocal.value = s.progreso;
-    progresoLocal.hidden = s.fase !== "cargando";
-    preparar.disabled = s.fase === "cargando" || listo;
-    preparar.textContent = listo ? "Profesor preparado" : s.fase === "error" ? "Volver a preparar profesor" : "Descargar y preparar profesor";
-    enviarBtn.disabled = !listo || ocupado;
-  });
-  window.addEventListener("hashchange", desobservar, { once: true });
-  const sugerencias = h(
-    "div",
-    { class: "sugerencias" },
-    ["Hazme un caso práctico y corrige mi respuesta", "Pregúntame lo más importante de este tema", "Explícame la idea que más cuesta entender"].map((s) =>
-      h("button", { type: "button", onclick: () => enviar(s) }, s),
-    ),
-  );
-
-  function burbuja(m) {
-    return m.role === "user"
-      ? h("div", { class: "mensaje user" }, m.content)
-      : h("div", { class: "mensaje assistant", html: markdownSeguro(m.content) });
-  }
-  function repintar() {
-    lista.replaceChildren(...mensajes.map(burbuja));
-    sugerencias.hidden = mensajes.length > 0;
-  }
-
-  async function enviar(texto) {
-    texto = texto.trim();
-    if (!texto || ocupado) return;
-    if (!listo) { errorEl.textContent = "Prepara el profesor en este dispositivo antes de enviar una pregunta."; errorEl.hidden = false; return; }
-    ocupado = true;
-    enviarBtn.disabled = true;
-    errorEl.hidden = true;
-    mensajes.push({ role: "user", content: texto });
-    repintar();
-    campo.value = "";
-    const respuesta = h("div", { class: "mensaje assistant" }, "…");
-    lista.append(respuesta);
-    respuesta.scrollIntoView({ block: "end" });
-    let acumulado = "";
-    try {
-      const r = await api("/api/chat", { method: "POST", body: JSON.stringify({ mensajes, temaId: selector.value || null, visitas: visitasParaProfesor() }) });
-      if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || `Error ${r.status}`);
-      const lector = r.body.pipeThrough(new TextDecoderStream()).getReader();
-      let resto = "";
-      for (;;) {
-        const { value, done } = await lector.read();
-        if (done) break;
-        resto += value;
-        const eventos = resto.split("\n\n");
-        resto = eventos.pop();
-        for (const ev of eventos) {
-          if (!ev.startsWith("data: ")) continue;
-          const dato = JSON.parse(ev.slice(6));
-          if (dato.error) throw new Error(dato.error);
-          if (dato.aviso) acumulado += `\n\n_${dato.aviso}_`;
-          if (dato.texto) acumulado += dato.texto;
-          respuesta.innerHTML = markdownSeguro(acumulado);
-        }
-      }
-      if (!acumulado) throw new Error("El profesor no ha devuelto respuesta.");
-      mensajes.push({ role: "assistant", content: acumulado });
-    } catch (error) {
-      // Se conserva lo que haya llegado; si no llegó nada, se devuelve el texto al campo.
-      if (acumulado) mensajes.push({ role: "assistant", content: acumulado });
-      else {
-        mensajes.pop();
-        campo.value = texto;
-      }
-      errorEl.textContent = error.message;
-      errorEl.hidden = false;
-    }
-    almacen.guardar("chat", mensajes);
-    repintar();
-    ocupado = false;
-    enviarBtn.disabled = !listo;
-  }
-
-  campo.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && !e.shiftKey && !e.isComposing) {
-      e.preventDefault();
-      enviar(campo.value);
-    }
-  });
-  repintar();
-
-  return [
-    h("h1", {}, "Profesor"),
-    h(
-      "p",
-      { class: "entrada" },
-      estado.tutorModo === "local"
-        ? "Estudia el temario con explicaciones, preguntas y casos prácticos. El profesor selecciona fragmentos del curso para responder."
-        : estado.fuentes.length
-        ? `Conoce las ${estado.fuentes.length} fuentes del curso. Pregunta, debate o pídele que te examine.`
-        : "Pregunta, debate o pídele que te examine. Aún no hay fuentes cargadas.",
-    ),
-    estado.tutorModo === "local" && h("section", { class: "profesor-preparacion", "aria-label": "Profesor en este dispositivo" },
-      h("h2", {}, "Profesor en tu dispositivo · Prueba"),
-      h("p", {}, "Sin claves de API ni cuentas de otros servicios de IA. El modelo se descarga desde Hugging Face y MLC; las preguntas se procesan en tu dispositivo. Usa Wi-Fi: la descarga es grande. El navegador puede borrar la copia guardada y volver a descargarla."),
-      h("p", {}, "Las respuestas y las notas de desarrollo son orientativas. Esta prueba necesita Safari actualizado y memoria disponible; todavía debe validarse en tu iPhone y iPad."),
-      estadoLocal, progresoLocal, h("div", { class: "fila" }, preparar, detener)),
-    lista,
-    sugerencias,
-    errorEl,
-    h(
-      "form",
-      {
-        class: "redactar",
-        onsubmit: (e) => {
-          e.preventDefault();
-          enviar(campo.value);
-        },
-      },
-      campo,
-      h(
-        "div",
-        { class: "fila" },
-        enviarBtn,
-        selector,
-        h(
-          "button",
-          {
-            class: "boton secundario",
-            type: "button",
-            onclick: () => {
-              if (ocupado) return;
-              mensajes = [];
-              almacen.guardar("chat", mensajes);
-              repintar();
-            },
-          },
-          "Nueva conversación",
-        ),
-      ),
-    ),
-  ];
-}
-
-// ---------- primera visita: flujo, caso guiado y guía de consulta ----------
-const visitasGuardadas = () => almacen.leer("visitas", []);
-// Al profesor no se le envía el identificador del paciente.
-const visitasParaProfesor = () => visitasGuardadas().map(({ alias, id, ...resto }) => resto);
-
-const RESULTADOS = { acepto: "Aceptó", pensarlo: "Lo tiene que pensar", no: "No aceptó", "sin-plan": "Sin plan en esta visita" };
+// ---------- primeras visitas: datos ----------
 const OBJECIONES = ["Ninguna", "Precio", "Tiene que pensarlo", "Consultarlo con la pareja o la familia", "Falta de tiempo", "Miedo", "Edad", "Solo quiere arreglar una pieza", "Desconfianza en pagar por adelantado", "Otra"];
+const ORIGENES = ["", "Recomendado por otro paciente", "Redes sociales", "Web o buscador", "Pasaba por la clínica", "Otro"];
+
+const leerVisitas = () => normalizarVisitas(almacen.leer("visitas", []));
+const guardarVisitas = (lista) => almacen.guardar("visitas", lista);
+function cambiarVisita(id, cambio) {
+  const lista = leerVisitas();
+  const visita = lista.find((v) => v.id === id);
+  if (!visita) return null;
+  cambio(visita);
+  guardarVisitas(lista);
+  return visita;
+}
+const hoy = () => new Date().toISOString().slice(0, 10);
+const fechaCorta = (iso) => (iso ? new Date(String(iso).length === 10 ? `${iso}T12:00:00` : iso).toLocaleDateString("es-ES") : "");
+const campo = (etiqueta, control) => h("label", { class: "campo" }, etiqueta, control);
 
 function enlacesATemas(ids, temas) {
   return ids
@@ -520,27 +343,252 @@ function fichaDelPaso(paso, temas) {
   ];
 }
 
-async function vistaVisita(modo) {
-  const [flujo, temas] = await Promise.all([apiJson("/api/flujo"), apiJson("/api/temas")]);
-  if (modo === "caso") return vistaCaso(flujo, temas);
-  if (modo === "guia") return vistaGuia(flujo, temas);
-  return [
-    h("h1", {}, "Primera visita"),
-    h("p", { class: "entrada" }, "La visita completa, paso a paso, aplicando cada tema en el momento en que aparece con el paciente."),
+// Guarda un archivo de texto; en la página de Claude lo hace la propia página.
+async function descargarTexto(nombre, texto) {
+  if (window.novalisDescargar) return window.novalisDescargar(nombre, texto);
+  const url = URL.createObjectURL(new Blob([texto], { type: "text/markdown;charset=utf-8" }));
+  const enlace = h("a", { href: url, download: nombre });
+  document.body.append(enlace);
+  enlace.click();
+  enlace.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+}
+
+// Botones para llevarse el material de práctica: descargarlo o copiarlo.
+function botonesDePractica({ nombre, generar }) {
+  const estadoEl = h("p", { class: "entrada", hidden: true });
+  const salida = h("textarea", { class: "copia-manual", readonly: true, hidden: true, "aria-label": "Material para copiar" });
+  const avisar = (texto) => {
+    estadoEl.textContent = texto;
+    estadoEl.hidden = false;
+  };
+  return h(
+    "div",
+    { class: "practica" },
     h(
       "div",
-      { class: "modos" },
-      h("a", { class: "modo", href: "#/visita/caso" }, h("strong", {}, "Aprender con un caso"), h("span", {}, "Recorre la visita de Alfredo decidiendo qué haces en cada momento.")),
-      h("a", { class: "modo", href: "#/visita/guia" }, h("strong", {}, "Guía para la consulta"), h("span", {}, "Los pasos, las frases y los puntos de control para usar en una visita real y registrarla.")),
+      { class: "fila" },
+      h("button", { class: "boton", type: "button", onclick: async () => {
+        try {
+          await descargarTexto(nombre, await generar());
+          avisar("Archivo preparado. Adjúntalo a una conversación con tu IA y escribe «empezamos».");
+        } catch {
+          avisar("No se ha podido descargar aquí. Usa «Copiar» y pégalo en la conversación.");
+        }
+      } }, "Descargar"),
+      h("button", { class: "boton secundario", type: "button", onclick: async () => {
+        const texto = await generar();
+        try {
+          await navigator.clipboard.writeText(texto);
+          avisar("Copiado. Pégalo en una conversación con tu IA y escribe «empezamos».");
+        } catch {
+          salida.value = texto;
+          salida.hidden = false;
+          salida.select();
+          avisar("Selecciona el texto de abajo y cópialo.");
+        }
+      } }, "Copiar"),
     ),
-    h("h2", {}, "Los pasos"),
+    estadoEl,
+    salida,
+  );
+}
+
+// ---------- guía de primera visita ----------
+async function vistaGuia(id) {
+  const [flujo, temas] = await Promise.all([apiJson("/api/flujo"), apiJson("/api/temas")]);
+  if (id === "caso") return vistaCaso(flujo, temas);
+  if (id === "nuevo") return vistaNuevoPaciente();
+  if (id) return vistaPlantilla(id, flujo, temas);
+  const enCurso = leerVisitas().filter((v) => v.estado === "en-curso").reverse();
+  return [
+    h("h1", {}, "Guía de primera visita"),
+    h("p", { class: "entrada" }, "Añade al paciente y la plantilla te lleva paso a paso por la visita: qué decir, qué comprobar y qué evitar."),
+    h("div", { class: "fila" }, h("a", { class: "boton", href: "#/guia/nuevo" }, "Nuevo paciente"), h("a", { class: "boton secundario", href: "#/guia/caso" }, "Practicar con un caso de ejemplo")),
+    enCurso.length > 0 && h("h2", {}, "Visitas en curso"),
+    enCurso.length > 0 &&
+      h(
+        "ul",
+        { class: "visitas" },
+        enCurso.map((v) =>
+          h(
+            "li",
+            {},
+            h("div", { class: "datos" }, h("strong", {}, v.alias || "Sin identificar"), h("span", { class: "chip" }, `Paso ${Math.min(v.pasoActual + 1, flujo.pasos.length)} de ${flujo.pasos.length}`), h("span", { class: "chip gris" }, fechaCorta(v.creado))),
+            h("div", {}, h("a", { class: "boton secundario", href: `#/guia/${v.id}` }, "Continuar")),
+          ),
+        ),
+      ),
+    h("h2", {}, "Los pasos de la visita"),
     h(
       "ol",
       { class: "pasos" },
-      flujo.pasos.map((paso) =>
-        h("li", {}, h("details", {}, h("summary", {}, h("strong", {}, paso.titulo), h("span", {}, paso.objetivo)), fichaDelPaso(paso, temas))),
-      ),
+      flujo.pasos.map((paso) => h("li", {}, h("details", {}, h("summary", {}, h("strong", {}, paso.titulo), h("span", {}, paso.objetivo)), fichaDelPaso(paso, temas)))),
     ),
+  ];
+}
+
+function vistaNuevoPaciente() {
+  const alias = h("input", { id: "alias", type: "text", maxlength: "30", required: true, autocomplete: "off", placeholder: "Nombre de pila o iniciales" });
+  const motivo = h("textarea", { id: "motivo", placeholder: "Con sus palabras: por qué viene hoy" });
+  const origen = h("select", { id: "origen" }, ORIGENES.map((o) => h("option", { value: o }, o || "Sin indicar")));
+  const acompanante = h("input", { id: "acompanante", type: "text", maxlength: "60", autocomplete: "off", placeholder: "Quién viene con él, si viene alguien" });
+  const previas = h("textarea", { id: "previas", placeholder: "Lo que te ha contado recepción, a qué distancia llega…" });
+  return [
+    h("a", { class: "volver", href: "#/guia" }, "← Guía de primera visita"),
+    h("h1", {}, "Nuevo paciente"),
+    h("p", { class: "aviso" }, "Identifícalo con el nombre de pila o unas iniciales. No anotes apellidos ni datos clínicos que permitan reconocerlo."),
+    h(
+      "form",
+      {
+        class: "guia",
+        onsubmit: (e) => {
+          e.preventDefault();
+          const visita = nuevaVisita({ alias: alias.value.trim(), motivo: motivo.value.trim(), origen: origen.value, acompanante: acompanante.value.trim(), previas: previas.value.trim() });
+          guardarVisitas([...leerVisitas(), visita]);
+          location.hash = `#/guia/${visita.id}`;
+        },
+      },
+      campo("Paciente", alias),
+      campo("Motivo de consulta", motivo),
+      campo("Cómo nos ha conocido", origen),
+      campo("Acompañante", acompanante),
+      campo("Notas previas", previas),
+      h("div", {}, h("button", { class: "boton" }, "Empezar la visita")),
+    ),
+  ];
+}
+
+// La plantilla: un paso en pantalla cada vez, con sus puntos, frases y apuntes.
+function vistaPlantilla(id, flujo, temas) {
+  let visita = leerVisitas().find((v) => v.id === id);
+  if (!visita) return [h("p", { class: "error" }, "No se ha encontrado esta visita."), h("a", { href: "#/guia" }, "Volver a la guía")];
+  const total = flujo.pasos.length;
+  const zona = h("div", { class: "plantilla" });
+  const guardar = (cambio) => (visita = cambiarVisita(id, cambio) || visita);
+
+  function irA(n) {
+    guardar((v) => (v.pasoActual = Math.max(0, Math.min(total, n))));
+    pintarPaso();
+    window.scrollTo(0, 0);
+  }
+
+  function cabeceraDePaso(n) {
+    const selector = h(
+      "select",
+      { id: "ir-a-paso", "aria-label": "Ir a un paso", onchange: (e) => irA(Number(e.target.value)) },
+      flujo.pasos.map((p, i) => h("option", { value: i, selected: i === n }, `${i + 1}. ${p.titulo}`)),
+      h("option", { value: total, selected: n === total }, "Cierre de la visita"),
+    );
+    return h(
+      "div",
+      { class: "avance" },
+      h("span", { class: "pista", role: "progressbar", "aria-valuemin": "0", "aria-valuemax": String(total), "aria-valuenow": String(n) }, h("span", { class: "relleno", style: `width:${Math.round((100 * n) / total)}%` })),
+      selector,
+    );
+  }
+
+  function pintarPaso() {
+    const n = visita.pasoActual;
+    if (n >= total) return pintarCierre();
+    const paso = flujo.pasos[n];
+    const apuntes = h("textarea", { id: "apuntes", placeholder: "Qué ha dicho el paciente, qué has notado…" }, visita.notasPaso[paso.id] || "");
+    apuntes.addEventListener("input", () => guardar((v) => (v.notasPaso[paso.id] = apuntes.value)));
+    zona.replaceChildren(
+      cabeceraDePaso(n),
+      h("p", { class: "progreso-caso" }, `Paso ${n + 1} de ${total}`),
+      h("h2", {}, paso.titulo),
+      h("p", { class: "objetivo" }, paso.objetivo),
+      h("h3", {}, "Di"),
+      h("ul", { class: "frases" }, paso.frases.map((f) => h("li", {}, `«${f}»`))),
+      h("h3", {}, "Comprueba"),
+      h(
+        "div",
+        { class: "opciones" },
+        paso.puntos.map((p) => {
+          const casilla = h("input", { type: "checkbox", id: `punto-${p.id}`, checked: Boolean(visita.puntos[p.id]) });
+          casilla.addEventListener("change", () =>
+            guardar((v) => {
+              if (casilla.checked) v.puntos[p.id] = true;
+              else delete v.puntos[p.id];
+            }),
+          );
+          return h("label", { class: "opcion" }, casilla, h("span", {}, p.texto));
+        }),
+      ),
+      h("h3", {}, "Evita"),
+      h("ul", {}, paso.evita.map((e) => h("li", {}, e))),
+      campo("Apuntes de este paso", apuntes),
+      h("div", { class: "datos" }, enlacesATemas(paso.temas, temas)),
+      h(
+        "div",
+        { class: "fila" },
+        n > 0 && h("button", { class: "boton secundario", type: "button", onclick: () => irA(n - 1) }, "Anterior"),
+        h("button", { class: "boton", type: "button", onclick: () => irA(n + 1) }, n === total - 1 ? "Cerrar la visita" : "Siguiente paso"),
+      ),
+    );
+  }
+
+  function pintarCierre() {
+    const aviso = h("p", { class: "error", hidden: true });
+    const resultado = h("select", { id: "resultado" }, h("option", { value: "" }, "Elige el resultado…"), Object.entries(RESULTADOS).map(([v, t]) => h("option", { value: v, selected: visita.resultado === v }, t)));
+    const objecion = h("select", { id: "objecion" }, OBJECIONES.map((o) => h("option", { value: o, selected: (visita.objecion || "Ninguna") === o }, o)));
+    const importe = h("input", { id: "importe", type: "number", min: "0", step: "1", inputmode: "numeric", value: visita.importe, placeholder: "Opcional" });
+    const notas = h("textarea", { id: "notas", placeholder: "Qué salió bien, qué se te resistió, cómo se fue el paciente…" }, visita.notas);
+    const fecha = h("input", { id: "recordatorio-fecha", type: "date", min: hoy() });
+    const texto = h("input", { id: "recordatorio-texto", type: "text", maxlength: "140", placeholder: "Por ejemplo: llamarle para concretar el pago" });
+    zona.replaceChildren(
+      cabeceraDePaso(total),
+      h("h2", {}, "Cierre de la visita"),
+      h("p", { class: "objetivo" }, `Has marcado el ${cumplimiento(visita, flujo)} % de los puntos de control.`),
+      h(
+        "form",
+        {
+          class: "guia",
+          onsubmit: (e) => {
+            e.preventDefault();
+            if (!resultado.value) {
+              aviso.textContent = "Elige el resultado de la visita.";
+              aviso.hidden = false;
+              return;
+            }
+            if (fecha.value && !texto.value.trim()) {
+              aviso.textContent = "Escribe qué hay que hacer en el recordatorio.";
+              aviso.hidden = false;
+              return;
+            }
+            guardar((v) => {
+              v.estado = "terminada";
+              v.fechaVisita = v.fechaVisita || new Date().toISOString();
+              v.resultado = resultado.value;
+              v.objecion = objecion.value === "Ninguna" ? "" : objecion.value;
+              v.importe = importe.value;
+              v.notas = notas.value.trim();
+              if (fecha.value) v.recordatorios.push({ id: Date.now().toString(36), fecha: fecha.value, texto: texto.value.trim(), hecho: false });
+            });
+            location.hash = `#/historial/${id}`;
+          },
+        },
+        campo("Resultado", resultado),
+        campo("Objeción principal", objecion),
+        campo("Importe del plan (€)", importe),
+        campo("Notas", notas),
+        h("h3", {}, "Recordatorio"),
+        campo("Fecha", fecha),
+        campo("Qué hay que hacer", texto),
+        aviso,
+        h("div", { class: "fila" }, h("button", { class: "boton secundario", type: "button", onclick: () => irA(total - 1) }, "Anterior"), h("button", { class: "boton" }, "Terminar y guardar")),
+      ),
+    );
+  }
+
+  pintarPaso();
+  return [
+    h("a", { class: "volver", href: "#/guia" }, "← Guía de primera visita"),
+    h("h1", {}, visita.alias || "Primera visita"),
+    (visita.motivo || visita.acompanante) &&
+      h("div", { class: "datos" }, visita.motivo && h("span", { class: "chip gris" }, visita.motivo), visita.acompanante && h("span", { class: "chip gris" }, `Con ${visita.acompanante}`)),
+    zona,
   ];
 }
 
@@ -551,10 +599,7 @@ function vistaCaso(flujo, temas) {
 
   function pintarPaso() {
     if (i < 0) {
-      zona.replaceChildren(
-        h("p", { class: "escena" }, flujo.caso.presentacion),
-        h("div", {}, h("button", { class: "boton", type: "button", onclick: avanzar }, "Empezar la visita")),
-      );
+      zona.replaceChildren(h("p", { class: "escena" }, flujo.caso.presentacion), h("div", {}, h("button", { class: "boton", type: "button", onclick: avanzar }, "Empezar la visita")));
       return;
     }
     if (i >= flujo.pasos.length) {
@@ -565,7 +610,7 @@ function vistaCaso(flujo, temas) {
           "div",
           { class: "fila" },
           h("button", { class: "boton secundario", type: "button", onclick: () => { i = -1; aciertos = 0; pintarPaso(); } }, "Repetir el caso"),
-          h("a", { class: "boton", href: "#/visita/guia" }, "Usar la guía en una visita real"),
+          h("a", { class: "boton", href: "#/guia/nuevo" }, "Guiar una visita real"),
         ),
       );
       return;
@@ -608,192 +653,229 @@ function vistaCaso(flujo, temas) {
     window.scrollTo(0, 0);
   }
   pintarPaso();
-  return [h("a", { class: "volver", href: "#/visita" }, "← Primera visita"), h("h1", {}, flujo.caso.titulo), zona];
+  return [h("a", { class: "volver", href: "#/guia" }, "← Guía de primera visita"), h("h1", {}, flujo.caso.titulo), zona];
 }
 
-function vistaGuia(flujo, temas) {
-  const vacio = () => ({ alias: "", puntos: {}, resultado: "", objecion: "Ninguna", notas: "" });
-  let borrador = { ...vacio(), ...almacen.leer("visita-borrador", {}) };
-  const guardarBorrador = () => almacen.guardar("visita-borrador", borrador);
-  const aviso = h("p", { class: "error", hidden: true });
-
-  const alias = h("input", { id: "alias", type: "text", maxlength: "20", value: borrador.alias, placeholder: "Iniciales o código", autocomplete: "off" });
-  alias.addEventListener("input", () => { borrador.alias = alias.value; guardarBorrador(); });
-
-  const secciones = flujo.pasos.map((paso, n) => {
-    const contador = h("span", { class: "contador" });
-    const actualizar = () => {
-      const hechos = paso.puntos.filter((p) => borrador.puntos[p.id]).length;
-      contador.textContent = `${hechos}/${paso.puntos.length}`;
-      contador.classList.toggle("completo", hechos === paso.puntos.length);
-    };
-    const casillas = paso.puntos.map((p) => {
-      const casilla = h("input", { type: "checkbox", id: `punto-${p.id}`, checked: Boolean(borrador.puntos[p.id]) });
-      casilla.addEventListener("change", () => {
-        if (casilla.checked) borrador.puntos[p.id] = true;
-        else delete borrador.puntos[p.id];
-        guardarBorrador();
-        actualizar();
-      });
-      return h("label", { class: "opcion" }, casilla, h("span", {}, p.texto));
-    });
-    actualizar();
-    return h(
-      "details",
-      { class: "paso-guia", open: n === 0 },
-      h("summary", {}, h("strong", {}, `${n + 1}. ${paso.titulo}`), contador),
-      h("p", { class: "objetivo" }, paso.objetivo),
-      h("ul", { class: "frases" }, paso.frases.map((f) => h("li", {}, `«${f}»`))),
-      h("div", { class: "opciones" }, casillas),
-      h("p", { class: "evita" }, h("strong", {}, "Evita: "), paso.evita.join(" ")),
-      h("div", { class: "datos" }, enlacesATemas(paso.temas, temas)),
-    );
-  });
-
-  const resultado = h("select", { id: "resultado" }, h("option", { value: "" }, "Elige el resultado…"), Object.entries(RESULTADOS).map(([v, t]) => h("option", { value: v, selected: borrador.resultado === v }, t)));
-  resultado.addEventListener("change", () => { borrador.resultado = resultado.value; guardarBorrador(); });
-  const objecion = h("select", { id: "objecion" }, OBJECIONES.map((o) => h("option", { value: o, selected: borrador.objecion === o }, o)));
-  objecion.addEventListener("change", () => { borrador.objecion = objecion.value; guardarBorrador(); });
-  const notas = h("textarea", { id: "notas", placeholder: "Qué salió bien, qué se te resistió, qué dijo el paciente…" }, borrador.notas);
-  notas.addEventListener("input", () => { borrador.notas = notas.value; guardarBorrador(); });
-
-  function guardarVisita(e) {
-    e.preventDefault();
-    if (!borrador.resultado) {
-      aviso.textContent = "Elige el resultado de la visita antes de guardarla.";
-      aviso.hidden = false;
-      return;
-    }
-    const visitas = visitasGuardadas();
-    visitas.push({ id: Date.now().toString(36), fecha: new Date().toISOString(), alias: borrador.alias.trim(), resultado: borrador.resultado, objecion: borrador.objecion === "Ninguna" ? "" : borrador.objecion, notas: borrador.notas.trim(), puntos: borrador.puntos });
-    almacen.guardar("visitas", visitas);
-    almacen.guardar("visita-borrador", vacio());
-    location.hash = "#/seguimiento";
-  }
-
-  return [
-    h("a", { class: "volver", href: "#/visita" }, "← Primera visita"),
-    h("h1", {}, "Guía para la consulta"),
-    h("p", { class: "entrada" }, "Abre cada paso para ver las frases y marca lo que vayas cumpliendo. Al terminar, guarda la visita para tu seguimiento."),
-    h("p", { class: "aviso" }, "Identifica al paciente con iniciales o un código, nunca con su nombre completo. Todo se guarda solo en este dispositivo."),
+// ---------- historial de primeras visitas ----------
+function filaRecordatorio(r, { conPaciente }) {
+  const vencido = r.fecha && r.fecha < hoy();
+  return h(
+    "li",
+    {},
     h(
-      "form",
-      { class: "guia", onsubmit: guardarVisita },
-      h("label", { class: "campo", for: "alias" }, "Paciente", alias),
-      secciones,
-      h("h2", {}, "Cierre de la visita"),
-      h("label", { class: "campo", for: "resultado" }, "Resultado", resultado),
-      h("label", { class: "campo", for: "objecion" }, "Objeción principal", objecion),
-      h("label", { class: "campo", for: "notas" }, "Notas", notas),
-      aviso,
-      h(
-        "div",
-        { class: "fila" },
-        h("button", { class: "boton" }, "Guardar visita"),
-        h("button", { class: "boton secundario", type: "button", onclick: () => { almacen.guardar("visita-borrador", vacio()); pintar(); } }, "Empezar de cero"),
-      ),
+      "div",
+      { class: "datos" },
+      h("span", { class: `chip ${vencido ? "mal" : r.fecha === hoy() ? "bien" : "gris"}` }, vencido ? `Vencido · ${fechaCorta(r.fecha)}` : r.fecha === hoy() ? "Hoy" : fechaCorta(r.fecha)),
+      conPaciente && h("a", { class: "chip", href: `#/historial/${r.visitaId}` }, r.alias || "Sin identificar"),
     ),
-  ];
+    h("span", {}, r.texto),
+    h(
+      "div",
+      { class: "fila" },
+      h("button", { class: "enlace", type: "button", onclick: () => { cambiarVisita(r.visitaId, (v) => { const x = v.recordatorios.find((y) => y.id === r.id); if (x) x.hecho = true; }); pintar(); } }, "Marcar como hecho"),
+    ),
+  );
 }
 
-// ---------- seguimiento: evaluación continua de las visitas reales ----------
-async function vistaSeguimiento() {
+async function vistaHistorial(id) {
   const [flujo, temas] = await Promise.all([apiJson("/api/flujo"), apiJson("/api/temas")]);
-  const visitas = visitasGuardadas();
+  const visitas = leerVisitas();
+  if (id) return vistaPaciente(id, visitas, flujo, temas);
   if (!visitas.length) {
     return [
-      h("h1", {}, "Seguimiento"),
-      h("p", { class: "entrada" }, "Aquí verás qué puntos de la primera visita cumples y cuáles debes reforzar, a partir de las visitas reales que registres."),
-      h("p", { class: "aviso" }, "Todavía no hay ninguna visita registrada."),
-      h("div", {}, h("a", { class: "boton", href: "#/visita/guia" }, "Registrar una visita")),
+      h("h1", {}, "Historial de primeras visitas"),
+      h("p", { class: "entrada" }, "Aquí quedará cada primera visita con su resultado, tus mensajes de seguimiento y los recordatorios."),
+      h("p", { class: "aviso" }, "Todavía no hay ninguna visita."),
+      h("div", {}, h("a", { class: "boton", href: "#/guia/nuevo" }, "Añadir el primer paciente")),
     ];
   }
-  const total = visitas.length;
-  const ids = flujo.pasos.flatMap((p) => p.puntos.map((x) => x.id));
-  const cumplimiento = (v) => Math.round((100 * ids.filter((id) => v.puntos[id]).length) / ids.length);
-  const media = Math.round(visitas.reduce((a, v) => a + cumplimiento(v), 0) / total);
-  const conPlan = visitas.filter((v) => v.resultado !== "sin-plan");
-  const aceptacion = conPlan.length ? Math.round((100 * conPlan.filter((v) => v.resultado === "acepto").length) / conPlan.length) : null;
-  const puntos = flujo.pasos.flatMap((paso) => paso.puntos.map((p) => ({ ...p, paso, veces: visitas.filter((v) => v.puntos[p.id]).length })));
-  const aReforzar = puntos.filter((p) => p.veces / total < 0.5).sort((a, b) => a.veces - b.veces).slice(0, 6);
-  const consolidados = puntos.filter((p) => p.veces / total >= 0.8).length;
-
-  const valoracion = h("div", { class: "valoracion" });
-  const guardada = almacen.leer("valoracion", null);
-  const pintarValoracion = (v) =>
-    valoracion.replaceChildren(h("p", { class: "fecha" }, `Valoración del ${new Date(v.fecha).toLocaleDateString("es-ES")}, con ${v.visitas} visita${v.visitas > 1 ? "s" : ""}`), h("div", { html: markdownSeguro(v.texto) }));
-  if (guardada) pintarValoracion(guardada);
-  const pedir = h("button", { class: "boton", type: "button", disabled: !estado.tutor }, guardada ? "Pedir una valoración nueva" : "Pedir valoración al profesor");
-  pedir.addEventListener("click", async () => {
-    pedir.disabled = true;
-    pedir.textContent = "El profesor está revisando tus visitas…";
-    try {
-      const r = await apiJson("/api/progreso", { method: "POST", body: JSON.stringify({ visitas: visitasParaProfesor() }) });
-      const v = { fecha: new Date().toISOString(), visitas: total, texto: r.valoracion };
-      almacen.guardar("valoracion", v);
-      pintarValoracion(v);
-    } catch (error) {
-      valoracion.replaceChildren(h("p", { class: "error" }, error.message));
-    }
-    pedir.disabled = false;
-    pedir.textContent = "Pedir una valoración nueva";
-  });
-
-  function filaVisita(v) {
-    const borrar = h("button", { class: "enlace", type: "button" }, "Borrar");
-    borrar.addEventListener("click", () => {
-      if (borrar.dataset.seguro) {
-        almacen.guardar("visitas", visitasGuardadas().filter((x) => x.id !== v.id));
-        pintar();
-      } else {
-        borrar.dataset.seguro = "1";
-        borrar.textContent = "¿Borrar? Pulsa otra vez";
-      }
-    });
-    return h(
-      "li",
-      {},
-      h("div", { class: "datos" }, h("strong", {}, new Date(v.fecha).toLocaleDateString("es-ES")), v.alias && h("span", {}, v.alias), h("span", { class: `chip ${v.resultado === "acepto" ? "bien" : "gris"}` }, RESULTADOS[v.resultado]), h("span", { class: "chip" }, `${cumplimiento(v)} % del flujo`), v.objecion && h("span", { class: "chip gris" }, v.objecion)),
-      v.notas && h("p", {}, v.notas),
-      borrar,
-    );
-  }
-
+  const resumen = resumenHistorial(visitas, flujo);
+  const pendientes = recordatoriosPendientes(visitas);
   return [
-    h("h1", {}, "Seguimiento"),
+    h("h1", {}, "Historial de primeras visitas"),
     h(
       "div",
       { class: "cifras" },
-      h("div", {}, h("strong", {}, total), h("span", {}, total === 1 ? "visita registrada" : "visitas registradas")),
-      h("div", {}, h("strong", {}, `${media} %`), h("span", {}, "cumplimiento medio del flujo")),
-      h("div", {}, h("strong", {}, aceptacion == null ? "—" : `${aceptacion} %`), h("span", {}, "aceptación con plan presentado")),
+      h("div", {}, h("strong", {}, resumen.terminadas), h("span", {}, resumen.terminadas === 1 ? "visita terminada" : "visitas terminadas")),
+      h("div", {}, h("strong", {}, resumen.aceptacion == null ? "—" : `${resumen.aceptacion} %`), h("span", {}, "aceptación con plan presentado")),
+      h("div", {}, h("strong", {}, resumen.cumplimientoMedio == null ? "—" : `${resumen.cumplimientoMedio} %`), h("span", {}, "puntos de control cumplidos")),
     ),
-    total < 5 && h("p", { class: "aviso" }, "Con menos de cinco visitas estos datos son solo orientativos."),
-    h("h2", {}, "Puntos a reforzar"),
-    aReforzar.length
-      ? h(
+    h("h2", {}, "Recordatorios pendientes"),
+    pendientes.length ? h("ul", { class: "reforzar" }, pendientes.map((r) => filaRecordatorio(r, { conPaciente: true }))) : h("p", { class: "entrada" }, "No tienes recordatorios pendientes."),
+    h("h2", {}, "Pacientes"),
+    h(
+      "ul",
+      { class: "visitas" },
+      visitas
+        .slice()
+        .reverse()
+        .map((v) => {
+          const sinHacer = v.recordatorios.filter((r) => !r.hecho).length;
+          return h(
+            "li",
+            {},
+            h(
+              "div",
+              { class: "datos" },
+              h("a", { class: "nombre-paciente", href: `#/historial/${v.id}` }, v.alias || "Sin identificar"),
+              h("span", { class: "chip gris" }, fechaCorta(v.fechaVisita || v.creado)),
+              v.estado === "en-curso" ? h("span", { class: "chip" }, "En curso") : h("span", { class: `chip ${v.resultado === "acepto" ? "bien" : "gris"}` }, RESULTADOS[v.resultado] || "Sin resultado"),
+              h("span", { class: "chip gris" }, `${cumplimiento(v, flujo)} % del flujo`),
+              sinHacer > 0 && h("span", { class: "chip mal" }, `${sinHacer} recordatorio${sinHacer > 1 ? "s" : ""}`),
+            ),
+            v.motivo && h("p", {}, v.motivo),
+          );
+        }),
+    ),
+    resumen.aReforzar.length > 0 &&
+      h(
+        "details",
+        { class: "paso-guia" },
+        h("summary", {}, h("strong", {}, "Puntos que más se te resisten")),
+        h(
           "ul",
           { class: "reforzar" },
-          aReforzar.map((p) => h("li", {}, h("span", {}, p.texto), h("div", { class: "datos" }, h("span", { class: "chip mal" }, `${p.veces} de ${total}`), h("span", { class: "chip gris" }, p.paso.titulo), enlacesATemas(p.paso.temas.slice(0, 1), temas)))),
-        )
-      : h("p", {}, "No hay ningún punto que cumplas en menos de la mitad de las visitas."),
-    h("p", { class: "entrada" }, `${consolidados} de ${puntos.length} puntos consolidados (los cumples en al menos el 80 % de las visitas).`),
-    h("h2", {}, "Cumplimiento por paso"),
+          resumen.aReforzar.slice(0, 6).map((p) => h("li", {}, h("span", {}, p.texto), h("div", { class: "datos" }, h("span", { class: "chip mal" }, `${p.veces} de ${resumen.terminadas}`), h("span", { class: "chip gris" }, p.paso.titulo), enlacesATemas(p.paso.temas.slice(0, 1), temas)))),
+        ),
+      ),
+    h("h2", {}, "Practicar con una IA"),
+    h("p", { class: "entrada" }, "Llévate el método, tu historial y el temario en un archivo. Adjúntalo a una conversación con una IA y te hará de paciente y te corregirá."),
+    botonesDePractica({
+      nombre: "novalis-aprende-practica.md",
+      generar: async () => textoParaIA({ visitas, flujo, temas: (await apiJson("/api/material")).temas }),
+    }),
+  ];
+}
+
+function vistaPaciente(id, visitas, flujo, temas) {
+  const visita = visitas.find((v) => v.id === id);
+  if (!visita) return [h("p", { class: "error" }, "No se ha encontrado este paciente."), h("a", { href: "#/historial" }, "Volver al historial")];
+  const guardar = (cambio) => {
+    cambiarVisita(id, cambio);
+    pintar();
+  };
+
+  const resultado = h("select", { id: "resultado" }, h("option", { value: "" }, "Sin resultado"), Object.entries(RESULTADOS).map(([v, t]) => h("option", { value: v, selected: visita.resultado === v }, t)));
+  resultado.addEventListener("change", () => guardar((v) => (v.resultado = resultado.value)));
+
+  // Seguimiento: mensajes, llamadas y notas después de la visita.
+  const tipo = h("select", { id: "seguimiento-tipo" }, Object.entries(TIPOS_SEGUIMIENTO).map(([v, t]) => h("option", { value: v }, t)));
+  const texto = h("textarea", { id: "seguimiento-texto", placeholder: "Qué le has escrito o qué habéis hablado" });
+  const plantilla = () =>
+    (texto.value = `Buenas tardes, ${visita.alias || ""}. Te escribo porque me preocupa que tu problema haya empeorado, ya que no hemos podido volver a hablar desde tu visita. Me comentaste que querías solucionarlo, así que te he reservado una cita el [día] a las [hora] para organizarlo todo. ¿Te viene bien? Si no, dime cuándo prefieres y te llamo.`);
+
+  const fecha = h("input", { id: "recordatorio-fecha", type: "date", required: true, value: hoy() });
+  const tarea = h("input", { id: "recordatorio-texto", type: "text", maxlength: "140", required: true, placeholder: "Qué hay que hacer" });
+
+  const borrar = h("button", { class: "enlace", type: "button" }, "Borrar paciente");
+  borrar.addEventListener("click", () => {
+    if (!borrar.dataset.seguro) {
+      borrar.dataset.seguro = "1";
+      borrar.textContent = "¿Borrar todo lo de este paciente? Pulsa otra vez";
+      return;
+    }
+    guardarVisitas(leerVisitas().filter((v) => v.id !== id));
+    location.hash = "#/historial";
+  });
+
+  const pendientes = visita.recordatorios.filter((r) => !r.hecho).sort((a, b) => String(a.fecha).localeCompare(String(b.fecha)));
+  const hechos = visita.recordatorios.filter((r) => r.hecho);
+
+  return [
+    h("a", { class: "volver", href: "#/historial" }, "← Historial"),
+    h("h1", {}, visita.alias || "Sin identificar"),
     h(
       "div",
-      { class: "barras" },
+      { class: "datos" },
+      h("span", { class: "chip gris" }, fechaCorta(visita.fechaVisita || visita.creado)),
+      visita.estado === "en-curso" && h("span", { class: "chip" }, "Visita en curso"),
+      h("span", { class: "chip gris" }, `${cumplimiento(visita, flujo)} % del flujo`),
+      visita.origen && h("span", { class: "chip gris" }, visita.origen),
+      visita.acompanante && h("span", { class: "chip gris" }, `Con ${visita.acompanante}`),
+      visita.importe && h("span", { class: "chip gris" }, `${visita.importe} €`),
+      visita.objecion && h("span", { class: "chip gris" }, `Objeción: ${visita.objecion}`),
+    ),
+    visita.motivo && h("p", {}, h("strong", {}, "Motivo de consulta. "), visita.motivo),
+    visita.previas && h("p", {}, h("strong", {}, "Notas previas. "), visita.previas),
+    visita.notas && h("p", {}, h("strong", {}, "Notas de cierre. "), visita.notas),
+    visita.estado === "en-curso" && h("div", {}, h("a", { class: "boton", href: `#/guia/${id}` }, "Continuar la guía")),
+    h("div", { class: "guia" }, campo("Resultado", resultado)),
+
+    h("h2", {}, "Recordatorios"),
+    pendientes.length > 0 && h("ul", { class: "reforzar" }, pendientes.map((r) => filaRecordatorio({ ...r, visitaId: id }, { conPaciente: false }))),
+    hechos.length > 0 && h("p", { class: "entrada" }, `Hechos: ${hechos.map((r) => `${r.texto} (${fechaCorta(r.fecha)})`).join(" · ")}`),
+    h(
+      "form",
+      {
+        class: "guia",
+        onsubmit: (e) => {
+          e.preventDefault();
+          guardar((v) => v.recordatorios.push({ id: Date.now().toString(36), fecha: fecha.value, texto: tarea.value.trim(), hecho: false }));
+        },
+      },
+      campo("Fecha", fecha),
+      campo("Recordatorio", tarea),
+      h("div", {}, h("button", { class: "boton secundario" }, "Añadir recordatorio")),
+    ),
+
+    h("h2", {}, "Mensajes y seguimiento"),
+    visita.seguimiento.length > 0 &&
+      h(
+        "ul",
+        { class: "visitas" },
+        visita.seguimiento
+          .slice()
+          .reverse()
+          .map((s) =>
+            h(
+              "li",
+              {},
+              h("div", { class: "datos" }, h("strong", {}, fechaCorta(s.fecha)), h("span", { class: "chip gris" }, TIPOS_SEGUIMIENTO[s.tipo] || "Nota")),
+              h("p", {}, s.texto),
+              h("button", { class: "enlace", type: "button", onclick: () => guardar((v) => (v.seguimiento = v.seguimiento.filter((x) => x.id !== s.id))) }, "Borrar"),
+            ),
+          ),
+      ),
+    h(
+      "form",
+      {
+        class: "guia",
+        onsubmit: (e) => {
+          e.preventDefault();
+          if (!texto.value.trim()) return;
+          guardar((v) => v.seguimiento.push({ id: Date.now().toString(36), fecha: new Date().toISOString(), tipo: tipo.value, texto: texto.value.trim() }));
+        },
+      },
+      campo("Tipo", tipo),
+      campo("Texto", texto),
+      h("div", { class: "fila" }, h("button", { class: "boton secundario" }, "Guardar en el historial"), h("button", { class: "enlace", type: "button", onclick: plantilla }, "Usar plantilla de mensaje de seguimiento")),
+    ),
+
+    h("h2", {}, "La visita, paso a paso"),
+    h(
+      "ol",
+      { class: "pasos" },
       flujo.pasos.map((paso) => {
-        const pct = Math.round((100 * paso.puntos.reduce((a, p) => a + visitas.filter((v) => v.puntos[p.id]).length, 0)) / (paso.puntos.length * total));
-        return h("div", { class: "barra" }, h("span", {}, paso.titulo), h("span", { class: "pista" }, h("span", { class: "relleno", style: `width:${pct}%` })), h("span", { class: "valor" }, `${pct} %`));
+        const hechosPaso = paso.puntos.filter((p) => visita.puntos[p.id]).length;
+        return h(
+          "li",
+          {},
+          h(
+            "details",
+            {},
+            h("summary", {}, h("strong", {}, paso.titulo), h("span", {}, `${hechosPaso} de ${paso.puntos.length} puntos${visita.notasPaso[paso.id] ? " · con apuntes" : ""}`)),
+            h("ul", {}, paso.puntos.map((p) => h("li", {}, `${visita.puntos[p.id] ? "✓" : "✗"} ${p.texto}`))),
+            visita.notasPaso[paso.id] && h("p", {}, h("strong", {}, "Apuntes. "), visita.notasPaso[paso.id]),
+            h("div", { class: "datos" }, enlacesATemas(paso.temas, temas)),
+          ),
+        );
       }),
     ),
-    h("h2", {}, "El profesor"),
-    estado.tutorModo === "local" && h("p", { class: "aviso" }, "La valoración es orientativa. Prepara primero el modelo desde la sección Profesor en este dispositivo."),
-    h("div", {}, pedir),
-    valoracion,
-    h("h2", {}, "Visitas"),
-    h("ul", { class: "visitas" }, visitas.slice().reverse().map(filaVisita)),
-    h("div", {}, h("a", { class: "boton secundario", href: "#/visita/guia" }, "Registrar otra visita")),
+
+    h("h2", {}, "Practicar esta visita con una IA"),
+    h("p", { class: "entrada" }, "El archivo lleva el método y esta visita. Adjúntalo a una conversación con una IA: hará de este paciente y después te corregirá."),
+    botonesDePractica({ nombre: `practica-${(visita.alias || "paciente").toLowerCase().replace(/[^a-z0-9áéíóúñ]+/gi, "-")}.md`, generar: async () => textoParaIA({ visitas: [visita], flujo }) }),
+    h("div", {}, borrar),
   ];
 }
 
@@ -801,9 +883,17 @@ async function vistaSeguimiento() {
 async function pintar() {
   if (!window.novalisAutorizado) return;
   if ("speechSynthesis" in window) speechSynthesis.cancel();
-  const [, seccion = "", id] = location.hash.replace(/^#/, "").split("/");
+  let [, seccion = "", id] = location.hash.replace(/^#/, "").split("/");
+  // Enlaces de versiones anteriores.
+  if (seccion === "visita") seccion = "guia";
+  if (seccion === "seguimiento" || seccion === "profesor") seccion = "historial";
+  if (seccion === "guia" && id === "guia") id = "nuevo";
+  // Avisa en el menú de los recordatorios que ya tocan.
+  const vencidos = recordatoriosPendientes(leerVisitas()).filter((r) => r.fecha <= hoy()).length;
+  const enlaceHistorial = document.querySelector('[data-nav="historial"]');
+  if (enlaceHistorial) enlaceHistorial.textContent = vencidos ? `Historial (${vencidos})` : "Historial";
   document.querySelectorAll("[data-nav]").forEach((a) => {
-    const activa = a.dataset.nav === (["profesor", "visita", "seguimiento", "ajustes"].includes(seccion) ? seccion : seccion === "admin" ? "ajustes" : "temas");
+    const activa = a.dataset.nav === (["guia", "historial", "ajustes"].includes(seccion) ? seccion : seccion === "admin" ? "ajustes" : "temas");
     if (activa) a.setAttribute("aria-current", "page");
     else a.removeAttribute("aria-current");
   });
@@ -818,13 +908,11 @@ async function pintar() {
         ? await vistaTema(id)
         : seccion === "examen" && id
           ? await vistaExamen(id)
-          : seccion === "profesor"
-            ? await vistaProfesor(id)
-            : seccion === "visita"
-              ? await vistaVisita(id)
-              : seccion === "seguimiento"
-                ? await vistaSeguimiento()
-                : await vistaTemas();
+          : seccion === "guia"
+            ? await vistaGuia(id)
+            : seccion === "historial"
+              ? await vistaHistorial(id)
+              : await vistaTemas();
     vista.replaceChildren(...contenido.filter(Boolean));
   } catch (error) {
     vista.replaceChildren(h("p", { class: "error" }, error.message), h("a", { href: "#/" }, "Volver a los temas"));
