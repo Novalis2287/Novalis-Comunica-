@@ -5,7 +5,9 @@ const DATOS = __DATOS__;
 const usar = (nombre) => (window.claude?.use ? window.claude.use(nombre).catch(() => null) : Promise.resolve(null));
 const responder = (cuerpo, estado = 200) => new Response(JSON.stringify(cuerpo), { status: estado, headers: { "Content-Type": "application/json" } });
 
-window.fetch = async (ruta) => {
+// La app pide sus datos a novalisApi; el fetch del navegador no se toca, porque
+// también lo usa el entorno de Claude que aloja la página.
+window.novalisApi = async (ruta) => {
   if (ruta === "/api/estado") return responder({ tutor: false, pideCodigo: false, fuentes: DATOS.fuentes });
   if (ruta === "/api/flujo") return responder(DATOS.flujo);
   if (ruta === "/api/temas") return responder(DATOS.temas.map(({ html, preguntas, texto, ...resto }) => resto));

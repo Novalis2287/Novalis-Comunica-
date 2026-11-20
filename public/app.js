@@ -1,6 +1,12 @@
 // Interfaz de Novalis Aprende: temas, guía de primera visita e historial.
 import { RESULTADOS, TIPOS_SEGUIMIENTO, nuevaVisita, normalizarVisitas, cumplimiento, recordatoriosPendientes, resumenHistorial, textoParaIA } from "./practica.js";
 import { puedeGrabar, empezarGrabacion, guardarAudio, leerAudio, borrarAudio, duracionLegible, extensionDe } from "./grabacion.js";
+// La tipografía de la marca llega después de pintar: si tarda, se ve la del sistema.
+if (!document.getElementById("fuente-marca")) {
+  const fuente = document.createElement("link");
+  Object.assign(fuente, { id: "fuente-marca", rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" });
+  document.head.append(fuente);
+}
 import { iniciarCuenta } from "./cuenta.js";
 window.novalisAutorizado = await iniciarCuenta();
 const vista = document.getElementById("vista");
@@ -48,15 +54,6 @@ function barajar(lista) {
   }
   return lista;
 }
-
-function markdownSeguro(texto) {
-  if (window.marked && window.DOMPurify) return DOMPurify.sanitize(marked.parse(texto));
-  // Sin las librerías de formato se muestra el texto tal cual, escapado.
-  const caja = document.createElement("div");
-  caja.textContent = texto;
-  return caja.innerHTML.replace(/\n/g, "<br>");
-}
-
 // Pide el código de acceso cuando el servidor lo exige.
 function pedirCodigo() {
   const dialogo = document.getElementById("dialogo-codigo");
@@ -74,7 +71,7 @@ function pedirCodigo() {
 async function api(ruta, opciones = {}) {
   for (;;) {
     const token = await window.novalisToken?.();
-    const r = await fetch(ruta, {
+    const r = await (window.novalisApi || fetch)(ruta, {
       ...opciones,
       headers: {
         ...(opciones.body ? { "Content-Type": "application/json" } : {}),
@@ -121,7 +118,7 @@ async function vistaTemas() {
       h("p", { class: "sobrelinea" }, "NOVALIS · FORMACIÓN EN COMUNICACIÓN"),
       h("h1", {}, "Conecta mejor con tus pacientes."),
       h("p", {}, "Escucha, aprende y lleva cada conversación a la práctica. A tu ritmo, desde donde estés."),
-      h("div", { class: "fila" }, h("a", { class: "boton", href: `#/tema/${temas[0]?.id || ""}` }, "Empezar a aprender"), h("a", { class: "boton secundario", href: "#/guia" }, "Guiar una primera visita")),
+      h("div", { class: "fila" }, h("a", { class: "boton", href: `#tema--${temas[0]?.id || ""}` }, "Empezar a aprender"), h("a", { class: "boton secundario", href: "#guia" }, "Guiar una primera visita")),
     ),
     h("div", { class: "cabecera-temas" }, h("div", {}, h("p", { class: "sobrelinea" }, "TU ITINERARIO"), h("h2", {}, "Un paso más en tu comunicación")), h("span", { class: "chip gris" }, `${temas.length} temas · texto y audio`)),
     estado.fuentes.length === 0 &&
@@ -135,7 +132,7 @@ async function vistaTemas() {
           "li",
           { class: "tema-tarjeta" },
           h("span", { class: "numero-tema", "aria-hidden": "true" }, String(indice + 1).padStart(2, "0")),
-          h("h2", {}, h("a", { href: `#/tema/${t.id}` }, t.titulo)),
+          h("h2", {}, h("a", { href: `#tema--${t.id}` }, t.titulo)),
           t.resumen && h("p", {}, t.resumen),
           h(
             "div",
@@ -200,14 +197,14 @@ async function vistaTema(id) {
   const texto = h("article", { class: "texto", html: tema.html });
   const ultimo = resultados()[id]?.at(-1);
   return [
-    h("a", { class: "volver", href: "#/" }, "← Temas"),
+    h("a", { class: "volver", href: "#temas" }, "← Temas"),
     h("h1", {}, tema.titulo),
     reproductor(tema, texto),
     texto,
     h(
       "div",
       { class: "fila" },
-      tema.preguntas.length > 0 && h("a", { class: "boton", href: `#/examen/${id}` }, "Hacer el examen"),
+      tema.preguntas.length > 0 && h("a", { class: "boton", href: `#examen--${id}` }, "Hacer el examen"),
       ultimo && chipNota(ultimo.nota),
     ),
   ];
@@ -292,14 +289,14 @@ async function vistaExamen(id) {
         "div",
         { class: "fila" },
         h("button", { class: "boton", type: "button", onclick: () => pintar() }, "Repetir el examen"),
-        h("a", { class: "boton secundario", href: `#/tema/${id}` }, "Volver al tema"),
+        h("a", { class: "boton secundario", href: `#tema--${id}` }, "Volver al tema"),
       ),
     );
     zonaNota.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
   return [
-    h("a", { class: "volver", href: `#/tema/${id}` }, `← ${tema.titulo}`),
+    h("a", { class: "volver", href: `#tema--${id}` }, `← ${tema.titulo}`),
     h("h1", {}, "Examen"),
     h("p", { class: "entrada" }, `${preguntas.length} preguntas. Las de desarrollo no puntúan: al entregar verás los criterios para corregirte.`),
     zonaNota,
@@ -329,7 +326,7 @@ function enlacesATemas(ids, temas) {
   return ids
     .map((id) => temas.find((t) => t.id === id))
     .filter(Boolean)
-    .map((t) => h("a", { class: "chip", href: `#/tema/${t.id}` }, t.titulo));
+    .map((t) => h("a", { class: "chip", href: `#tema--${t.id}` }, t.titulo));
 }
 
 function fichaDelPaso(paso, temas) {
@@ -466,10 +463,10 @@ function barraDeGrabacion(visitaId, leerVisita, marcarPaso) {
 // Revisión de la grabación: se escucha cada paso, se marca lo cumplido y se anota la corrección.
 async function vistaRevision(id, visitas, flujo, temas) {
   let visita = visitas.find((v) => v.id === id);
-  if (!visita) return [h("p", { class: "error" }, "No se ha encontrado este paciente."), h("a", { href: "#/historial" }, "Volver al historial")];
+  if (!visita) return [h("p", { class: "error" }, "No se ha encontrado este paciente."), h("a", { href: "#historial" }, "Volver al historial")];
   const blob = visita.audio ? await leerAudio(id) : null;
   const guardar = (cambio) => (visita = cambiarVisita(id, cambio) || visita);
-  const cabecera = [h("a", { class: "volver", href: `#/historial/${id}` }, `← ${visita.alias || "Paciente"}`), h("h1", {}, "Revisar la grabación")];
+  const cabecera = [h("a", { class: "volver", href: `#historial--${id}` }, `← ${visita.alias || "Paciente"}`), h("h1", {}, "Revisar la grabación")];
   if (!blob) {
     return [
       ...cabecera,
@@ -514,7 +511,7 @@ async function vistaRevision(id, visitas, flujo, temas) {
         h("div", { class: "datos" }, enlacesATemas(paso.temas, temas)),
       );
     }),
-    h("div", {}, h("a", { class: "boton", href: `#/historial/${id}` }, "Terminar la revisión")),
+    h("div", {}, h("a", { class: "boton", href: `#historial--${id}` }, "Terminar la revisión")),
     h("div", { class: "hueco-audio", "aria-hidden": "true" }),
   ];
 }
@@ -540,7 +537,7 @@ function seccionGrabacion(visita) {
     h(
       "div",
       { class: "fila" },
-      h("a", { class: "boton", href: `#/historial/${visita.id}/revision` }, "Revisar la grabación"),
+      h("a", { class: "boton", href: `#historial--${visita.id}--revision` }, "Revisar la grabación"),
       h("button", { class: "boton secundario", type: "button", onclick: async () => {
         const blob = await leerAudio(visita.id);
         if (!blob) {
@@ -572,7 +569,7 @@ async function vistaGuia(id) {
   return [
     h("h1", {}, "Guía de primera visita"),
     h("p", { class: "entrada" }, "Añade al paciente y la plantilla te lleva paso a paso por la visita: qué decir, qué comprobar y qué evitar."),
-    h("div", { class: "fila" }, h("a", { class: "boton", href: "#/guia/nuevo" }, "Nuevo paciente"), h("a", { class: "boton secundario", href: "#/guia/caso" }, "Practicar con un caso de ejemplo")),
+    h("div", { class: "fila" }, h("a", { class: "boton", href: "#guia--nuevo" }, "Nuevo paciente"), h("a", { class: "boton secundario", href: "#guia--caso" }, "Practicar con un caso de ejemplo")),
     enCurso.length > 0 && h("h2", {}, "Visitas en curso"),
     enCurso.length > 0 &&
       h(
@@ -583,7 +580,7 @@ async function vistaGuia(id) {
             "li",
             {},
             h("div", { class: "datos" }, h("strong", {}, v.alias || "Sin identificar"), h("span", { class: "chip" }, `Paso ${Math.min(v.pasoActual + 1, flujo.pasos.length)} de ${flujo.pasos.length}`), h("span", { class: "chip gris" }, fechaCorta(v.creado))),
-            h("div", {}, h("a", { class: "boton secundario", href: `#/guia/${v.id}` }, "Continuar")),
+            h("div", {}, h("a", { class: "boton secundario", href: `#guia--${v.id}` }, "Continuar")),
           ),
         ),
       ),
@@ -603,7 +600,7 @@ function vistaNuevoPaciente() {
   const acompanante = h("input", { id: "acompanante", type: "text", maxlength: "60", autocomplete: "off", placeholder: "Quién viene con él, si viene alguien" });
   const previas = h("textarea", { id: "previas", placeholder: "Lo que te ha contado recepción, a qué distancia llega…" });
   return [
-    h("a", { class: "volver", href: "#/guia" }, "← Guía de primera visita"),
+    h("a", { class: "volver", href: "#guia" }, "← Guía de primera visita"),
     h("h1", {}, "Nuevo paciente"),
     h("p", { class: "aviso" }, "Identifícalo con el nombre de pila o unas iniciales. No anotes apellidos ni datos clínicos que permitan reconocerlo."),
     h(
@@ -614,7 +611,7 @@ function vistaNuevoPaciente() {
           e.preventDefault();
           const visita = nuevaVisita({ alias: alias.value.trim(), motivo: motivo.value.trim(), origen: origen.value, acompanante: acompanante.value.trim(), previas: previas.value.trim() });
           guardarVisitas([...leerVisitas(), visita]);
-          location.hash = `#/guia/${visita.id}`;
+          location.hash = `#guia--${visita.id}`;
         },
       },
       campo("Paciente", alias),
@@ -630,7 +627,7 @@ function vistaNuevoPaciente() {
 // La plantilla: un paso en pantalla cada vez, con sus puntos, frases y apuntes.
 function vistaPlantilla(id, flujo, temas) {
   let visita = leerVisitas().find((v) => v.id === id);
-  if (!visita) return [h("p", { class: "error" }, "No se ha encontrado esta visita."), h("a", { href: "#/guia" }, "Volver a la guía")];
+  if (!visita) return [h("p", { class: "error" }, "No se ha encontrado esta visita."), h("a", { href: "#guia" }, "Volver a la guía")];
   const total = flujo.pasos.length;
   const zona = h("div", { class: "plantilla" });
   const guardar = (cambio) => (visita = cambiarVisita(id, cambio) || visita);
@@ -736,7 +733,7 @@ function vistaPlantilla(id, flujo, temas) {
               v.notas = notas.value.trim();
               if (fecha.value) v.recordatorios.push({ id: Date.now().toString(36), fecha: fecha.value, texto: texto.value.trim(), hecho: false });
             });
-            location.hash = `#/historial/${id}`;
+            location.hash = `#historial--${id}`;
           },
         },
         campo("Resultado", resultado),
@@ -755,7 +752,7 @@ function vistaPlantilla(id, flujo, temas) {
   pintarPaso();
   const marcarPaso = () => grabacionActiva?.visitaId === id && grabacionActiva.marcas.push({ paso: flujo.pasos[visita.pasoActual]?.id || "cierre", t: Math.round(grabacionActiva.mandos.segundos()) });
   return [
-    h("a", { class: "volver", href: "#/guia" }, "← Guía de primera visita"),
+    h("a", { class: "volver", href: "#guia" }, "← Guía de primera visita"),
     h("h1", {}, visita.alias || "Primera visita"),
     barraDeGrabacion(id, () => visita, marcarPaso),
     (visita.motivo || visita.acompanante) &&
@@ -782,7 +779,7 @@ function vistaCaso(flujo, temas) {
           "div",
           { class: "fila" },
           h("button", { class: "boton secundario", type: "button", onclick: () => { i = -1; aciertos = 0; pintarPaso(); } }, "Repetir el caso"),
-          h("a", { class: "boton", href: "#/guia/nuevo" }, "Guiar una visita real"),
+          h("a", { class: "boton", href: "#guia--nuevo" }, "Guiar una visita real"),
         ),
       );
       return;
@@ -825,7 +822,7 @@ function vistaCaso(flujo, temas) {
     window.scrollTo(0, 0);
   }
   pintarPaso();
-  return [h("a", { class: "volver", href: "#/guia" }, "← Guía de primera visita"), h("h1", {}, flujo.caso.titulo), zona];
+  return [h("a", { class: "volver", href: "#guia" }, "← Guía de primera visita"), h("h1", {}, flujo.caso.titulo), zona];
 }
 
 // ---------- historial de primeras visitas ----------
@@ -838,7 +835,7 @@ function filaRecordatorio(r, { conPaciente }) {
       "div",
       { class: "datos" },
       h("span", { class: `chip ${vencido ? "mal" : r.fecha === hoy() ? "bien" : "gris"}` }, vencido ? `Vencido · ${fechaCorta(r.fecha)}` : r.fecha === hoy() ? "Hoy" : fechaCorta(r.fecha)),
-      conPaciente && h("a", { class: "chip", href: `#/historial/${r.visitaId}` }, r.alias || "Sin identificar"),
+      conPaciente && h("a", { class: "chip", href: `#historial--${r.visitaId}` }, r.alias || "Sin identificar"),
     ),
     h("span", {}, r.texto),
     h(
@@ -859,7 +856,7 @@ async function vistaHistorial(id, extra) {
       h("h1", {}, "Historial de primeras visitas"),
       h("p", { class: "entrada" }, "Aquí quedará cada primera visita con su resultado, tus mensajes de seguimiento y los recordatorios."),
       h("p", { class: "aviso" }, "Todavía no hay ninguna visita."),
-      h("div", {}, h("a", { class: "boton", href: "#/guia/nuevo" }, "Añadir el primer paciente")),
+      h("div", {}, h("a", { class: "boton", href: "#guia--nuevo" }, "Añadir el primer paciente")),
     ];
   }
   const resumen = resumenHistorial(visitas, flujo);
@@ -890,7 +887,7 @@ async function vistaHistorial(id, extra) {
             h(
               "div",
               { class: "datos" },
-              h("a", { class: "nombre-paciente", href: `#/historial/${v.id}` }, v.alias || "Sin identificar"),
+              h("a", { class: "nombre-paciente", href: `#historial--${v.id}` }, v.alias || "Sin identificar"),
               h("span", { class: "chip gris" }, fechaCorta(v.fechaVisita || v.creado)),
               v.estado === "en-curso" ? h("span", { class: "chip" }, "En curso") : h("span", { class: `chip ${v.resultado === "acepto" ? "bien" : "gris"}` }, RESULTADOS[v.resultado] || "Sin resultado"),
               h("span", { class: "chip gris" }, `${cumplimiento(v, flujo)} % del flujo`),
@@ -922,7 +919,7 @@ async function vistaHistorial(id, extra) {
 
 function vistaPaciente(id, visitas, flujo, temas) {
   const visita = visitas.find((v) => v.id === id);
-  if (!visita) return [h("p", { class: "error" }, "No se ha encontrado este paciente."), h("a", { href: "#/historial" }, "Volver al historial")];
+  if (!visita) return [h("p", { class: "error" }, "No se ha encontrado este paciente."), h("a", { href: "#historial" }, "Volver al historial")];
   const guardar = (cambio) => {
     cambiarVisita(id, cambio);
     pintar();
@@ -948,14 +945,14 @@ function vistaPaciente(id, visitas, flujo, temas) {
       return;
     }
     guardarVisitas(leerVisitas().filter((v) => v.id !== id));
-    location.hash = "#/historial";
+    location.hash = "#historial";
   });
 
   const pendientes = visita.recordatorios.filter((r) => !r.hecho).sort((a, b) => String(a.fecha).localeCompare(String(b.fecha)));
   const hechos = visita.recordatorios.filter((r) => r.hecho);
 
   return [
-    h("a", { class: "volver", href: "#/historial" }, "← Historial"),
+    h("a", { class: "volver", href: "#historial" }, "← Historial"),
     h("h1", {}, visita.alias || "Sin identificar"),
     h(
       "div",
@@ -971,7 +968,7 @@ function vistaPaciente(id, visitas, flujo, temas) {
     visita.motivo && h("p", {}, h("strong", {}, "Motivo de consulta. "), visita.motivo),
     visita.previas && h("p", {}, h("strong", {}, "Notas previas. "), visita.previas),
     visita.notas && h("p", {}, h("strong", {}, "Notas de cierre. "), visita.notas),
-    visita.estado === "en-curso" && h("div", {}, h("a", { class: "boton", href: `#/guia/${id}` }, "Continuar la guía")),
+    visita.estado === "en-curso" && h("div", {}, h("a", { class: "boton", href: `#guia--${id}` }, "Continuar la guía")),
     h("div", { class: "guia" }, campo("Resultado", resultado)),
     ...seccionGrabacion(visita),
 
@@ -1057,7 +1054,10 @@ function vistaPaciente(id, visitas, flujo, temas) {
 async function pintar() {
   if (!window.novalisAutorizado) return;
   if ("speechSynthesis" in window) speechSynthesis.cancel();
-  let [, seccion = "", id, extra] = location.hash.replace(/^#/, "").split("/");
+  // Las rutas usan solo letras, números y guiones («#historial--abc--revision»),
+  // que es lo que Claude conserva; se aceptan también las antiguas («#/historial/abc»).
+  let [seccion = "", id, extra] = location.hash.replace(/^#\/?/, "").split(/--|\//);
+  if (seccion === "temas") seccion = "";
   // Si se sale de la plantilla con la grabación en marcha, se guarda lo grabado.
   if (grabacionActiva && !(seccion === "guia" && id === grabacionActiva.visitaId)) await terminarGrabacion();
   // Enlaces de versiones anteriores.
@@ -1091,7 +1091,7 @@ async function pintar() {
               : await vistaTemas();
     vista.replaceChildren(...contenido.filter(Boolean));
   } catch (error) {
-    vista.replaceChildren(h("p", { class: "error" }, error.message), h("a", { href: "#/" }, "Volver a los temas"));
+    vista.replaceChildren(h("p", { class: "error" }, error.message), h("a", { href: "#temas" }, "Volver a los temas"));
   }
   window.scrollTo(0, 0);
 }

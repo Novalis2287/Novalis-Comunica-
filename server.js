@@ -131,8 +131,6 @@ app.get("/api/material", (req, res) => {
   });
 });
 
-app.use("/vendor/marked.js", express.static(path.join(aqui, "node_modules/marked/lib/marked.umd.js")));
-app.use("/vendor/purify.js", express.static(path.join(aqui, "node_modules/dompurify/dist/purify.min.js")));
 app.use("/vendor/supabase.js", express.static(path.join(aqui, "node_modules/@supabase/supabase-js/dist/umd/supabase.js")));
 app.use(express.static(path.join(aqui, "public")));
 

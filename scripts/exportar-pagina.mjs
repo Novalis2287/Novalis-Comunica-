@@ -42,16 +42,17 @@ const sinServidor = fs
   .readFileSync(path.join(raiz, "scripts/pagina-sin-servidor.js"), "utf8")
   .replace("__DATOS__", () => JSON.stringify(datos).replace(/</g, "\\u003c"));
 
-const cuerpo = fs.readFileSync(path.join(raiz, "public/index.html"), "utf8").match(/<body[^>]*>([\s\S]*?)<script/)[1];
+// Mientras arranca el script se ve un aviso en vez de una pantalla vacía.
+const cuerpo = fs
+  .readFileSync(path.join(raiz, "public/index.html"), "utf8")
+  .match(/<body[^>]*>([\s\S]*?)<script/)[1]
+  .replace('<main id="vista" class="ancho" tabindex="-1"></main>', '<main id="vista" class="ancho" tabindex="-1"><p class="entrada">Cargando Novalis Aprende…</p></main>');
 const pagina = `<title>Novalis Aprende</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
 <style>
 ${css}
 </style>
 ${cuerpo}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
 <script>
 (() => {
 ${sinServidor}
